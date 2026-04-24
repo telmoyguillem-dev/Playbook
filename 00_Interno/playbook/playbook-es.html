@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+va<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
@@ -52,10 +52,11 @@
     /* ── PRINT ── */
     @media print {
       .sidebar, .top-bar { display: none !important; }
-      .main-content { margin: 0 !important; padding: 40px 48px !important; }
+      .layout { padding-top: 0 !important; }
+      .main-content { margin: 0 !important; padding: 40px 48px !important; max-width: none !important; }
       .cover { padding: 60px 0 40px; page-break-after: always; min-height: auto; }
       .section-intro { page-break-before: always; }
-      .chapter-hero { page-break-before: always; }
+      .chapter-hero { page-break-before: always; border-radius: 0 !important; }
       .service-card { page-break-inside: avoid; }
       .cover h1 { font-size: 44px !important; }
       .cover-sub { font-size: 15px !important; }
