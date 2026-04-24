@@ -52,9 +52,26 @@
     /* ── PRINT ── */
     @media print {
       .sidebar, .top-bar { display: none !important; }
-      .main-content { margin: 0 !important; padding: 32px !important; }
+      .main-content { margin: 0 !important; padding: 40px 48px !important; }
+      .cover { padding: 60px 0 40px; page-break-after: always; min-height: auto; }
+      .section-intro { page-break-before: always; }
       .chapter-hero { page-break-before: always; }
       .service-card { page-break-inside: avoid; }
+      .cover h1 { font-size: 44px !important; }
+      .cover-sub { font-size: 15px !important; }
+      .online-link { display: block !important; }
+    }
+
+    .online-link {
+      display: none;
+      margin-top: 28px;
+      font-size: 13px;
+      color: var(--color-muted);
+    }
+    .online-link a {
+      color: var(--color-primary);
+      font-weight: 600;
+      text-decoration: none;
     }
 
     /* ── TOP BAR ── */
@@ -826,6 +843,7 @@
           <span class="cover-meta-value">14 Servicios Principales</span>
         </div>
       </div>
+      <p class="online-link">Ver versión interactiva online: <a href="https://playbook-tau-seven.vercel.app/00_Interno/playbook/playbook-es.html">playbook-tau-seven.vercel.app</a></p>
     </section>
 
     <!-- QUÉ ES NAVIGY -->
