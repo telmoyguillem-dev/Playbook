@@ -51,12 +51,26 @@ va<!DOCTYPE html>
 
     /* ── PRINT ── */
     @media print {
-      .sidebar, .top-bar { display: none !important; }
+      .sidebar, .top-bar {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        position: absolute !important;
+        top: -9999px !important;
+      }
       .layout { padding-top: 0 !important; }
       .main-content { margin: 0 !important; padding: 40px 48px !important; max-width: none !important; }
       .cover { padding: 60px 0 40px; page-break-after: always; min-height: auto; }
       .section-intro { page-break-before: always; }
-      .chapter-hero { page-break-before: always; border-radius: 0 !important; }
+      .chapter-hero {
+        page-break-before: always;
+        border-radius: 0 !important;
+        background: #0F4F96 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .chapter-hero h2, .chapter-hero p, .chapter-number { color: #ffffff !important; }
       .service-card { page-break-inside: avoid; }
       .cover h1 { font-size: 44px !important; }
       .cover-sub { font-size: 15px !important; }
