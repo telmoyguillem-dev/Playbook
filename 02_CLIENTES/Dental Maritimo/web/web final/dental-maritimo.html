@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clínica Dental Marítimo — Valencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400;1,9..144,500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --mint:        #70C0B0;
+  --mint-soft:   #B5D9D2;
+  --mint-pale:   #E4EFEC;
+  --deep:        #2F5E5A;
+  --deep-ink:    #1D2E2C;
+  --cta:         #4A9A90;
+  --cream:       #F6F0E3;
+  --cream-paper: #FBF6EA;
+  --cream-deep:  #EFE6D0;
+  --sand:        #E8DCC3;
+  --ink:         #1F2A24;
+  --muted:       #4A5A52;
+  --muted2:      #7A8A82;
+  --line:        rgba(31,42,36,.12);
+  --line-soft:   rgba(31,42,36,.06);
+  --serif: 'Fraunces', Georgia, serif;
+  --sans:  'DM Sans', system-ui, sans-serif;
+  --r: 14px;
+  --shadow: 0 2px 20px rgba(31,42,36,.08);
+  --shadow-md: 0 6px 36px rgba(31,42,36,.13);
+  --max: 1200px;
+  --pad: clamp(20px,5vw,80px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+img{max-width:100%;display:block;object-fit:cover;}
+a{color:inherit;text-decoration:none;}
+
+/* Fade */
+.fi{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease;}
+.fi.vis{opacity:1;transform:none;}
+.d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:999px;font-family:var(--sans);font-size:15px;font-weight:500;cursor:pointer;border:2px solid transparent;transition:all .2s;white-space:nowrap;}
+.btn-lg{padding:15px 34px;font-size:16px;}
+.btn-p{background:var(--cta);color:#fff;}
+.btn-p:hover{background:var(--deep);transform:translateY(-1px);box-shadow:0 4px 18px rgba(74,154,144,.35);}
+.btn-o{background:transparent;border-color:var(--cta);color:var(--cta);}
+.btn-o:hover{background:var(--cta);color:#fff;transform:translateY(-1px);}
+.btn-w{background:#fff;color:var(--deep);font-weight:600;}
+.btn-w:hover{background:var(--cream);transform:translateY(-1px);}
+.btn-ghost{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:#fff;}
+.btn-ghost:hover{background:rgba(255,255,255,.25);}
+
+/* Labels & titles */
+.lbl{font-size:11px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--mint);display:block;margin-bottom:10px;}
+.ttl{font-family:var(--serif);font-size:clamp(30px,4vw,52px);font-weight:400;line-height:1.1;letter-spacing:-.015em;color:var(--ink);margin-bottom:14px;font-optical-sizing:auto;}
+.ttl em{font-style:italic;color:var(--cta);}
+.sub{font-size:17px;color:var(--muted);max-width:54ch;line-height:1.65;}
+
+/* ────────────────────────────
+   NAV
+──────────────────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--cream);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s;}
+.nav.scrolled{border-bottom-color:var(--line);box-shadow:0 2px 18px rgba(31,42,36,.07);}
+.nav-in{max-width:var(--max);margin:0 auto;padding:0 var(--pad);height:70px;display:flex;align-items:center;justify-content:space-between;gap:20px;}
+.nav-logo img{height:36px;width:auto;}
+.nav-links{display:flex;gap:2px;list-style:none;}
+.nav-links a{font-size:14px;font-weight:500;color:var(--muted);padding:7px 13px;border-radius:8px;transition:color .2s,background .2s;}
+.nav-links a:hover{color:var(--ink);background:var(--cream-deep);}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.nav-phone{font-size:14px;font-weight:500;color:var(--ink);display:flex;align-items:center;gap:6px;}
+.nav-phone svg{width:14px;height:14px;color:var(--mint);}
+.hbg{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:8px;border:none;background:none;}
+.hbg span{display:block;width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all .3s;}
+.hbg.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.hbg.open span:nth-child(2){opacity:0;}
+.hbg.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.mob{display:none;position:fixed;top:70px;left:0;right:0;background:var(--cream);border-bottom:1px solid var(--line);padding:14px var(--pad) 20px;z-index:99;}
+.mob.open{display:block;}
+.mob ul{list-style:none;display:flex;flex-direction:column;gap:2px;margin-bottom:14px;}
+.mob ul a{display:block;padding:11px 14px;font-size:16px;font-weight:500;color:var(--ink);border-radius:10px;}
+.mob ul a:hover{background:var(--cream-deep);}
+.mob-ctas{display:flex;flex-direction:column;gap:10px;}
+.mob-ctas .btn{justify-content:center;}
+@media(max-width:900px){.nav-links{display:none;}}
+@media(max-width:768px){.nav-phone,.nav-right .btn{display:none;}.hbg{display:flex;}}
+
+/* ────────────────────────────
+   HERO
+──────────────────────────── */
+.hero{min-height:100vh;padding-top:70px;display:grid;grid-template-columns:1fr 1fr;align-items:stretch;}
+.hero-copy{padding:clamp(60px,8vh,100px) var(--pad) clamp(60px,8vh,100px) max(var(--pad),calc((100vw - var(--max))/2 + var(--pad)));display:flex;flex-direction:column;justify-content:center;}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--cream-paper);border:1px solid var(--line);padding:5px 14px;border-radius:999px;font-size:12px;font-weight:500;color:var(--muted);margin-bottom:24px;align-self:flex-start;}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--mint);}
+.hero h1{font-family:var(--serif);font-size:clamp(40px,5.5vw,72px);font-weight:300;line-height:1.05;letter-spacing:-.025em;color:var(--ink);margin-bottom:18px;font-optical-sizing:auto;}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--deep);}
+.hero h1 strong{font-weight:500;}
+.hero-sub{font-size:18px;color:var(--muted);max-width:42ch;line-height:1.6;margin-bottom:34px;}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:30px;}
+.badges{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.badge{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);}
+.stars{color:#f4a428;letter-spacing:1px;}
+.badge-sep{color:var(--line);font-size:18px;}
+.hero-img{position:relative;overflow:hidden;}
+.hero-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.hero-img-overlay{position:absolute;inset:0;background:linear-gradient(to right,var(--cream) 0%,transparent 15%),linear-gradient(to top,rgba(31,42,36,.3) 0%,transparent 50%);}
+.hero-img-badge{position:absolute;bottom:28px;left:28px;background:rgba(251,246,234,.92);backdrop-filter:blur(10px);padding:12px 18px;border-radius:12px;font-size:13px;color:var(--muted);font-weight:500;display:flex;align-items:center;gap:8px;}
+.hero-img-badge svg{width:16px;height:16px;color:var(--mint);}
+@media(max-width:768px){
+  .hero{grid-template-columns:1fr;min-height:auto;}
+  .hero-copy{padding:40px var(--pad) 28px;}
+  .hero-img{min-height:300px;position:relative;}
+  .hero-img img{position:absolute;}
+}
+
+/* ────────────────────────────
+   TRUST BAR
+──────────────────────────── */
+.trust-bar{background:var(--cream-paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:24px var(--pad);}
+.trust-bar-in{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+.ti{display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px;}
+.ti-ico{width:38px;height:38px;background:var(--mint-pale);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:2px;}
+.ti-ico svg{width:18px;height:18px;color:var(--deep);}
+.ti-num{font-family:var(--serif);font-size:26px;font-weight:400;color:var(--deep);line-height:1;}
+.ti-lbl{font-size:12px;color:var(--muted2);font-weight:500;}
+@media(max-width:768px){.trust-bar-in{grid-template-columns:1fr 1fr;gap:18px;}}
+
+/* ────────────────────────────
+   PROBLEM
+──────────────────────────── */
+.problem{padding:clamp(80px,10vh,120px) var(--pad);}
+.prob-in{max-width:var(--max);margin:0 auto;}
+.prob-hd{max-width:50ch;margin-bottom:52px;}
+.pains{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:32px;}
+.pain{background:var(--cream-paper);border:1px solid var(--line);border-radius:var(--r);padding:28px 24px;display:flex;flex-direction:column;gap:12px;}
+.pain-ico{width:46px;height:46px;background:var(--mint-pale);border-radius:12px;display:flex;align-items:center;justify-content:center;}
+.pain-ico svg{width:22px;height:22px;color:var(--deep);}
+.pain h3{font-family:var(--serif);font-size:20px;font-weight:500;color:var(--ink);line-height:1.25;}
+.pain p{font-size:14px;color:var(--muted);line-height:1.6;}
+.prob-close{background:var(--deep);border-radius:var(--r);padding:36px 42px;display:flex;align-items:center;justify-content:space-between;gap:28px;flex-wrap:wrap;}
+.prob-close p{font-family:var(--serif);font-style:italic;font-size:clamp(17px,1.8vw,22px);color:var(--cream);max-width:52ch;line-height:1.4;font-weight:300;}
+@media(max-width:768px){.pains{grid-template-columns:1fr;}.prob-close{flex-direction:column;}.prob-close p{font-size:18px;}}
+
+/* ────────────────────────────
+   SERVICES — con tabs
+──────────────────────────── */
+.services{background:var(--cream-paper);padding:clamp(80px,10vh,120px) var(--pad);}
+.srv-in{max-width:var(--max);margin:0 auto;}
+.srv-hd{margin-bottom:44px;}
+
+/* Category tabs */
+.srv-cats{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:40px;}
+.srv-cat{padding:9px 20px;border-radius:999px;font-size:14px;font-weight:500;color:var(--muted);background:var(--cream);border:1px solid var(--line);cursor:pointer;transition:all .2s;}
+.srv-cat:hover{color:var(--deep);border-color:var(--mint);}
+.srv-cat.active{background:var(--deep);color:#fff;border-color:var(--deep);}
+
+/* Panels */
+.srv-panel{display:none;}
+.srv-panel.active{display:block;}
+
+/* Large treatment card */
+.srv-big{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--cream);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:20px;}
+.srv-big-img{min-height:320px;position:relative;overflow:hidden;}
+.srv-big-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.srv-big-copy{padding:48px 44px;display:flex;flex-direction:column;justify-content:center;gap:18px;}
+.srv-big-copy .lbl{margin-bottom:4px;}
+.srv-big-copy h3{font-family:var(--serif);font-size:clamp(26px,3vw,38px);font-weight:400;color:var(--ink);line-height:1.15;letter-spacing:-.01em;}
+.srv-big-copy h3 em{font-style:italic;color:var(--cta);}
+.srv-big-copy p{font-size:16px;color:var(--muted);line-height:1.65;}
+
+/* Sub-service grid */
+.srv-sub{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+.srv-sub-2{grid-template-columns:repeat(2,1fr);}
+.srv-card{background:var(--cream);border:1px solid var(--line);border-radius:var(--r);padding:28px 24px;display:flex;flex-direction:column;gap:12px;transition:box-shadow .2s,transform .2s;}
+.srv-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px);}
+.srv-ico{width:50px;height:50px;background:var(--mint-pale);border-radius:12px;display:flex;align-items:center;justify-content:center;}
+.srv-ico svg{width:24px;height:24px;color:var(--deep);}
+.srv-card h4{font-family:var(--serif);font-size:20px;font-weight:500;color:var(--ink);line-height:1.25;}
+.srv-card p{font-size:14px;color:var(--muted);line-height:1.6;}
+.srv-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--cta);letter-spacing:.02em;margin-top:auto;}
+
+.srv-cta{text-align:center;margin-top:40px;}
+.srv-cta p{font-size:16px;color:var(--muted);margin-bottom:16px;}
+
+@media(max-width:900px){.srv-big{grid-template-columns:1fr;}.srv-big-img{min-height:220px;}.srv-big-copy{padding:28px;}}
+@media(max-width:768px){.srv-sub,.srv-sub-2{grid-template-columns:1fr;}}
+
+/* ────────────────────────────
+   BEFORE / AFTER
+──────────────────────────── */
+.ba{padding:clamp(80px,10vh,120px) var(--pad);}
+.ba-in{max-width:var(--max);margin:0 auto;}
+.ba-hd{margin-bottom:44px;}
+.ba-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:36px;}
+.ba-case{display:flex;flex-direction:column;gap:12px;}
+.ba-wrap{position:relative;aspect-ratio:4/3;border-radius:var(--r);overflow:hidden;cursor:ew-resize;user-select:none;}
+.ba-before,.ba-after{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.ba-before{background:linear-gradient(135deg,#d4c5a9,#e8dcc3);}
+.ba-after{background:linear-gradient(135deg,var(--mint-soft),#b8e8cc);clip-path:inset(0 50% 0 0);}
+.ba-tag{position:absolute;top:10px;padding:3px 9px;border-radius:5px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;}
+.ba-tag.bef{left:10px;background:rgba(31,42,36,.45);color:#fff;}
+.ba-tag.aft{right:10px;background:var(--cta);color:#fff;}
+.ba-div{position:absolute;top:0;bottom:0;left:50%;width:3px;background:#fff;transform:translateX(-50%);}
+.ba-hdl{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:36px;height:36px;background:#fff;border-radius:50%;box-shadow:0 2px 10px rgba(0,0,0,.2);display:flex;align-items:center;justify-content:center;}
+.ba-hdl svg{width:17px;height:17px;color:var(--deep);}
+.ba-ph{font-family:var(--serif);font-style:italic;font-size:12px;color:rgba(31,42,36,.4);text-align:center;padding:12px;}
+.ba-info .pat{font-weight:600;color:var(--ink);font-size:15px;}
+.ba-info .treat{font-size:13px;color:var(--muted2);}
+.ba-cta{text-align:center;}
+@media(max-width:768px){.ba-grid{grid-template-columns:1fr;}}
+
+/* ────────────────────────────
+   PROCESS
+──────────────────────────── */
+.process{background:var(--deep);padding:clamp(80px,10vh,120px) var(--pad);color:#fff;}
+.proc-in{max-width:var(--max);margin:0 auto;}
+.process .lbl{color:var(--mint-soft);}
+.process .ttl{color:#fff;margin-bottom:52px;}
+.process .ttl em{color:var(--mint-soft);}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;margin-bottom:52px;}
+.steps::before{content:'';position:absolute;top:26px;left:calc(12.5% + 13px);right:calc(12.5% + 13px);height:1px;background:rgba(255,255,255,.15);}
+.step{padding:0 14px;display:flex;flex-direction:column;gap:14px;}
+.step-n{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:22px;color:var(--mint-soft);position:relative;z-index:1;}
+.step h3{font-family:var(--serif);font-size:19px;font-weight:400;color:#fff;line-height:1.3;}
+.step p{font-size:14px;color:rgba(255,255,255,.6);line-height:1.6;}
+.proc-cta{text-align:center;}
+@media(max-width:768px){.steps{grid-template-columns:1fr;gap:28px;}.steps::before{display:none;}.step{flex-direction:row;padding:0;}.step-n{flex-shrink:0;}}
+
+/* ────────────────────────────
+   CLINIC GALLERY
+──────────────────────────── */
+.gallery{padding:clamp(80px,10vh,120px) var(--pad);}
+.gallery-in{max-width:var(--max);margin:0 auto;}
+.gallery-hd{margin-bottom:40px;}
+.gallery-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-template-rows:200px 200px;gap:12px;}
+.g-item{border-radius:var(--r);overflow:hidden;position:relative;}
+.g-item img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+.g-item:hover img{transform:scale(1.04);}
+.g-item:nth-child(1){grid-column:span 7;grid-row:span 2;}
+.g-item:nth-child(2){grid-column:span 5;}
+.g-item:nth-child(3){grid-column:span 2;}
+.g-item:nth-child(4){grid-column:span 3;}
+@media(max-width:768px){
+  .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto;}
+  .g-item{grid-column:span 1 !important;grid-row:span 1 !important;aspect-ratio:4/3;}
+}
+
+/* ────────────────────────────
+   TEAM
+──────────────────────────── */
+.team{background:var(--cream-paper);padding:clamp(80px,10vh,120px) var(--pad);}
+.team-in{max-width:var(--max);margin:0 auto;}
+.team-hd{margin-bottom:44px;}
+.team-lead{background:var(--cream);border:1px solid var(--line);border-radius:var(--r);display:grid;grid-template-columns:380px 1fr;overflow:hidden;margin-bottom:24px;}
+.lead-img{position:relative;min-height:400px;}
+.lead-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;}
+.lead-copy{padding:48px 44px;display:flex;flex-direction:column;justify-content:center;gap:14px;}
+.lead-copy .lbl{margin-bottom:0;}
+.lead-copy h3{font-family:var(--serif);font-size:clamp(30px,3vw,42px);font-weight:400;color:var(--ink);line-height:1.1;}
+.lead-quote{font-family:var(--serif);font-style:italic;font-size:20px;color:var(--deep);line-height:1.4;max-width:36ch;font-weight:300;}
+.lead-bio{font-size:15px;color:var(--muted);line-height:1.65;max-width:46ch;}
+.team-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;}
+.t-card{background:var(--cream);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .2s;}
+.t-card:hover{box-shadow:var(--shadow);}
+.t-img{aspect-ratio:3/4;overflow:hidden;position:relative;}
+.t-img img{width:100%;height:100%;object-fit:cover;object-position:top center;transition:transform .4s;}
+.t-card:hover .t-img img{transform:scale(1.04);}
+.t-info{padding:16px;flex:1;}
+.t-role{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--mint);margin-bottom:4px;}
+.t-info h4{font-family:var(--serif);font-size:16px;font-weight:500;color:var(--ink);margin-bottom:4px;}
+.t-info p{font-size:12px;color:var(--muted);line-height:1.5;font-style:italic;}
+@media(max-width:1024px){.team-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:768px){.team-lead{grid-template-columns:1fr;}.lead-img{min-height:280px;}.lead-copy{padding:26px;}.team-grid{grid-template-columns:1fr 1fr;}}
+
+/* ────────────────────────────
+   TESTIMONIALS
+──────────────────────────── */
+.testi{padding:clamp(80px,10vh,120px) var(--pad);}
+.testi-in{max-width:var(--max);margin:0 auto;}
+.testi-hd{margin-bottom:44px;}
+.g-badge{display:inline-flex;align-items:center;gap:8px;background:var(--cream-paper);border:1px solid var(--line);padding:7px 14px;border-radius:999px;font-size:13px;font-weight:500;color:var(--ink);margin-bottom:16px;}
+.g-logo{width:17px;height:17px;}
+.testi-grid{columns:3;gap:18px;margin-bottom:36px;}
+.tcard{break-inside:avoid;background:var(--cream-paper);border:1px solid var(--line);border-radius:var(--r);padding:24px 22px;margin-bottom:18px;display:flex;flex-direction:column;gap:12px;}
+.tstars{color:#f4a428;font-size:15px;}
+.tquote{font-family:var(--serif);font-style:italic;font-size:16px;line-height:1.55;color:var(--ink);}
+.taname{font-weight:600;font-size:14px;color:var(--ink);}
+.tadet{font-size:12px;color:var(--muted2);}
+.testi-cta{text-align:center;}
+@media(max-width:1024px){.testi-grid{columns:2;}}
+@media(max-width:768px){.testi-grid{columns:1;}}
+
+/* ────────────────────────────
+   FAQ
+──────────────────────────── */
+.faq{background:var(--cream-paper);padding:clamp(80px,10vh,120px) var(--pad);}
+.faq-in{max-width:740px;margin:0 auto;}
+.faq-hd{text-align:center;margin-bottom:44px;}
+.faq-hd .sub{margin:0 auto;}
+.faq-item{border-bottom:1px solid var(--line);}
+.faq-item:first-child{border-top:1px solid var(--line);}
+.faq-q{width:100%;background:none;border:none;padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:14px;cursor:pointer;font-family:var(--serif);font-size:18px;font-weight:500;color:var(--ink);text-align:left;line-height:1.3;}
+.faq-ico{width:26px;height:26px;border-radius:50%;background:var(--cream-deep);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
+.faq-ico svg{width:12px;height:12px;color:var(--deep);transition:transform .3s;}
+.faq-item.open .faq-ico{background:var(--mint);}
+.faq-item.open .faq-ico svg{color:#fff;transform:rotate(45deg);}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .32s ease;}
+.faq-a-in{padding-bottom:22px;font-size:16px;color:var(--muted);line-height:1.65;}
+
+/* ────────────────────────────
+   FINAL CTA / FORM
+──────────────────────────── */
+.final{background:var(--deep);padding:clamp(80px,10vh,120px) var(--pad);color:#fff;}
+.final-in{max-width:840px;margin:0 auto;text-align:center;}
+.final .lbl{color:var(--mint-soft);margin-bottom:14px;}
+.final h2{font-family:var(--serif);font-size:clamp(34px,5vw,58px);font-weight:300;line-height:1.1;letter-spacing:-.02em;margin-bottom:14px;font-optical-sizing:auto;}
+.final h2 em{font-style:italic;font-weight:400;color:var(--mint-soft);}
+.final-sub{font-size:18px;color:rgba(255,255,255,.72);margin-bottom:44px;max-width:44ch;margin-left:auto;margin-right:auto;}
+.cta-form{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:18px;padding:34px 38px;display:flex;flex-direction:column;gap:14px;max-width:520px;margin:0 auto;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ff{display:flex;flex-direction:column;gap:5px;}
+.ff label{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.6);}
+.ff input,.ff select{padding:12px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.12);color:#fff;font-family:var(--sans);font-size:15px;outline:none;transition:border-color .2s,background .2s;}
+.ff input::placeholder{color:rgba(255,255,255,.4);}
+.ff input:focus,.ff select:focus{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.18);}
+.ff select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 13px center;background-color:rgba(255,255,255,.12);padding-right:34px;}
+.ff select option{background:var(--deep-ink);color:#fff;}
+.ferr{font-size:12px;color:#ffb3b3;margin-top:-4px;}
+.form-btn{background:var(--mint);color:var(--deep-ink);border:none;padding:15px;border-radius:10px;font-family:var(--sans);font-size:16px;font-weight:600;cursor:pointer;transition:background .2s,transform .2s;}
+.form-btn:hover{background:var(--mint-soft);transform:translateY(-1px);}
+.form-disc{font-size:12px;color:rgba(255,255,255,.45);display:flex;justify-content:center;gap:14px;flex-wrap:wrap;}
+.form-ok{display:none;padding:20px;text-align:center;}
+.form-ok.vis{display:block;}
+.form-ok p{font-family:var(--serif);font-size:22px;font-style:italic;color:#fff;}
+.wa-alt{margin-top:26px;font-size:15px;color:rgba(255,255,255,.6);}
+.wa-alt a{color:var(--mint-soft);font-weight:600;}
+@media(max-width:768px){.cta-form{padding:22px 16px;}.form-row{grid-template-columns:1fr;}}
+
+/* ────────────────────────────
+   FOOTER
+──────────────────────────── */
+footer{background:var(--deep-ink);color:rgba(255,255,255,.72);padding:68px var(--pad) 0;}
+.foot-in{max-width:var(--max);margin:0 auto;}
+.foot-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;padding-bottom:44px;}
+.f-logo img{height:30px;width:auto;filter:brightness(0) invert(1) opacity(.85);margin-bottom:10px;}
+.f-tag{font-size:14px;color:rgba(255,255,255,.45);margin-bottom:20px;}
+.f-contacts{display:flex;flex-direction:column;gap:9px;}
+.fci{display:flex;align-items:flex-start;gap:9px;font-size:14px;}
+.fci svg{width:14px;height:14px;flex-shrink:0;margin-top:3px;color:var(--mint-soft);}
+.fci a:hover{color:#fff;}
+.f-col h4{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.32);margin-bottom:16px;}
+.f-col ul{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.f-col ul li a{font-size:14px;color:rgba(255,255,255,.65);transition:color .2s;}
+.f-col ul li a:hover{color:#fff;}
+.f-note{font-size:12px;color:rgba(255,255,255,.4);margin-top:12px;line-height:1.5;}
+.foot-bot{border-top:1px solid rgba(255,255,255,.1);padding:22px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:rgba(255,255,255,.3);}
+.f-legal{display:flex;gap:16px;}
+.f-legal a{color:rgba(255,255,255,.3);transition:color .2s;}
+.f-legal a:hover{color:rgba(255,255,255,.65);}
+@media(max-width:1024px){.foot-top{grid-template-columns:1fr 1fr;}}
+@media(max-width:768px){.foot-top{grid-template-columns:1fr;gap:28px;}.foot-bot{flex-direction:column;align-items:flex-start;}}
+
+/* ────────────────────────────
+   WHATSAPP FAB
+──────────────────────────── */
+.wa-fab{position:fixed;bottom:26px;right:26px;z-index:200;width:56px;height:56px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(37,211,102,.42);animation:pulseWa 2.8s ease-in-out infinite;transition:transform .2s;}
+.wa-fab:hover{transform:scale(1.1);animation:none;}
+.wa-fab svg{width:28px;height:28px;color:#fff;}
+@keyframes pulseWa{0%,100%{box-shadow:0 4px 18px rgba(37,211,102,.42);}50%{box-shadow:0 4px 28px rgba(37,211,102,.72),0 0 0 8px rgba(37,211,102,.1);}}
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a href="#top" class="nav-logo">
+      <img src="https://dentalmaritimo.es/wp-content/uploads/2025/03/cropped-Logo-Dental_Maritimo_menta-239x57.png" alt="Clínica Dental Marítimo">
+    </a>
+    <nav><ul class="nav-links">
+      <li><a href="#servicios">Tratamientos</a></li>
+      <li><a href="#equipo">Equipo</a></li>
+      <li><a href="#antes-despues">Resultados</a></li>
+      <li><a href="#testimonios">Testimonios</a></li>
+    </ul></nav>
+    <div class="nav-right">
+      <a href="tel:+34697462206" class="nav-phone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.12 2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        697 462 206
+      </a>
+      <a href="#cita" class="btn btn-p">Pedir cita</a>
+    </div>
+    <button class="hbg" id="hbg" aria-label="Menú"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mob" id="mob">
+  <ul>
+    <li><a href="#servicios">Tratamientos</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+    <li><a href="#antes-despues">Resultados</a></li>
+    <li><a href="#testimonios">Testimonios</a></li>
+  </ul>
+  <div class="mob-ctas">
+    <a href="tel:+34697462206" class="btn btn-o">Llamar ahora</a>
+    <a href="#cita" class="btn btn-p">Pedir cita gratuita</a>
+  </div>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="hero" id="top">
+  <div class="hero-copy">
+    <div class="hero-eyebrow fi"><span class="dot"></span>Valencia · Av. del Port, 67</div>
+    <h1 class="fi d1">Tu sonrisa<br/>de por vida.<br/><em>En manos en las<br/>que confías.</em></h1>
+    <p class="hero-sub fi d2">20 años cuidando a familias valencianas. Especialistas en implantes, ortodoncia invisible y estética dental en el corazón del barrio Marítimo.</p>
+    <div class="hero-ctas fi d3">
+      <a href="#cita" class="btn btn-p btn-lg">Pedir cita gratuita</a>
+      <a href="tel:+34697462206" class="btn btn-o btn-lg">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.12 2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Llamar ahora
+      </a>
+    </div>
+    <div class="badges fi d4">
+      <div class="badge"><span class="stars">★★★★★</span><span>Google</span></div>
+      <span class="badge-sep">·</span>
+      <div class="badge">20 años de experiencia</div>
+      <span class="badge-sep">·</span>
+      <div class="badge">+2.000 pacientes</div>
+    </div>
+  </div>
+  <div class="hero-img">
+    <img src="https://dentalmaritimo.es/wp-content/uploads/2025/08/Recepcion-Clinica-Dental-Maritimo.webp" alt="Recepción Clínica Dental Marítimo">
+    <div class="hero-img-overlay"></div>
+    <div class="hero-img-badge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Av. del Port, 67 · Valencia
+    </div>
+  </div>
+</section>
+
+<!-- ══ TRUST BAR ══ -->
+<div class="trust-bar">
+  <div class="trust-bar-in">
+    <div class="ti fi">
+      <div class="ti-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+      <div class="ti-num">20</div>
+      <div class="ti-lbl">años de experiencia</div>
+    </div>
+    <div class="ti fi d1">
+      <div class="ti-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <div class="ti-num">+2.000</div>
+      <div class="ti-lbl">pacientes de confianza</div>
+    </div>
+    <div class="ti fi d2">
+      <div class="ti-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+      <div class="ti-num">5★</div>
+      <div class="ti-lbl">Google Reviews</div>
+    </div>
+    <div class="ti fi d3">
+      <div class="ti-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
+      <div class="ti-num">100%</div>
+      <div class="ti-lbl">Tecnología digital</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PROBLEM ══ -->
+<section class="problem" id="problema">
+  <div class="prob-in">
+    <div class="prob-hd">
+      <span class="lbl">Entendemos tus dudas</span>
+      <h2 class="ttl fi">¿Llevas tiempo posponiendo ir al dentista?</h2>
+      <p class="sub fi">Es más normal de lo que crees. Estos son los miedos que más escuchamos —y los que llevamos 20 años ayudando a superar.</p>
+    </div>
+    <div class="pains">
+      <div class="pain fi">
+        <div class="pain-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v4M12 16h.01"/></svg></div>
+        <h3>Miedo al dolor</h3>
+        <p>Trabajamos con anestesia local y técnicas de mínima invasión. Muchos pacientes se sorprenden de lo tranquila que es la visita. Te lo explicamos todo antes de empezar.</p>
+      </div>
+      <div class="pain fi d1">
+        <div class="pain-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></div>
+        <h3>No saber cuánto cuesta</h3>
+        <p>Precio cerrado desde el primer día. Te entregamos un presupuesto claro y detallado tras la primera consulta, sin letra pequeña ni costes ocultos.</p>
+      </div>
+      <div class="pain fi d2">
+        <div class="pain-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+        <h3>No encontrar una clínica de confianza</h3>
+        <p>Llevamos 20 años siendo la clínica de referencia de miles de familias del Marítimo. El equipo es estable: te atiende el mismo profesional de siempre.</p>
+      </div>
+    </div>
+    <div class="prob-close fi">
+      <p>"Llevamos 20 años siendo la clínica de confianza de miles de familias valencianas. Somos el dentista que te escucha antes de tratarte."</p>
+      <a href="#cita" class="btn btn-w btn-lg">Reserva tu primera consulta, sin compromiso</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SERVICES ══ -->
+<section class="services" id="servicios">
+  <div class="srv-in">
+    <div class="srv-hd">
+      <span class="lbl">Tratamientos</span>
+      <h2 class="ttl fi">¿Qué podemos hacer por ti?</h2>
+      <p class="sub fi">Cada tratamiento, diseñado a medida. Cada plan, con precio cerrado desde el primer día.</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="srv-cats fi">
+      <button class="srv-cat active" data-tab="implantes">Implantología</button>
+      <button class="srv-cat" data-tab="ortodoncia">Ortodoncia</button>
+      <button class="srv-cat" data-tab="estetica">Estética Dental</button>
+      <button class="srv-cat" data-tab="rehab">Rehabilitación Oral</button>
+      <button class="srv-cat" data-tab="labios">Aumento de Labios</button>
+    </div>
+
+    <!-- IMPLANTOLOGÍA -->
+    <div class="srv-panel active" id="tab-implantes">
+      <div class="srv-big fi">
+        <div class="srv-big-img">
+          <img src="https://dentalmaritimo.es/wp-content/uploads/2025/05/implantologia.png" alt="Implantes dentales">
+        </div>
+        <div class="srv-big-copy">
+          <span class="lbl">Implantología</span>
+          <h3>Recupera tu diente<br/><em>de por vida</em></h3>
+          <p>Los implantes dentales son pilares de titanio que sustituyen la raíz natural del diente, ofreciendo una solución estable, duradera y cómoda que devuelve tanto la función como la estética. Con nosotros vuelves a sonreír libremente, hablar con claridad y masticar con total confianza.</p>
+        </div>
+      </div>
+      <div class="srv-sub srv-sub-2">
+        <div class="srv-card fi">
+          <div class="srv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 2C8 6 8 11 12 13c4-2 4-7 0-11z"/><path d="M12 13v9"/><path d="M9 19h6"/></svg></div>
+          <h4>Implantes dentales</h4>
+          <p>Tecnología de última generación para una integración ósea natural. El implante se funde con tu hueso y actúa exactamente como un diente real, sin que los dientes vecinos se vean afectados.</p>
+          <span class="srv-tag">La solución más duradera →</span>
+        </div>
+        <div class="srv-card fi d1">
+          <div class="srv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/><path d="M8 14h.01"/></svg></div>
+          <h4>Carga Inmediata</h4>
+          <p>Técnica innovadora que permite colocar una prótesis provisional fija en las 24–48 horas posteriores a la cirugía. Planificación rigurosa y personalizada para garantizar un resultado seguro y predecible.</p>
+          <span class="srv-tag">Dientes en 48 horas →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORTODONCIA -->
+    <div class="srv-panel" id="tab-ortodoncia">
+      <div class="srv-big fi">
+        <div class="srv-big-img">
+          <img src="https://dentalmaritimo.es/wp-content/uploads/2025/05/ortodoncia_invisible.png" alt="Ortodoncia">
+        </div>
+        <div class="srv-big-copy">
+          <span class="lbl">Ortodoncia</span>
+          <h3>Dientes alineados,<br/><em>sonrisa perfecta</em></h3>
+          <p>La ortodoncia es la clave para conseguir una sonrisa armoniosa, sana y duradera. Corrige la mordida, facilita la higiene y previene el desgaste dental, los dolores de mandíbula y las dificultades al masticar o hablar. Te ofrecemos las tres opciones más efectivas del mercado.</p>
+        </div>
+      </div>
+      <div class="srv-sub fi">
+        <div class="srv-card">
+          <div class="srv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="8" width="18" height="8" rx="3"/><circle cx="8" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="1.5" fill="currentColor" stroke="none"/></svg></div>
+          <h4>Brackets metálicos</h4>
+          <p>La opción más utilizada a nivel mundial. Máxima efectividad incluso en los casos más complejos, con un diseño moderno más cómodo y discreto que el tradicional. Durabilidad y precisión insuperables.</p>
+          <span class="srv-tag">Máxima eficacia →</span>
+        </div>
+        <div class="srv-card d1">
+          <div class="srv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="8" width="18" height="8" rx="3"/><circle cx="8" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/><circle cx="16" cy="12" r="1" fill="currentColor" stroke="none"/></svg></div>
+          <h4>Brackets estéticos</h4>
+          <p>Fabricados en cerámica o zafiro del color de tu diente. Igual de efectivos que los metálicos pero prácticamente invisibles a simple vista. La elección perfecta si buscas eficacia sin renunciar a la estética.</p>
+          <span class="srv-tag">Discreción total →</span>
+        </div>
+        <div class="srv-card d2">
+          <div class="srv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 8h16M4 8c0-2 1-3 3-3h10c2 0 3 1 3 3M4 8l2 11h12l2-11"/><path d="M9 12h6"/></svg></div>
+          <h4>Ortodoncia invisible</h4>
+          <p>Alineadores transparentes hechos a medida que mueven los dientes progresivamente. Transparentes, cómodos, removibles para comer y la higiene, y con planificación 3D para ver el resultado antes de empezar. Ideal para adultos y adolescentes.</p>
+          <span class="srv-tag">Sin que nadie lo note →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ESTÉTICA -->
+    <div class="srv-panel" id="tab-estetica">
+      <div class="srv-big fi">
+        <div class="srv-big-img">
+          <img src="https://dentalmaritimo.es/wp-content/uploads/2025/05/pexels-karolina-grabowska-6627572-1024x683.jpg" alt="Estética dental">
+        </div>
+        <div class="srv-big-copy">
+          <span class="lbl">Estética Dental</span>
+          <h3>La sonrisa que<br/><em>siempre quisiste</em></h3>
+          <p>Tratamientos estéticos diseñados a medida para transformar el color, la forma y la simetría de tus dientes de forma natural, armónica y duradera. Sin aspecto artificial, sin intervenciones invasivas.</p>
+        </div>
+      </div>
+      <div class="srv-sub srv-sub-2">
+        <div class="srv-card fi">
+          <div class="srv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/><circle cx="12" cy="12" r="10"/></svg></div>
+          <h4>Carillas dentales</h4>
+          <p>Finas láminas de porcelana o composite aplicadas sobre la cara del diente. Corrigen manchas, fracturas, diastemas y desproporciones de forma y tamaño. <em>Diseñadas a medida. Pensadas para ti.</em></p>
+          <span class="srv-tag">Resultados naturales →</span>
+        </div>
+        <div class="srv-card fi d1">
+          <div class="srv-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 12s1.5 3 4 3 4-3 4-3"/><path d="M9 9h.01M15 9h.01"/></svg></div>
+          <h4>Blanqueamiento dental</h4>
+          <p>Técnicas seguras y personalizadas que aclaran el color varios tonos eliminando las manchas producidas por el envejecimiento, los alimentos o el tabaco. Disponible en clínica o con férulas para casa. <em>Devuelve la luz a tu sonrisa.</em></p>
+          <span class="srv-tag">Varios tonos más blanco →</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- REHABILITACIÓN -->
+    <div class="srv-panel" id="tab-rehab">
+      <div class="srv-big fi">
+        <div class="srv-big-img">
+          <img src="https://dentalmaritimo.es/wp-content/uploads/2025/06/dentista-blanqueando-los-dientes-scaled.jpg" alt="Rehabilitación oral">
+        </div>
+        <div class="srv-big-copy">
+          <span class="lbl">Rehabilitación Oral</span>
+          <h3>Recupera tu sonrisa.<br/><em>Recupera tu vida.</em></h3>
+          <p>Cuando un diente está muy dañado, fracturado o ha sido tratado endodónticamente, una corona de zirconio es la solución más completa. El zirconio es un material cerámico sin metal, biocompatible y de alta resistencia, que replica a la perfección la estética y función del diente natural.</p>
+          <ul style="margin-top:8px;padding-left:18px;font-size:15px;color:var(--muted);line-height:1.8;">
+            <li>Alta resistencia comparable al diente natural</li>
+            <li>Estética superior sin bordes oscuros</li>
+            <li>Material 100% biocompatible y sin metal</li>
+            <li>Larga durabilidad y fácil mantenimiento</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- LABIOS -->
+    <div class="srv-panel" id="tab-labios">
+      <div class="srv-big fi">
+        <div class="srv-big-img" style="background:linear-gradient(135deg,var(--mint-pale),var(--cream-deep));display:flex;align-items:center;justify-content:center;">
+          <img src="https://dentalmaritimo.es/wp-content/uploads/2025/06/close-up-smiley-woman-applying-lipstick-scaled.jpg" alt="Aumento de labios" style="object-position:top;">
+        </div>
+        <div class="srv-big-copy">
+          <span class="lbl">Medicina Estética</span>
+          <h3>Aumento de Labios</h3>
+          <p>Tratamiento estético para perfilar, voluminizar y definir los labios de forma natural y armoniosa. Utilizamos ácido hialurónico de alta calidad para conseguir resultados que respetan tus rasgos y potencian tu belleza sin excesos. Sin cirugía, con recuperación inmediata.</p>
+          <ul style="margin-top:8px;padding-left:18px;font-size:15px;color:var(--muted);line-height:1.8;">
+            <li>Resultados naturales e inmediatos</li>
+            <li>Ácido hialurónico reabsorbible y seguro</li>
+            <li>Sin tiempo de recuperación</li>
+            <li>Adaptado a tus proporciones faciales</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="srv-cta fi">
+      <p>¿No sabes qué tratamiento necesitas?</p>
+      <a href="#cita" class="btn btn-p btn-lg">Te asesoramos en tu primera consulta, gratis →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══ GALLERY ══ -->
+<section class="gallery" id="clinica">
+  <div class="gallery-in">
+    <div class="gallery-hd">
+      <span class="lbl">La clínica</span>
+      <h2 class="ttl fi">Tu espacio. <em>Cálido, moderno, tuyo.</em></h2>
+      <p class="sub fi">Instalaciones diseñadas para que desde el momento en que entras, te sientas tranquilo.</p>
+    </div>
+    <div class="gallery-grid fi">
+      <div class="g-item">
+        <img src="https://dentalmaritimo.es/wp-content/uploads/2025/08/Recepcion-Clinica-Dental-Maritimo.webp" alt="Recepción">
+      </div>
+      <div class="g-item">
+        <img src="https://dentalmaritimo.es/wp-content/uploads/2025/08/Saa_de_espera.webp" alt="Sala de espera">
+      </div>
+      <div class="g-item">
+        <img src="https://dentalmaritimo.es/wp-content/uploads/2025/08/Consultorio_01_Clinica_Dental_Maritimo.webp" alt="Consultorio">
+      </div>
+      <div class="g-item">
+        <img src="https://dentalmaritimo.es/wp-content/uploads/2025/08/Fachada_01_Clinica_Dental_Maritimo.webp" alt="Fachada">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BEFORE / AFTER ══ -->
+<section class="ba" id="antes-despues">
+  <div class="ba-in">
+    <div class="ba-hd">
+      <span class="lbl">Resultados reales</span>
+      <h2 class="ttl fi">Resultados reales, pacientes reales</h2>
+      <p class="sub fi">Arrastra el divisor para ver la transformación. Sin filtros, sin retoques.</p>
+    </div>
+    <div class="ba-grid">
+      <div class="ba-case fi">
+        <div class="ba-wrap" data-slider>
+          <div class="ba-before"><span class="ba-ph">Antes — foto real próximamente</span></div>
+          <div class="ba-after"><span class="ba-ph">Después — foto real próximamente</span></div>
+          <span class="ba-tag bef">Antes</span><span class="ba-tag aft">Después</span>
+          <div class="ba-div"><div class="ba-hdl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M12 8l4 4-4 4M8 8l-4 4 4 4"/></svg></div></div>
+        </div>
+        <div class="ba-info"><div class="pat">Marta R. · 38 años</div><div class="treat">Implante dental + carilla de porcelana</div></div>
+      </div>
+      <div class="ba-case fi d1">
+        <div class="ba-wrap" data-slider>
+          <div class="ba-before" style="background:linear-gradient(135deg,#c9b89a,#ddc9a8)"><span class="ba-ph">Antes — foto real próximamente</span></div>
+          <div class="ba-after" style="background:linear-gradient(135deg,var(--mint-soft),#c8e8d4)"><span class="ba-ph">Después — foto real próximamente</span></div>
+          <span class="ba-tag bef">Antes</span><span class="ba-tag aft">Después</span>
+          <div class="ba-div"><div class="ba-hdl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M12 8l4 4-4 4M8 8l-4 4 4 4"/></svg></div></div>
+        </div>
+        <div class="ba-info"><div class="pat">Carlos V. · 45 años</div><div class="treat">Ortodoncia invisible · 14 meses</div></div>
+      </div>
+      <div class="ba-case fi d2">
+        <div class="ba-wrap" data-slider>
+          <div class="ba-before" style="background:linear-gradient(135deg,#c5b59a,#d9c9b0)"><span class="ba-ph">Antes — foto real próximamente</span></div>
+          <div class="ba-after" style="background:linear-gradient(135deg,var(--mint-pale),#e8f5ee)"><span class="ba-ph">Después — foto real próximamente</span></div>
+          <span class="ba-tag bef">Antes</span><span class="ba-tag aft">Después</span>
+          <div class="ba-div"><div class="ba-hdl"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 12h8M12 8l4 4-4 4M8 8l-4 4 4 4"/></svg></div></div>
+        </div>
+        <div class="ba-info"><div class="pat">Lucía M. · 29 años</div><div class="treat">Carillas de porcelana · 8 piezas</div></div>
+      </div>
+    </div>
+    <div class="ba-cta fi"><a href="#cita" class="btn btn-p btn-lg">Quiero resultados como estos →</a></div>
+  </div>
+</section>
+
+<!-- ══ PROCESS ══ -->
+<section class="process" id="proceso">
+  <div class="proc-in">
+    <span class="lbl">El proceso</span>
+    <h2 class="ttl fi">Así de fácil <em>es empezar</em></h2>
+    <div class="steps">
+      <div class="step fi">
+        <div class="step-n">1</div>
+        <div><h3>Primera consulta gratuita</h3><p>Te escuchamos sin compromiso. Cuéntanos qué te preocupa y exploramos tu caso con calma.</p></div>
+      </div>
+      <div class="step fi d1">
+        <div class="step-n">2</div>
+        <div><h3>Diagnóstico personalizado</h3><p>Plan de tratamiento claro, con precio cerrado desde el primer día. Sin letra pequeña, sin sorpresas.</p></div>
+      </div>
+      <div class="step fi d2">
+        <div class="step-n">3</div>
+        <div><h3>Tu tratamiento</h3><p>Con tecnología digital avanzada, al ritmo que necesitas y sin imprevistos.</p></div>
+      </div>
+      <div class="step fi d3">
+        <div class="step-n">4</div>
+        <div><h3>Tu nueva sonrisa</h3><p>Y un equipo que te acompaña para siempre, con revisiones y seguimiento continuo.</p></div>
+      </div>
+    </div>
+    <div class="proc-cta fi"><a href="#cita" class="btn btn-ghost btn-lg">Empieza con tu consulta gratuita</a></div>
+  </div>
+</section>
+
+<!-- ══ TEAM ══ -->
+<section class="team" id="equipo">
+  <div class="team-in">
+    <div class="team-hd">
+      <span class="lbl">El equipo</span>
+      <h2 class="ttl fi">Conoce a quien <em>va a cuidarte</em></h2>
+      <p class="sub fi">Un equipo estable que lleva años juntos. Tu cara familiar cada vez que entras por la puerta.</p>
+    </div>
+    <div class="team-lead fi">
+      <div class="lead-img">
+        <img src="https://dentalmaritimo.es/wp-content/uploads/2025/08/Sofia_Chamorro_Equipo-200x200.webp" alt="Dra. Sofía Chamorro">
+      </div>
+      <div class="lead-copy">
+        <span class="lbl">Directora · Odontóloga</span>
+        <h3>Dra. Sofía Chamorro</h3>
+        <p class="lead-quote">"Llevo 20 años haciendo que ir al dentista no dé miedo."</p>
+        <p class="lead-bio">Sofía es la cara visible de Clínica Dental Marítimo desde el primer día. Ha tratado a abuelos, hijos y nietos de las mismas familias valencianas. Su especialidad no es solo la odontología: es hacer que cada paciente salga más tranquilo de lo que entró, con un plan claro y sin preguntas pendientes.</p>
+        <a href="#cita" class="btn btn-p" style="align-self:flex-start;margin-top:8px">Pedir cita con Sofía</a>
+      </div>
+    </div>
+    <div class="team-grid">
+      <div class="t-card fi">
+        <div class="t-img"><img src="https://dentalmaritimo.es/wp-content/uploads/2025/08/Karla_Martinez_Equipo-200x200.webp" alt="Dra. Karla Martínez"></div>
+        <div class="t-info"><div class="t-role">Odontóloga</div><h4>Dra. Karla Martínez</h4><p>"Implantología y periodoncia. Aquí para que tu sonrisa dure siempre."</p></div>
+      </div>
+      <div class="t-card fi d1">
+        <div class="t-img"><img src="https://dentalmaritimo.es/wp-content/uploads/2025/08/Angela__Equipo-200x200.webp" alt="Dra. Ángela Rodríguez"></div>
+        <div class="t-info"><div class="t-role">Odontóloga</div><h4>Dra. Ángela Rodríguez</h4><p>"La estética dental es arte. Me gusta que el resultado se sienta natural."</p></div>
+      </div>
+      <div class="t-card fi d2">
+        <div class="t-img"><img src="https://dentalmaritimo.es/wp-content/uploads/2025/08/Alex_Upegui_Equipo-200x200.webp" alt="Dr. Alex Upegui"></div>
+        <div class="t-info"><div class="t-role">Odontólogo</div><h4>Dr. Alex Upegui</h4><p>"Ortodoncia invisible y rehabilitación. Cada caso es diferente y lo trato como tal."</p></div>
+      </div>
+      <div class="t-card fi d3">
+        <div class="t-img"><img src="https://dentalmaritimo.es/wp-content/uploads/2025/08/Arturo_Capilla_Equipo_logo-200x200.webp" alt="Arturo José Capilla"></div>
+        <div class="t-info"><div class="t-role">Especialista</div><h4>Arturo José Capilla</h4><p>"Aquí para que cada visita sea lo más cómoda y tranquila posible."</p></div>
+      </div>
+      <div class="t-card fi d4">
+        <div class="t-img"><img src="https://dentalmaritimo.es/wp-content/uploads/2025/08/Nuria_Hidalgo_Equipo-200x200.webp" alt="Nuria Hidalgo"></div>
+        <div class="t-info"><div class="t-role">Auxiliar · Atención al paciente</div><h4>Nuria Hidalgo</h4><p>"Soy la primera cara que ves al entrar. Estoy aquí para que te sientas en casa."</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TESTIMONIALS ══ -->
+<section class="testi" id="testimonios">
+  <div class="testi-in">
+    <div class="testi-hd">
+      <div class="g-badge">
+        <svg class="g-logo" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        ★★★★★ 5.0 en Google Reviews
+      </div>
+      <h2 class="ttl fi">Lo dicen quienes llevan <em>años con nosotros</em></h2>
+      <p class="sub fi">No son frases de agencia. Son palabras de pacientes reales del Marítimo.</p>
+    </div>
+    <div class="testi-grid">
+      <div class="tcard fi">
+        <div class="tstars">★★★★★</div>
+        <p class="tquote">"Soy paciente desde hace más de 15 años. Me pusieron 4 implantes hace 10 años y siguen perfectos. El equipo siempre ha sido fantástico."</p>
+        <div><div class="taname">Rosario Llopis</div><div class="tadet">+15 años paciente · Implantes dentales</div></div>
+      </div>
+      <div class="tcard fi d1">
+        <div class="tstars">★★★★★</div>
+        <p class="tquote">"Llevo más de 5 años. Sofía te explica todo con claridad, sin rodeos. Te vas a casa sabiendo exactamente qué pasó y qué va a pasar. Un 10."</p>
+        <div><div class="taname">Pilar Andreu</div><div class="tadet">+5 años paciente</div></div>
+      </div>
+      <div class="tcard fi d2">
+        <div class="tstars">★★★★★</div>
+        <p class="tquote">"Llevamos más de 10 años. Han tratado a mis abuelos, a mi madre, a mi hermana y a mí. La clínica de familia que todo el mundo querría tener."</p>
+        <div><div class="taname">Clara Corell</div><div class="tadet">+10 años · Familia de pacientes</div></div>
+      </div>
+      <div class="tcard fi">
+        <div class="tstars">★★★★★</div>
+        <p class="tquote">"Decidí llevar a toda mi familia. Son muy profesionales, tecnología de última generación, pero sin perder el trato cercano que tanto se echa de menos."</p>
+        <div><div class="taname">Rafel Arnal</div><div class="tadet">Familia de pacientes</div></div>
+      </div>
+      <div class="tcard fi d1">
+        <div class="tstars">★★★★★</div>
+        <p class="tquote">"Soy paciente desde hace más de 6 años. Son profesionales especializados, muy puntuales y el trato es siempre impecable. Totalmente recomendable."</p>
+        <div><div class="taname">Belén Iranzo</div><div class="tadet">+6 años paciente</div></div>
+      </div>
+      <div class="tcard fi d2">
+        <div class="tstars">★★★★★</div>
+        <p class="tquote">"Encantado con el trato personal y profesional. Siempre con una sonrisa, sin prisa, explicando cada detalle. Los recomiendo ampliamente a todo el mundo."</p>
+        <div><div class="taname">Andrés Rodríguez</div><div class="tadet">Paciente satisfecho</div></div>
+      </div>
+    </div>
+    <div class="testi-cta fi"><a href="#cita" class="btn btn-p btn-lg">Únete a nuestra familia →</a></div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<section class="faq" id="faq">
+  <div class="faq-in">
+    <div class="faq-hd">
+      <span class="lbl">FAQ</span>
+      <h2 class="ttl fi">Tus dudas, <em>resueltas</em></h2>
+      <p class="sub fi">Las preguntas que más nos hacen. Si la tuya no está, llámanos o escríbenos.</p>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q">¿La primera consulta es gratuita?<span class="faq-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a-in">Sí, completamente gratuita y sin compromiso. Ven, cuéntanos tu caso, y te daremos un diagnóstico honesto y un plan de tratamiento claro con precio cerrado. Sin presión, sin urgencias inventadas.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Duele?<span class="faq-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a-in">Trabajamos con anestesia local y técnicas de mínima invasión. La mayoría de nuestros pacientes se sorprenden de lo tranquila que es la visita. Si tienes miedo al dolor, cuéntanoslo: adaptamos el ritmo y la forma de trabajar a ti.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Cuánto cuesta un implante o una ortodoncia?<span class="faq-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a-in">Depende del caso —y cualquiera que te dé un precio sin verte primero no te está siendo del todo honesto. Lo que sí prometemos: precio cerrado desde el primer día, sin sorpresas ni costes ocultos. Ven a la consulta gratuita y lo vemos juntos.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Ofrecéis financiación?<span class="faq-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a-in">Sí, trabajamos con opciones de financiación adaptadas a tu presupuesto. Puedes dividir el tratamiento en cómodas cuotas mensuales. Te explicamos todas las opciones en la consulta, sin compromiso.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Cuánto dura el tratamiento?<span class="faq-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a-in">Varía mucho según el caso. Un blanqueamiento puede ser de una sola visita; una ortodoncia entre 12 y 24 meses; un implante necesita su proceso de integración ósea. En la primera consulta te damos una estimación realista y personalizada.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">¿Atendéis urgencias?<span class="faq-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></button>
+        <div class="faq-a"><div class="faq-a-in">Sí. Si tienes una urgencia dental, contáctanos por teléfono o WhatsApp y hacemos hueco para atenderte el mismo día o al día siguiente. No te dejamos esperando cuando algo duele.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FINAL CTA ══ -->
+<section class="final" id="cita">
+  <div class="final-in">
+    <span class="lbl">Tu primera cita, gratis</span>
+    <h2 class="fi">Tu primera consulta<br/>es gratuita. <em>Sin compromiso.</em></h2>
+    <p class="final-sub fi">Cuéntanos qué necesitas y te llamamos en menos de 24 horas.</p>
+    <form class="cta-form fi" id="ctaForm" novalidate>
+      <div class="form-row">
+        <div class="ff">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" placeholder="Tu nombre" autocomplete="given-name">
+          <span class="ferr" id="errNombre"></span>
+        </div>
+        <div class="ff">
+          <label for="telefono">Teléfono</label>
+          <input type="tel" id="telefono" placeholder="6xx xxx xxx" autocomplete="tel">
+          <span class="ferr" id="errTel"></span>
+        </div>
+      </div>
+      <div class="ff">
+        <label for="motivo">¿Qué te preocupa?</label>
+        <select id="motivo">
+          <option value="">Selecciona un motivo...</option>
+          <option value="implantes">Implantes dentales</option>
+          <option value="carga">Carga inmediata</option>
+          <option value="ortodoncia-invisible">Ortodoncia invisible</option>
+          <option value="brackets">Brackets</option>
+          <option value="carillas">Carillas dentales</option>
+          <option value="blanqueamiento">Blanqueamiento</option>
+          <option value="rehab">Rehabilitación oral</option>
+          <option value="labios">Aumento de labios</option>
+          <option value="otra">Otra consulta</option>
+        </select>
+      </div>
+      <button type="submit" class="form-btn">Quiero que me llamen →</button>
+      <div class="form-disc">
+        <span>✓ Sin compromiso</span>
+        <span>✓ Llamada en menos de 24h</span>
+        <span>✓ Primera consulta sin coste</span>
+      </div>
+    </form>
+    <div class="form-ok" id="formOk">
+      <p>¡Perfecto, <span id="okName"></span>!<br/>Te llamamos en menos de 24 horas.</p>
+      <p style="font-size:15px;margin-top:12px;color:rgba(255,255,255,.65);font-family:var(--sans)">Si es urgente, llámanos al <a href="tel:+34697462206" style="color:var(--mint-soft);font-weight:600">697 462 206</a>.</p>
+    </div>
+    <p class="wa-alt fi">¿Prefieres WhatsApp? <a href="https://wa.me/34697462206?text=Hola%2C%20me%20gustar%C3%ADa%20pedir%20informaci%C3%B3n%20sobre%20una%20primera%20consulta." target="_blank" rel="noopener">Escríbenos directamente →</a></p>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="foot-in">
+    <div class="foot-top">
+      <div>
+        <div class="f-logo">
+          <img src="https://dentalmaritimo.es/wp-content/uploads/2025/03/cropped-Logo-Dental_Maritimo_menta-239x57.png" alt="Clínica Dental Marítimo">
+        </div>
+        <div class="f-tag">20 años cuidando sonrisas en Valencia</div>
+        <div class="f-contacts">
+          <div class="fci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg><span>Av. del Port, 67, Camins al Grau<br/>46021 València</span></div>
+          <div class="fci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.07 1.12 2 2 0 012.18 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+34697462206">697 462 206</a></div>
+          <div class="fci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:info@dentalmaritimo.es">info@dentalmaritimo.es</a></div>
+          <div class="fci"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span>Lun–Vie: 9:00–13:30 · 16:00–20:30<br/>Sábados alternos · previa cita</span></div>
+        </div>
+      </div>
+      <div class="f-col">
+        <h4>Tratamientos</h4>
+        <ul>
+          <li><a href="#servicios">Implantes dentales</a></li>
+          <li><a href="#servicios">Carga inmediata</a></li>
+          <li><a href="#servicios">Ortodoncia invisible</a></li>
+          <li><a href="#servicios">Brackets metálicos</a></li>
+          <li><a href="#servicios">Brackets estéticos</a></li>
+          <li><a href="#servicios">Carillas dentales</a></li>
+          <li><a href="#servicios">Blanqueamiento</a></li>
+          <li><a href="#servicios">Rehabilitación oral</a></li>
+          <li><a href="#servicios">Aumento de labios</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>La clínica</h4>
+        <ul>
+          <li><a href="#equipo">El equipo</a></li>
+          <li><a href="#testimonios">Testimonios</a></li>
+          <li><a href="#proceso">Cómo trabajamos</a></li>
+          <li><a href="#faq">Preguntas frecuentes</a></li>
+          <li><a href="https://maps.app.goo.gl/dental-maritimo" target="_blank" rel="noopener">Cómo llegar →</a></li>
+          <li><a href="https://instagram.com/clinicadentalmaritimo" target="_blank" rel="noopener">@clinicadentalmaritimo</a></li>
+        </ul>
+      </div>
+      <div class="f-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Aviso legal</a></li>
+          <li><a href="#">Política de privacidad</a></li>
+          <li><a href="#">Política de cookies</a></li>
+        </ul>
+        <p class="f-note"><strong style="color:rgba(255,255,255,.5);display:block;margin-bottom:4px">¿Urgencia dental?</strong>Llámanos o escríbenos por WhatsApp. Te atendemos lo antes posible.</p>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2025 Clínica Dental Marítimo · Valencia</span>
+      <div class="f-legal"><a href="#">Aviso Legal</a><a href="#">Privacidad</a><a href="#">Cookies</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- ══ WHATSAPP FAB ══ -->
+<a href="https://wa.me/34697462206?text=Hola%2C%20me%20gustar%C3%ADa%20pedir%20informaci%C3%B3n%20sobre%20una%20primera%20consulta." class="wa-fab" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.117 1.525 5.845L.058 23.5l5.809-1.527A11.95 11.95 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.8 9.8 0 01-5.002-1.372l-.358-.213-3.45.907.922-3.368-.234-.37A9.82 9.82 0 012.18 12C2.18 6.55 6.55 2.18 12 2.18S21.818 6.55 21.818 12 17.45 21.818 12 21.818z"/></svg>
+</a>
+
+<script>
+// Nav scroll
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => navEl.classList.toggle('scrolled', scrollY > 20), {passive:true});
+
+// Hamburger
+const hbgEl = document.getElementById('hbg');
+const mobEl = document.getElementById('mob');
+hbgEl.addEventListener('click', () => { hbgEl.classList.toggle('open'); mobEl.classList.toggle('open'); });
+mobEl.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { hbgEl.classList.remove('open'); mobEl.classList.remove('open'); }));
+
+// Fade in
+new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); } });
+}, {threshold: .1}).observe.bind(
+  new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); } });
+  }, {threshold: .1})
+);
+// Simpler approach:
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('vis'); io.unobserve(e.target); } });
+}, {threshold:.1});
+document.querySelectorAll('.fi').forEach(el => io.observe(el));
+
+// Service tabs
+document.querySelectorAll('.srv-cat').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.srv-cat').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.srv-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// Before/after sliders
+document.querySelectorAll('[data-slider]').forEach(slider => {
+  const after = slider.querySelector('.ba-after');
+  const div   = slider.querySelector('.ba-div');
+  let drag = false;
+  const setPos = x => {
+    const r = slider.getBoundingClientRect();
+    const p = Math.max(5, Math.min(95, (x - r.left) / r.width * 100));
+    after.style.clipPath = `inset(0 ${100-p}% 0 0)`;
+    div.style.left = p + '%';
+  };
+  slider.addEventListener('mousedown',  e => { drag=true; setPos(e.clientX); });
+  slider.addEventListener('touchstart', e => { drag=true; setPos(e.touches[0].clientX); }, {passive:true});
+  window.addEventListener('mousemove',  e => { if(drag) setPos(e.clientX); });
+  window.addEventListener('touchmove',  e => { if(drag) setPos(e.touches[0].clientX); }, {passive:true});
+  window.addEventListener('mouseup',    () => drag=false);
+  window.addEventListener('touchend',   () => drag=false);
+});
+
+// FAQ
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const ans  = item.querySelector('.faq-a');
+    const open = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-a').style.maxHeight = null;
+    });
+    if(!open){ item.classList.add('open'); ans.style.maxHeight = ans.scrollHeight + 'px'; }
+  });
+});
+
+// Form
+document.getElementById('ctaForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const nom = document.getElementById('nombre');
+  const tel = document.getElementById('telefono');
+  const eN  = document.getElementById('errNombre');
+  const eT  = document.getElementById('errTel');
+  eN.textContent = eT.textContent = '';
+  let ok = true;
+  if(!nom.value.trim()){ eN.textContent = 'Por favor escribe tu nombre.'; ok=false; }
+  const tv = tel.value.trim().replace(/\s/g,'');
+  if(!tv){ eT.textContent = 'Por favor escribe tu teléfono.'; ok=false; }
+  else if(!/^[6789]\d{8}$/.test(tv)){ eT.textContent = 'Introduce un teléfono español válido (9 dígitos).'; ok=false; }
+  if(ok){
+    document.getElementById('ctaForm').style.display = 'none';
+    document.getElementById('okName').textContent = nom.value.trim().split(' ')[0];
+    document.getElementById('formOk').classList.add('vis');
+  }
+});
+</script>
+</body>
+</html>

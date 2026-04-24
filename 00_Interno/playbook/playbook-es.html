@@ -1,0 +1,1908 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigy — Manual de Servicios</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../brand/logos/icono (sin fondo) 2.png" />
+
+  <style>
+    :root {
+      --color-primary:        #1769C2;
+      --color-primary-light:  #4A8FD9;
+      --color-primary-deep:   #0F4F96;
+      --color-primary-subtle: #E8F1FB;
+
+      --color-ink:     #0D0F14;
+      --color-slate:   #3D4555;
+      --color-muted:   #7C869A;
+      --color-line:    #E2E6EF;
+      --color-surface: #F5F6F9;
+      --color-white:   #FFFFFF;
+
+      --color-success: #1DAA72;
+      --color-warning: #F59E0B;
+      --color-accent:  #8B5CF6;
+
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+      --font-mono:    'JetBrains Mono', monospace;
+
+      --radius-tag:  6px;
+      --radius-ui:   8px;
+      --radius-card: 14px;
+      --radius-xl:   20px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-white);
+      color: var(--color-ink);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      .sidebar, .top-bar { display: none !important; }
+      .main-content { margin: 0 !important; padding: 32px !important; }
+      .chapter-hero { page-break-before: always; }
+      .service-card { page-break-inside: avoid; }
+    }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 56px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-line);
+      display: flex;
+      align-items: center;
+      padding: 0 24px;
+      z-index: 100;
+      gap: 16px;
+    }
+
+    .top-bar-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .top-bar-logo img {
+      height: 24px;
+      width: auto;
+    }
+
+    .top-bar-logo span {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 17px;
+      color: var(--color-ink);
+      letter-spacing: -0.3px;
+    }
+
+    .top-bar-sep {
+      width: 1px;
+      height: 20px;
+      background: var(--color-line);
+    }
+
+    .top-bar-doc {
+      font-size: 13px;
+      color: var(--color-muted);
+      font-weight: 500;
+    }
+
+    .top-bar-right {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .badge-internal {
+      background: #FFF3CD;
+      color: #92600A;
+    }
+
+    .badge-version {
+      background: var(--color-primary-subtle);
+      color: var(--color-primary-deep);
+    }
+
+    /* ── LAYOUT ── */
+    .layout {
+      display: flex;
+      padding-top: 56px;
+      min-height: 100vh;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      position: fixed;
+      top: 56px;
+      left: 0;
+      bottom: 0;
+      overflow-y: auto;
+      border-right: 1px solid var(--color-line);
+      background: var(--color-surface);
+      padding: 24px 0;
+    }
+
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-track { background: transparent; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--color-line); border-radius: 4px; }
+
+    .sidebar-section {
+      padding: 0 16px 24px;
+    }
+
+    .sidebar-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      padding: 0 8px;
+      margin-bottom: 8px;
+    }
+
+    .sidebar-nav {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .sidebar-nav a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 10px;
+      border-radius: var(--radius-ui);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-slate);
+      transition: all 0.15s ease;
+    }
+
+    .sidebar-nav a:hover {
+      background: var(--color-line);
+      color: var(--color-ink);
+    }
+
+    .sidebar-nav a.active {
+      background: var(--color-primary-subtle);
+      color: var(--color-primary-deep);
+      font-weight: 600;
+    }
+
+    .sidebar-nav .nav-icon {
+      font-size: 14px;
+      width: 18px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .sidebar-divider {
+      height: 1px;
+      background: var(--color-line);
+      margin: 4px 16px 20px;
+    }
+
+    /* ── MAIN ── */
+    .main-content {
+      margin-left: 260px;
+      flex: 1;
+      max-width: 900px;
+      padding: 0 48px 120px;
+    }
+
+    /* ── COVER ── */
+    .cover {
+      padding: 80px 0 64px;
+      border-bottom: 1px solid var(--color-line);
+      margin-bottom: 64px;
+    }
+
+    .cover-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-bottom: 20px;
+    }
+
+    .cover-eyebrow::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 2px;
+      background: var(--color-primary);
+      border-radius: 2px;
+    }
+
+    .cover h1 {
+      font-family: var(--font-display);
+      font-size: clamp(38px, 5vw, 56px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      color: var(--color-ink);
+      margin-bottom: 20px;
+    }
+
+    .cover h1 span {
+      color: var(--color-primary);
+    }
+
+    .cover-sub {
+      font-size: 18px;
+      color: var(--color-slate);
+      max-width: 560px;
+      line-height: 1.6;
+      margin-bottom: 36px;
+    }
+
+    .cover-meta {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .cover-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .cover-meta-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .cover-meta-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-slate);
+    }
+
+    /* ── CHAPTER ── */
+    .chapter {
+      margin-bottom: 80px;
+    }
+
+    .chapter-hero {
+      background: linear-gradient(135deg, var(--color-primary-deep) 0%, var(--color-primary) 100%);
+      border-radius: var(--radius-xl);
+      padding: 40px 48px;
+      margin-bottom: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .chapter-hero::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .chapter-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: 60px;
+      width: 150px; height: 150px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .chapter-number {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .chapter-hero h2 {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.8px;
+      margin-bottom: 10px;
+    }
+
+    .chapter-hero p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.7);
+      max-width: 520px;
+      line-height: 1.6;
+    }
+
+    .chapter-icon {
+      position: absolute;
+      right: 48px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 64px;
+      opacity: 0.15;
+      line-height: 1;
+    }
+
+    /* ── SERVICE CARD ── */
+    .service-card {
+      border: 1px solid var(--color-line);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      margin-bottom: 32px;
+      background: var(--color-white);
+    }
+
+    .service-header {
+      padding: 28px 32px 24px;
+      border-bottom: 1px solid var(--color-line);
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .service-icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--color-primary-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .service-header-text {
+      flex: 1;
+    }
+
+    .service-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--color-primary);
+      margin-bottom: 6px;
+    }
+
+    .service-header h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.4px;
+      color: var(--color-ink);
+      margin-bottom: 6px;
+    }
+
+    .service-header .service-tagline {
+      font-size: 14px;
+      color: var(--color-muted);
+      line-height: 1.5;
+    }
+
+    .service-body {
+      padding: 32px;
+    }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+
+    .service-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .service-field.full-width {
+      grid-column: 1 / -1;
+    }
+
+    .field-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .field-content {
+      font-size: 14px;
+      color: var(--color-slate);
+      line-height: 1.6;
+    }
+
+    .field-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .field-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--color-slate);
+      line-height: 1.5;
+    }
+
+    .field-list li::before {
+      content: '→';
+      color: var(--color-primary);
+      font-weight: 600;
+      flex-shrink: 0;
+      margin-top: 1px;
+      font-size: 12px;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-it-works {
+      background: var(--color-surface);
+      border-radius: var(--radius-ui);
+      padding: 24px;
+      margin: 24px 0;
+    }
+
+    .how-it-works-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 16px;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--color-primary);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .step-text {
+      font-size: 14px;
+      color: var(--color-slate);
+      line-height: 1.5;
+    }
+
+    .step-text strong {
+      color: var(--color-ink);
+      font-weight: 600;
+    }
+
+    /* ── RESULTS ROW ── */
+    .results-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      border-top: 1px solid var(--color-line);
+      padding-top: 24px;
+      margin-top: 24px;
+    }
+
+    .result-item {
+      background: var(--color-surface);
+      border-radius: var(--radius-ui);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .result-metric {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--color-primary);
+      letter-spacing: -0.5px;
+    }
+
+    .result-label {
+      font-size: 12px;
+      color: var(--color-muted);
+      line-height: 1.4;
+    }
+
+    /* ── BENEFITS STRIP ── */
+    .benefits-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .benefit-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--color-primary-subtle);
+      color: var(--color-primary-deep);
+    }
+
+    .benefit-chip::before {
+      content: '✓';
+      font-weight: 700;
+    }
+
+    /* ── PIPELINE VISUAL ── */
+    .pipeline-visual {
+      display: flex;
+      gap: 0;
+      margin: 20px 0;
+      overflow-x: auto;
+    }
+
+    .pipeline-stage {
+      flex: 1;
+      min-width: 90px;
+      background: var(--color-primary-subtle);
+      border: 1px solid rgba(23, 105, 194, 0.15);
+      padding: 10px 8px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-primary-deep);
+      line-height: 1.3;
+      position: relative;
+    }
+
+    .pipeline-stage:not(:last-child)::after {
+      content: '▶';
+      position: absolute;
+      right: -8px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10px;
+      color: var(--color-primary);
+      z-index: 1;
+    }
+
+    .pipeline-stage:first-child { border-radius: 8px 0 0 8px; }
+    .pipeline-stage:last-child  { border-radius: 0 8px 8px 0; background: var(--color-primary); color: #fff; }
+
+    /* ── SECTION INTRO ── */
+    .section-intro {
+      margin-bottom: 40px;
+    }
+
+    /* ── CALLOUT ── */
+    .callout {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: var(--color-primary-subtle);
+      border-left: 3px solid var(--color-primary);
+      border-radius: 0 var(--radius-ui) var(--radius-ui) 0;
+      padding: 14px 16px;
+      margin-top: 20px;
+    }
+
+    .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+    .callout p {
+      font-size: 13px;
+      color: var(--color-primary-deep);
+      line-height: 1.5;
+    }
+
+    .callout strong { font-weight: 600; }
+
+    /* ── TOC ── */
+    .toc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 32px 0 64px;
+    }
+
+    .toc-card {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 20px;
+      border: 1px solid var(--color-line);
+      border-radius: var(--radius-card);
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+
+    .toc-card:hover {
+      border-color: var(--color-primary);
+      background: var(--color-primary-subtle);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(23,105,194,0.1);
+    }
+
+    .toc-card-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .toc-card-text { display: flex; flex-direction: column; gap: 2px; }
+    .toc-card-num {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+
+    .toc-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-ink);
+    }
+
+    /* ── UTILITIES ── */
+    h4.subsection {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--color-ink);
+      margin-top: 32px;
+      margin-bottom: 12px;
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--color-line);
+      margin: 48px 0;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; padding: 0 20px 80px; }
+      .service-grid { grid-template-columns: 1fr; }
+      .results-row { grid-template-columns: 1fr 1fr; }
+      .toc-grid { grid-template-columns: 1fr; }
+      .chapter-icon { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<header class="top-bar">
+  <a href="index.html" class="top-bar-logo">
+    <img src="../brand/logos/negro sin fondo 2.png" alt="Navigy" />
+  </a>
+  <div class="top-bar-sep"></div>
+  <span class="top-bar-doc">Manual de Servicios</span>
+  <div class="top-bar-right">
+    <span class="badge badge-internal">Interno</span>
+    <span class="badge badge-version">v1.0 · 2026</span>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-section">
+      <p class="sidebar-label">General</p>
+      <ul class="sidebar-nav">
+        <li><a href="#intro" class="active"><span class="nav-icon">📋</span> Introducción</a></li>
+        <li><a href="#toc"><span class="nav-icon">🗂</span> Índice</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <p class="sidebar-label">Capítulos</p>
+      <ul class="sidebar-nav">
+        <li><a href="#ch1"><span class="nav-icon">📡</span> 1. Captación de Pacientes</a></li>
+        <li><a href="#ch2"><span class="nav-icon">⚡</span> 2. Sistemas de Conversión</a></li>
+        <li><a href="#ch3"><span class="nav-icon">🗄</span> 3. Gestión de Leads</a></li>
+        <li><a href="#ch4"><span class="nav-icon">🤖</span> 4. Automatización</a></li>
+        <li><a href="#ch5"><span class="nav-icon">✍️</span> 5. Contenido</a></li>
+        <li><a href="#ch6"><span class="nav-icon">📊</span> 6. Analítica</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-divider"></div>
+
+    <div class="sidebar-section">
+      <p class="sidebar-label">Servicios</p>
+      <ul class="sidebar-nav">
+        <li><a href="#google-ads"><span class="nav-icon">🔍</span> Google Ads</a></li>
+        <li><a href="#meta-ads"><span class="nav-icon">📱</span> Meta Ads</a></li>
+        <li><a href="#seo-local"><span class="nav-icon">📍</span> SEO Local</a></li>
+        <li><a href="#gbp"><span class="nav-icon">🗺</span> Google Business</a></li>
+        <li><a href="#landing-pages"><span class="nav-icon">📄</span> Landing Pages</a></li>
+        <li><a href="#web-opt"><span class="nav-icon">⚙️</span> Optimización Web</a></li>
+        <li><a href="#crm"><span class="nav-icon">🗄</span> Pipeline CRM</a></li>
+        <li><a href="#whatsapp"><span class="nav-icon">💬</span> Autom. WhatsApp</a></li>
+        <li><a href="#email-auto"><span class="nav-icon">📧</span> Autom. Email</a></li>
+        <li><a href="#reactivation"><span class="nav-icon">🔁</span> Reactivación Leads</a></li>
+        <li><a href="#content"><span class="nav-icon">🎨</span> Contenido Social</a></li>
+        <li><a href="#reviews"><span class="nav-icon">⭐</span> Camp. de Reseñas</a></li>
+        <li><a href="#referrals"><span class="nav-icon">🤝</span> Camp. de Referidos</a></li>
+        <li><a href="#tracking"><span class="nav-icon">📈</span> Seguimiento e Informes</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main-content">
+
+    <!-- COVER -->
+    <section id="intro" class="cover">
+      <div class="cover-eyebrow">Biblia Interna de Servicios</div>
+      <h1>Navigy <span>Manual</span><br>de Servicios</h1>
+      <p class="cover-sub">La guía operativa completa de todos los servicios que ofrecemos. Cómo funciona cada uno, por qué es importante, qué obtienen los clientes y qué resultados esperar — diseñado para clínicas, por diseño.</p>
+      <div class="cover-meta">
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Producto</span>
+          <span class="cover-meta-value">Navigy — Sistema de Captación de Pacientes</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Audiencia</span>
+          <span class="cover-meta-value">Equipo Interno</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Versión</span>
+          <span class="cover-meta-value">1.0 · Marzo 2026</span>
+        </div>
+        <div class="cover-meta-item">
+          <span class="cover-meta-label">Servicios</span>
+          <span class="cover-meta-value">14 Servicios Principales</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- QUÉ ES NAVIGY -->
+    <section class="section-intro">
+      <h4 class="subsection" style="font-size:18px; margin-top:0;">¿Qué es Navigy?</h4>
+      <p style="color:var(--color-slate); line-height:1.7; max-width:660px;">Navigy es un sistema completo de captación de pacientes diseñado exclusivamente para clínicas. Combinamos publicidad de pago, visibilidad local, infraestructura de conversión y automatización inteligente para construir un flujo predecible y escalable de nuevos pacientes — de principio a fin.</p>
+
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:28px;">
+        <div style="background:var(--color-surface); border-radius:var(--radius-card); padding:20px; border:1px solid var(--color-line);">
+          <div style="font-size:22px; margin-bottom:8px;">📡</div>
+          <div style="font-size:13px; font-weight:700; color:var(--color-ink); margin-bottom:4px;">Atraer</div>
+          <div style="font-size:12px; color:var(--color-muted);">Los anuncios, el SEO y el GBP atraen pacientes cualificados a tu clínica.</div>
+        </div>
+        <div style="background:var(--color-surface); border-radius:var(--radius-card); padding:20px; border:1px solid var(--color-line);">
+          <div style="font-size:22px; margin-bottom:8px;">⚡</div>
+          <div style="font-size:13px; font-weight:700; color:var(--color-ink); margin-bottom:4px;">Convertir</div>
+          <div style="font-size:12px; color:var(--color-muted);">Las landing pages y la optimización web convierten visitantes en leads.</div>
+        </div>
+        <div style="background:var(--color-surface); border-radius:var(--radius-card); padding:20px; border:1px solid var(--color-line);">
+          <div style="font-size:22px; margin-bottom:8px;">🤖</div>
+          <div style="font-size:13px; font-weight:700; color:var(--color-ink); margin-bottom:4px;">Automatizar</div>
+          <div style="font-size:12px; color:var(--color-muted);">El CRM, WhatsApp y el email nutren leads sin esfuerzo manual.</div>
+        </div>
+        <div style="background:var(--color-surface); border-radius:var(--radius-card); padding:20px; border:1px solid var(--color-line);">
+          <div style="font-size:22px; margin-bottom:8px;">📊</div>
+          <div style="font-size:13px; font-weight:700; color:var(--color-ink); margin-bottom:4px;">Optimizar</div>
+          <div style="font-size:12px; color:var(--color-muted);">Los datos y los informes impulsan la mejora continua en todos los canales.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ÍNDICE DE CONTENIDOS -->
+    <section id="toc">
+      <h4 class="subsection">Índice de Contenidos</h4>
+      <div class="toc-grid">
+        <a href="#ch1" class="toc-card"><span class="toc-card-icon">📡</span><div class="toc-card-text"><span class="toc-card-num">Capítulo 01</span><span class="toc-card-title">Captación de Pacientes</span></div></a>
+        <a href="#ch2" class="toc-card"><span class="toc-card-icon">⚡</span><div class="toc-card-text"><span class="toc-card-num">Capítulo 02</span><span class="toc-card-title">Sistemas de Conversión</span></div></a>
+        <a href="#ch3" class="toc-card"><span class="toc-card-icon">🗄</span><div class="toc-card-text"><span class="toc-card-num">Capítulo 03</span><span class="toc-card-title">Gestión de Leads</span></div></a>
+        <a href="#ch4" class="toc-card"><span class="toc-card-icon">🤖</span><div class="toc-card-text"><span class="toc-card-num">Capítulo 04</span><span class="toc-card-title">Automatización</span></div></a>
+        <a href="#ch5" class="toc-card"><span class="toc-card-icon">✍️</span><div class="toc-card-text"><span class="toc-card-num">Capítulo 05</span><span class="toc-card-title">Contenido</span></div></a>
+        <a href="#ch6" class="toc-card"><span class="toc-card-icon">📊</span><div class="toc-card-text"><span class="toc-card-num">Capítulo 06</span><span class="toc-card-title">Analítica</span></div></a>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══════════════════════════════════ -->
+    <!-- CAPÍTULO 1: CAPTACIÓN DE PACIENTES  -->
+    <!-- ═══════════════════════════════════ -->
+    <section id="ch1" class="chapter">
+      <div class="chapter-hero">
+        <div class="chapter-number">Capítulo 01</div>
+        <h2>Captación de Pacientes</h2>
+        <p>Canales de pago y orgánicos que sitúan a la clínica frente a pacientes que buscan activamente atención médica — antes de que encuentren a un competidor.</p>
+        <div class="chapter-icon">📡</div>
+      </div>
+
+      <!-- ── GOOGLE ADS ── -->
+      <div id="google-ads" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">🔍</div>
+          <div class="service-header-text">
+            <div class="service-tag">Captación de Pacientes · Búsqueda de Pago</div>
+            <h3>Google Ads</h3>
+            <p class="service-tagline">Capta pacientes con alta intención en el momento exacto en que buscan una clínica o tratamiento.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Un programa gestionado de publicidad de pago por clic en la red de Google. Creamos, ejecutamos y optimizamos continuamente las campañas para que la clínica aparezca de forma destacada cuando los potenciales pacientes buscan tratamientos y especialidades relevantes.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">La mayoría de las clínicas no tienen una forma sistemática de llegar a pacientes listos para reservar. El boca a boca es impredecible y lento. Google Ads coloca a la clínica frente a audiencias de alta intención a demanda, generando un flujo consistente y escalable de solicitudes de cita.</p>
+            </div>
+            <div class="service-field full-width">
+              <span class="field-label">Qué incluye</span>
+              <ul class="field-list">
+                <li><strong>Anuncios de Búsqueda —</strong> Anuncios de texto que aparecen cuando los pacientes buscan tratamientos, especialidades o nombres de clínicas ("dentista cerca de mí", "implantes dentales [ciudad]", "ortodoncia [ciudad]"). El formato de mayor intención.</li>
+                <li><strong>Performance Max —</strong> Campañas impulsadas por IA que distribuyen automáticamente anuncios en Búsqueda, Display, YouTube, Gmail y Maps desde una sola configuración. Optimizado para reservas y envíos de formularios.</li>
+                <li><strong>Display / Remarketing —</strong> Anuncios de banner visuales mostrados a personas que visitaron el sitio web o la landing page de la clínica pero no convirtieron — para que vuelvan a reservar.</li>
+                <li><strong>Anuncios en YouTube —</strong> Anuncios de vídeo cortos antes de contenido dental relevante, ideales para generar confianza y mostrar las instalaciones de la clínica o testimonios de pacientes.</li>
+                <li><strong>Investigación de palabras clave y negativas —</strong> Actualizaciones mensuales para excluir búsquedas irrelevantes y reducir el gasto desperdiciado.</li>
+                <li><strong>Pruebas A/B de textos —</strong> Pruebas continuas de titulares y descripciones para mejorar la tasa de clics.</li>
+                <li><strong>Configuración del seguimiento de conversiones —</strong> Cada llamada, formulario completado y reserva se rastrea hasta el anuncio que lo generó.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Auditoría inicial.</strong> Auditamos las cuentas existentes (si las hay), analizamos el gasto de la competencia e identificamos los términos de búsqueda de mayor valor para los tratamientos dentales y la ubicación de la clínica.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Arquitectura de campañas.</strong> Estructuramos las campañas por línea de servicio (p. ej., implantes, ortodoncia, blanqueamiento, Invisalign) y tipos de concordancia, asegurando que el presupuesto se asigne donde la intención es mayor.</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Creación de anuncios.</strong> Redactamos textos de anuncios convincentes y conformes a normativas con llamadas a la acción claras ("Reserva tu consulta hoy") y vinculamos cada anuncio a una landing page dedicada.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Lanzamiento y seguimiento.</strong> Las campañas se ponen en marcha y monitorizamos el rendimiento diariamente en las primeras dos semanas, ajustando pujas, presupuestos y segmentación basándonos en datos reales.</div></div>
+              <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Optimización mensual.</strong> Revisamos los términos de búsqueda, pausamos los anuncios de bajo rendimiento, probamos nuevos textos y escalamos lo que funciona — mejorando el coste por lead en cada ciclo.</div></div>
+            </div>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">Visibilidad inmediata</span>
+              <span class="benefit-chip">ROI totalmente medible</span>
+              <span class="benefit-chip">Control del presupuesto</span>
+              <span class="benefit-chip">Audiencia de alta intención</span>
+              <span class="benefit-chip">Escalable a demanda</span>
+              <span class="benefit-chip">Sin espera de SEO</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">30–90d</div><div class="result-label">Tiempo hasta los primeros leads de pacientes medibles</div></div>
+            <div class="result-item"><div class="result-metric">3–8×</div><div class="result-label">Retorno del gasto publicitario (ROAS) en campañas maduras</div></div>
+            <div class="result-item"><div class="result-metric">↓ 40%</div><div class="result-label">Reducción del coste por lead tras 90 días de optimización</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── META ADS ── -->
+      <div id="meta-ads" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">📱</div>
+          <div class="service-header-text">
+            <div class="service-tag">Captación de Pacientes · Anuncios Sociales</div>
+            <h3>Meta Ads</h3>
+            <p class="service-tagline">Llega y educa a potenciales pacientes en Instagram y Facebook antes de que empiecen a buscar.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Campañas publicitarias segmentadas en Instagram y Facebook diseñadas para generar notoriedad, leads y reservas de citas — utilizando segmentación demográfica, por comportamiento e intereses específica al perfil de paciente ideal de la clínica.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">Muchos pacientes no buscan en Google hasta que ya sienten el problema de forma aguda. Meta Ads crea demanda antes en el recorrido del paciente — generando confianza y captando el interés de personas que encajan con el perfil ideal antes de que busquen activamente en otro lugar.</p>
+            </div>
+            <div class="service-field full-width">
+              <span class="field-label">Qué incluye</span>
+              <ul class="field-list">
+                <li><strong>Campañas de generación de leads —</strong> Formularios nativos dentro de Instagram/Facebook que rellenan automáticamente los datos de contacto del paciente para opt-ins sin fricción.</li>
+                <li><strong>Campañas de tráfico —</strong> Dirigen usuarios segmentados a la landing page o al calendario de reservas.</li>
+                <li><strong>Campañas de retargeting —</strong> Reimpactan a visitantes del sitio web, espectadores de vídeo y personas que abrieron formularios pero no convirtieron.</li>
+                <li><strong>Audiencias similares (Lookalike) —</strong> Construimos audiencias que se asemejan a los mejores pacientes actuales de la clínica para escalar de forma eficiente.</li>
+                <li><strong>Dirección de producción creativa —</strong> Textos de anuncios, hooks y briefs creativos para imágenes estáticas, carruseles y formatos de vídeo corto.</li>
+                <li><strong>Configuración del Pixel y Conversion API —</strong> Seguimiento preciso de cada lead y reserva hasta el anuncio y audiencia específicos.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Definición de audiencias.</strong> Mapeamos el paciente ideal de la clínica por edad, ubicación, intereses de salud bucodental y comportamientos. Construimos audiencias frías, templadas y calientes para cada etapa del embudo.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Estrategia creativa.</strong> Definimos el ángulo de los mensajes para cada audiencia (notoriedad vs. urgencia vs. prueba social) y hacemos el brief creativo en consecuencia.</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Lanzamiento de campañas.</strong> Las campañas se estructuran con distribuciones de presupuesto claras entre prospección y retargeting, con pruebas A/B creativas desde el primer día.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Traspaso de leads.</strong> Todos los leads captados a través de Meta entran instantáneamente en el CRM de Navigy, activando una secuencia de seguimiento inmediata por WhatsApp.</div></div>
+              <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Optimización semanal.</strong> Eliminamos los creativos de bajo rendimiento, escalamos los ganadores, renovamos audiencias y actualizamos los mensajes basándonos en los datos de interacción.</div></div>
+            </div>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">Gran audiencia potencial</span>
+              <span class="benefit-chip">Narrativa visual</span>
+              <span class="benefit-chip">Generación de demanda</span>
+              <span class="benefit-chip">Segmentación demográfica precisa</span>
+              <span class="benefit-chip">Rentable a escala</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">2–5×</div><div class="result-label">Más leads por día frente a solo redes sociales orgánicas</div></div>
+            <div class="result-item"><div class="result-metric">↓ CPL</div><div class="result-label">El coste por lead cae a medida que los creativos y las audiencias maduran</div></div>
+            <div class="result-item"><div class="result-metric">+Marca</div><div class="result-label">La visibilidad constante construye la autoridad de la clínica en el mercado local</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SEO LOCAL ── -->
+      <div id="seo-local" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">📍</div>
+          <div class="service-header-text">
+            <div class="service-tag">Captación de Pacientes · Orgánico</div>
+            <h3>SEO Local</h3>
+            <p class="service-tagline">Aparece en Google Maps y en los resultados de búsqueda local — de forma gratuita, todos los días.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Un conjunto de acciones de optimización continua que mejoran la visibilidad de la clínica en los resultados de búsqueda local orgánica — para que los pacientes que buscan "dentista cerca de mí" o "clínica dental [ciudad]" encuentren la clínica sin ningún gasto en anuncios.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">La mayoría de las clínicas son invisibles en la búsqueda local más allá de los primeros resultados. Los pacientes rara vez pasan de los tres primeros. Sin SEO local activo, las clínicas pagan por cada visitante para siempre. El SEO local construye visibilidad orgánica y gratuita que crece con el tiempo.</p>
+            </div>
+            <div class="service-field full-width">
+              <span class="field-label">Qué incluye</span>
+              <ul class="field-list">
+                <li><strong>Optimización del Google Business Profile —</strong> Configuración completa y gestión continua (categorías, servicios, fotos, horarios, preguntas y respuestas, publicaciones).</li>
+                <li><strong>Integración de palabras clave locales —</strong> Palabras clave de ciudad, barrio y tratamiento integradas de forma natural en las páginas web.</li>
+                <li><strong>Correcciones técnicas on-page —</strong> Etiquetas de título, meta descripciones, encabezados y enlaces internos optimizados para relevancia local.</li>
+                <li><strong>Mejoras de velocidad de página —</strong> Ajuste de Core Web Vitals, especialmente para móvil — crítico para los rankings del Local Pack.</li>
+                <li><strong>Consistencia de citaciones —</strong> Auditoría de consistencia del NAP (Nombre, Dirección, Teléfono) en los directorios.</li>
+                <li><strong>Apoyo en la captación de reseñas —</strong> Solicitudes automatizadas por WhatsApp/SMS a pacientes tras la cita para impulsar el volumen de reseñas en Google.</li>
+                <li><strong>Publicaciones mensuales en GBP —</strong> Contenido nuevo en el Business Profile para mantener el listing activo y posicionado.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Auditoría.</strong> Auditamos el listing actual del GBP, el SEO on-page del sitio web, los rankings de palabras clave locales y las posiciones de la competencia.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Optimización completa del GBP.</strong> Completamos y estructuramos el perfil para maximizar la elegibilidad en el Local Pack — las tres fichas que aparecen en los resultados de mapa por encima de los resultados orgánicos.</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Implementación on-site.</strong> Se aplican al sitio web palabras clave locales, marcado de esquema y mejoras técnicas.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Motor de captación de reseñas.</strong> Mensajes automatizados post-cita vía WhatsApp invitan a los pacientes satisfechos a dejar una reseña en Google, haciendo crecer el número de reseñas de forma sostenible.</div></div>
+              <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Mantenimiento mensual.</strong> Nuevas publicaciones en GBP, respuestas a reseñas, monitorización de palabras clave y mejoras incrementales en páginas mantienen los rankings en ascenso.</div></div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <span class="callout-icon">💡</span>
+            <p>El SEO Local y Google Ads funcionan mejor juntos. Los anuncios generan leads inmediatos mientras el SEO construye tráfico orgánico gratuito en 3–6 meses. La combinación reduce significativamente el coste por paciente a largo plazo de la clínica.</p>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">Cero coste por clic</span>
+              <span class="benefit-chip">Resultados acumulativos</span>
+              <span class="benefit-chip">Construye autoridad de marca</span>
+              <span class="benefit-chip">Visibilidad 24/7</span>
+              <span class="benefit-chip">Confianza a través de reseñas</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">3–6m</div><div class="result-label">Plazo típico para mejoras de posicionamiento medibles</div></div>
+            <div class="result-item"><div class="result-metric">Top 3</div><div class="result-label">Posición objetivo en el Local Pack de Google para las palabras clave de tratamiento principales</div></div>
+            <div class="result-item"><div class="result-metric">+Llamadas</div><div class="result-label">Más llamadas directas y solicitudes de ruta desde Google Maps mensualmente</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── GOOGLE BUSINESS PROFILE ── -->
+      <div id="gbp" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">🗺</div>
+          <div class="service-header-text">
+            <div class="service-tag">Captación de Pacientes · Presencia Local</div>
+            <h3>Google Business Profile</h3>
+            <p class="service-tagline">Convierte el listing de Google de la clínica en un activo que atrae pacientes las 24 horas del día.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Gestión y optimización completa del Google Business Profile de la clínica — el listing que aparece en Google Search y Maps cuando los pacientes buscan una clínica localmente. Un GBP bien gestionado es a menudo la primera impresión que un paciente tiene de la clínica.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">La mayoría de las clínicas configuran su GBP una vez y no lo vuelven a tocar. Los perfiles incompletos, desactualizados o con pocas reseñas pierden pacientes frente a competidores con listings mejor gestionados — incluso cuando la clínica es técnicamente superior.</p>
+            </div>
+            <div class="service-field full-width">
+              <span class="field-label">Qué incluye</span>
+              <ul class="field-list">
+                <li><strong>Configuración y verificación completa del perfil —</strong> Nombre del negocio, categorías, descripción, servicios, atributos, datos de contacto, enlace al sitio web.</li>
+                <li><strong>Gestión de fotos —</strong> Subida y actualización periódica de fotos de la clínica, equipo, tratamientos y resultados antes/después (cuando sea conforme a normativa).</li>
+                <li><strong>Publicaciones mensuales en GBP —</strong> Consejos de salud, promociones, nuevos servicios y contenido estacional mantienen el perfil activo y visible.</li>
+                <li><strong>Solicitudes de reseñas automatizadas —</strong> Mensajes de WhatsApp post-cita invitan a los pacientes a dejar reseñas en Google. La lógica de reintento asegura mayores tasas de respuesta.</li>
+                <li><strong>Gestión de respuestas a reseñas —</strong> Todas las reseñas (positivas y negativas) reciben respuesta de forma profesional y puntual mediante el sistema de respuesta automatizada de nuestro software.</li>
+                <li><strong>Gestión de preguntas y respuestas —</strong> Las preguntas frecuentes de los pacientes se rellenan y responden en la sección de Q&A para mejorar la conversión desde el listing.</li>
+                <li><strong>Activación de mensajes y llamadas —</strong> Botones de mensajería directa y llamada configurados para que los pacientes contacten a la clínica con un solo toque.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Auditoría y reclamación.</strong> Auditamos el perfil existente (o creamos uno nuevo), reclamamos la propiedad y resolvemos cualquier listing duplicado.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Optimización completa.</strong> Cada campo disponible se completa con contenido específico de la clínica y rico en palabras clave. Priorizamos las secciones que más influyen en los rankings del Local Pack.</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Activación del motor de reseñas.</strong> Conectamos la automatización de solicitud de reseñas para que cada paciente tras su visita reciba un mensaje de WhatsApp amable y programado para dejar una reseña.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Publicaciones continuas.</strong> Se publica contenido mensual en el perfil — manteniéndolo actualizado y señalando actividad al algoritmo de rankings de Google.</div></div>
+            </div>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">Mayor posicionamiento en Maps</span>
+              <span class="benefit-chip">Más llamadas y solicitudes de ruta</span>
+              <span class="benefit-chip">Prueba social de un vistazo</span>
+              <span class="benefit-chip">Control de la primera impresión</span>
+              <span class="benefit-chip">Canal de tráfico gratuito</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">4,5+</div><div class="result-label">Valoración media objetivo en 90 días con la automatización de reseñas</div></div>
+            <div class="result-item"><div class="result-metric">↑ Visitas</div><div class="result-label">Las visitas al perfil aumentan con publicaciones y fotos actualizadas regularmente</div></div>
+            <div class="result-item"><div class="result-metric">+Confianza</div><div class="result-label">Un alto volumen de reseñas convierte a los pacientes indecisos en citas confirmadas</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ════════════════════════════════════ -->
+    <!-- CAPÍTULO 2: SISTEMAS DE CONVERSIÓN  -->
+    <!-- ════════════════════════════════════ -->
+    <section id="ch2" class="chapter">
+      <div class="chapter-hero">
+        <div class="chapter-number">Capítulo 02</div>
+        <h2>Sistemas de Conversión</h2>
+        <p>La infraestructura que convierte visitantes del sitio web y clics en anuncios en citas reales y confirmadas — con máxima eficiencia y mínima fricción.</p>
+        <div class="chapter-icon">⚡</div>
+      </div>
+
+      <!-- ── LANDING PAGES ── -->
+      <div id="landing-pages" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">📄</div>
+          <div class="service-header-text">
+            <div class="service-tag">Sistemas de Conversión · Captación de Leads</div>
+            <h3>Landing Pages</h3>
+            <p class="service-tagline">Páginas con un único objetivo: convertir el tráfico de anuncios en consultas reservadas.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Páginas web independientes creadas específicamente para campañas o servicios de tratamiento concretos. A diferencia de un sitio web general, una landing page no tiene distracciones de navegación — cada elemento está diseñado para guiar al visitante hacia una única acción: reservar o solicitar una consulta.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">Enviar tráfico de anuncios a la página de inicio genérica de una clínica desperdicia el presupuesto. La homepage tiene demasiada información y ningún siguiente paso claro. Las landing pages aíslan la oferta, generan confianza rápidamente y eliminan la fricción para reservar — mejorando drásticamente las tasas de conversión de las campañas de pago.</p>
+            </div>
+            <div class="service-field full-width">
+              <span class="field-label">Qué incluye</span>
+              <ul class="field-list">
+                <li><strong>Diseño orientado a la conversión —</strong> Estructura limpia centrada en la acción única: reservar, llamar o rellenar el formulario. Sin navegación innecesaria ni CTAs que compitan entre sí.</li>
+                <li><strong>Mensajes específicos de la clínica —</strong> Titulares, beneficios y prueba social adaptados al tratamiento o especialidad que se promociona.</li>
+                <li><strong>Elementos de confianza —</strong> Credenciales del médico, certificaciones, testimonios de pacientes, fotos antes/después (cuando sean conformes) y badges de reseñas.</li>
+                <li><strong>Calendario de reservas integrado —</strong> Los pacientes pueden seleccionar un horario de consulta directamente en la página — sin necesidad de llamadas telefónicas.</li>
+                <li><strong>Formulario conectado al CRM —</strong> Cada envío crea un contacto en el pipeline y activa un mensaje de bienvenida instantáneo por WhatsApp.</li>
+                <li><strong>Prioridad móvil y carga rápida —</strong> Optimizada para Core Web Vitals; carga en menos de 2 segundos en móvil para evitar abandonos.</li>
+                <li><strong>Alineación con el Quality Score de Google Ads —</strong> El contenido coincide con las palabras clave del anuncio para reducir el coste por clic y mejorar el posicionamiento del anuncio.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Brief y estructura.</strong> Definimos el objetivo de la campaña, el tipo de paciente objetivo y la propuesta de valor única para cada landing page.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Copy y diseño.</strong> Redactamos el texto persuasivo y diseñamos la estructura usando marcos de conversión probados (problema → solución → prueba → CTA).</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Conexión con CRM y automatización.</strong> El formulario se conecta al pipeline. Envío → contacto creado → mensaje de WhatsApp enviado → equipo notificado. Todo en segundos.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Configuración del seguimiento.</strong> Se instalan Google Analytics, los píxeles de conversión de Google Ads y el Meta Pixel para que cada lead se atribuya a su fuente.</div></div>
+              <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Optimización continua.</strong> Analizamos mapas de calor, tasas de cumplimentación de formularios y datos de conversión mensualmente, iterando el copy o el diseño para mejorar los resultados.</div></div>
+            </div>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">Mayor tasa de conversión</span>
+              <span class="benefit-chip">Menor coste por lead</span>
+              <span class="benefit-chip">Sin gasto publicitario desperdiciado</span>
+              <span class="benefit-chip">Captación instantánea de leads</span>
+              <span class="benefit-chip">Alimenta el CRM sin fricción</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">2–5×</div><div class="result-label">Tasa de conversión frente a enviar tráfico a una homepage genérica</div></div>
+            <div class="result-item"><div class="result-metric">&lt;2s</div><div class="result-label">Tiempo de carga objetivo en móvil para evitar el abandono</div></div>
+            <div class="result-item"><div class="result-metric">0min</div><div class="result-label">Tiempo desde el envío del formulario hasta el lead en el CRM y la respuesta por WhatsApp</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── OPTIMIZACIÓN WEB ── -->
+      <div id="web-opt" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">⚙️</div>
+          <div class="service-header-text">
+            <div class="service-tag">Sistemas de Conversión · Sitio Web</div>
+            <h3>Optimización Web</h3>
+            <p class="service-tagline">Haz que el sitio web actual de la clínica convierta más visitantes sin reconstruirlo desde cero.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Un conjunto de mejoras técnicas y de copywriting aplicadas al sitio web actual de la clínica para aumentar el porcentaje de visitantes que realizan una acción — llamar, reservar o rellenar un formulario de contacto — sin necesidad de una reconstrucción total del sitio.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">Muchos sitios web de clínicas atraen tráfico orgánico pero convierten muy pocos visitantes en pacientes. Una mala experiencia en móvil, tiempos de carga lentos, llamadas a la acción poco claras y la falta de señales de confianza hacen que los visitantes se vayan sin interactuar. La optimización cierra esas fugas.</p>
+            </div>
+            <div class="service-field full-width">
+              <span class="field-label">Qué incluye</span>
+              <ul class="field-list">
+                <li><strong>Auditoría e implementación de CTAs —</strong> Revisión y mejora de todas las llamadas a la acción en todo el sitio. Asegurar que cada página tenga un siguiente paso claro ("Reserva una consulta", "Llámanos ahora").</li>
+                <li><strong>Mejoras de UX móvil —</strong> Corrección de problemas de diseño, tamaño de botones, legibilidad de fuentes y navegación en dispositivos móviles.</li>
+                <li><strong>Optimización de velocidad de página —</strong> Compresión de imágenes, caché, eliminación de scripts que bloquean el renderizado, mejora de las puntuaciones de Core Web Vitals.</li>
+                <li><strong>Colocación de señales de confianza —</strong> Añadir badges de reseñas, certificaciones, bios del equipo y menciones en medios a las páginas clave.</li>
+                <li><strong>Integración de palabras clave locales —</strong> Palabras clave específicas de ciudad integradas de forma natural en las páginas de servicios y metadatos.</li>
+                <li><strong>Eliminación de fricción en el contacto —</strong> Simplificar formularios, añadir widget de chat de WhatsApp e integrar un calendario de reservas en las páginas clave.</li>
+                <li><strong>Configuración de analítica —</strong> Instalación de GA4, Google Search Console y eventos de conversión para hacer el sitio completamente medible.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Auditoría.</strong> Analizamos la tasa de conversión actual del sitio, la velocidad de carga, la experiencia móvil y las carencias de SEO on-page con herramientas de diagnóstico.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Lista de correcciones prioritarias.</strong> Clasificamos los problemas por impacto e implementamos primero las mejoras de mayor valor — centrándonos en las páginas que reciben más tráfico.</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Implementación.</strong> Nuestro equipo aplica los cambios directamente, coordinándose con el administrador web de la clínica si es necesario.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Medición.</strong> Establecemos tasas de conversión de referencia antes de los cambios y hacemos seguimiento de la mejora mensualmente.</div></div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <span class="callout-icon">⚠️</span>
+            <p><strong>Importante:</strong> La optimización web no es un rediseño completo. Se centra en los cambios de mayor impacto. Para clínicas que necesiten una reconstrucción total del sitio, eso se cotiza por separado.</p>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">Más leads del tráfico existente</span>
+              <span class="benefit-chip">Mejor rendimiento SEO</span>
+              <span class="benefit-chip">Experiencia de usuario mejorada</span>
+              <span class="benefit-chip">Tiempos de carga más rápidos</span>
+              <span class="benefit-chip">Mejora de conversión medible</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">+CVR</div><div class="result-label">Mejora de la tasa de conversión en las páginas de servicios clave</div></div>
+            <div class="result-item"><div class="result-metric">↑ SEO</div><div class="result-label">Las mejoras de velocidad y técnicas apoyan el posicionamiento local</div></div>
+            <div class="result-item"><div class="result-metric">↓ Rebote</div><div class="result-label">Una mejor UX móvil reduce la tasa de rebote del tráfico de pago y orgánico</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════ -->
+    <!-- CAPÍTULO 3: GESTIÓN DE LEADS       -->
+    <!-- ══════════════════════════════════ -->
+    <section id="ch3" class="chapter">
+      <div class="chapter-hero">
+        <div class="chapter-number">Capítulo 03</div>
+        <h2>Gestión de Leads</h2>
+        <p>El sistema que garantiza que cada lead sea captado, seguido y contactado — para que ningún paciente potencial se pierda u olvide jamás.</p>
+        <div class="chapter-icon">🗄</div>
+      </div>
+
+      <!-- ── PIPELINE CRM ── -->
+      <div id="crm" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">🗄</div>
+          <div class="service-header-text">
+            <div class="service-tag">Gestión de Leads · CRM</div>
+            <h3>Pipeline CRM</h3>
+            <p class="service-tagline">Un sistema visual en tiempo real que muestra el estado exacto de cada lead — para que el equipo sepa siempre qué hacer a continuación.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Un pipeline de pacientes completamente configurado dentro del CRM de Navigy. Cada lead — de cualquier fuente — entra automáticamente, avanza por etapas definidas y recibe seguimiento automatizado en cada paso. El equipo obtiene una vista única y clara de toda la actividad comercial.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">Sin un CRM, los leads viven en chats de WhatsApp, emails y hojas de cálculo. Los leads se olvidan. Nadie sabe quién habló con quién ni en qué etapa está cada paciente. Las citas no reciben seguimiento. El CRM elimina ese caos con un sistema estructurado y automatizado.</p>
+            </div>
+          </div>
+
+          <div class="service-field" style="margin-bottom:20px;">
+            <span class="field-label">Etapas del pipeline</span>
+            <div class="pipeline-visual">
+              <div class="pipeline-stage">Nuevo Lead</div>
+              <div class="pipeline-stage">Contactado 1</div>
+              <div class="pipeline-stage">Contactado 2</div>
+              <div class="pipeline-stage">Agendado</div>
+              <div class="pipeline-stage">Asistió</div>
+              <div class="pipeline-stage">Paciente ✓</div>
+            </div>
+          </div>
+
+          <div class="service-field full-width">
+            <span class="field-label">Qué incluye</span>
+            <ul class="field-list">
+              <li><strong>Captación automática de leads —</strong> Los leads de Google Ads, Meta, landing pages, WhatsApp, llamadas telefónicas y formularios web entran todos en el pipeline sin entrada manual.</li>
+              <li><strong>Automatización por etapa —</strong> Cada etapa del pipeline activa acciones automáticas: mensajes de WhatsApp, seguimientos por email y asignación de tareas al equipo.</li>
+              <li><strong>Puntuación de leads —</strong> Los leads se etiquetan por fuente, interés en el servicio y nivel de engagement para ayudar al equipo a priorizar los más propensos a convertir.</li>
+              <li><strong>Historial de contacto completo —</strong> Cada llamada, mensaje y nota queda registrado en el contacto — el equipo siempre tiene el contexto completo antes de interactuar.</li>
+              <li><strong>Gestión de no-shows —</strong> Los pacientes que no acuden a su cita son marcados automáticamente y entran en una secuencia de reprogramación.</li>
+              <li><strong>Bandeja de entrada unificada —</strong> WhatsApp, email, SMS, DMs de Instagram y mensajes de Facebook se gestionan desde una sola pantalla — sin cambiar de aplicación.</li>
+            </ul>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>El lead entra en el pipeline.</strong> Cualquier contacto — de cualquier fuente — se crea automáticamente en el CRM con la atribución de origen y las etiquetas aplicadas.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Respuesta inmediata.</strong> Se envía un mensaje de bienvenida automatizado por WhatsApp en segundos. El equipo recibe una notificación para hacer un seguimiento con una llamada humana.</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Avance por etapas.</strong> A medida que el equipo contacta y cualifica el lead, lo mueve por las etapas. Cada transición puede activar nuevos mensajes automatizados.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Cita agendada.</strong> Una vez programada, el sistema envía recordatorios automáticos de cita para reducir los no-shows.</div></div>
+              <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Cierre e informes.</strong> Los pacientes ganados se marcan como activos. Los leads perdidos o fríos entran automáticamente en secuencias de reactivación.</div></div>
+            </div>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">Cero leads perdidos</span>
+              <span class="benefit-chip">Visibilidad total del equipo</span>
+              <span class="benefit-chip">Seguimiento automatizado</span>
+              <span class="benefit-chip">Datos de conversión por etapa</span>
+              <span class="benefit-chip">Comunicación unificada</span>
+              <span class="benefit-chip">Escalable sin más personal</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">100%</div><div class="result-label">Tasa de captación de leads — ninguna consulta entra y se pierde</div></div>
+            <div class="result-item"><div class="result-metric">↓ No-shows</div><div class="result-label">Las secuencias de recordatorio de cita reducen significativamente los no-shows</div></div>
+            <div class="result-item"><div class="result-metric">+Conv.</div><div class="result-label">El seguimiento estructurado aumenta la tasa de conversión lead-a-paciente</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════ -->
+    <!-- CAPÍTULO 4: AUTOMATIZACIÓN         -->
+    <!-- ══════════════════════════════════ -->
+    <section id="ch4" class="chapter">
+      <div class="chapter-hero">
+        <div class="chapter-number">Capítulo 04</div>
+        <h2>Automatización</h2>
+        <p>Secuencias inteligentes que responden a los leads, recuerdan citas a los pacientes y reactivan contactos fríos — sin que el equipo tenga que mover un dedo.</p>
+        <div class="chapter-icon">🤖</div>
+      </div>
+
+      <!-- ── AUTOMATIZACIÓN WHATSAPP ── -->
+      <div id="whatsapp" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">💬</div>
+          <div class="service-header-text">
+            <div class="service-tag">Automatización · Mensajería</div>
+            <h3>Automatización de WhatsApp</h3>
+            <p class="service-tagline">Convierte WhatsApp en un motor de comunicación con pacientes disponible 24/7 — ágil, personalizado y automático.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Un conjunto de flujos de WhatsApp automatizados construidos dentro de la plataforma Navigy. Desde respuestas instantáneas a leads hasta recordatorios de citas y solicitudes de reseñas — cada punto de contacto está automatizado, personalizado y conectado al pipeline del CRM en tiempo real.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">Las clínicas pierden pacientes por responder demasiado lento. Los estudios muestran que las tasas de conversión caen drásticamente después de 5 minutos sin respuesta. El personal no puede estar disponible 24/7. La automatización de WhatsApp garantiza que cada consulta reciba una respuesta instantánea y profesional — a cualquier hora, cualquier día.</p>
+            </div>
+            <div class="service-field full-width">
+              <span class="field-label">Qué incluye</span>
+              <ul class="field-list">
+                <li><strong>Secuencia de respuesta instantánea al lead —</strong> Cuando se envía un formulario o se recibe un mensaje, se envía inmediatamente una respuesta automática por WhatsApp confirmando la recepción y estableciendo expectativas.</li>
+                <li><strong>Chatbot con IA —</strong> Chatbot disponible 24/7 que responde preguntas frecuentes (ubicación, servicios, precios, disponibilidad) y guía a los pacientes hacia la reserva sin intervención humana.</li>
+                <li><strong>Secuencia de recordatorio de cita —</strong> Recordatorios programados enviados 48h, 24h y 2h antes de la cita. Reduce significativamente los no-shows.</li>
+                <li><strong>Automatización de solicitud de reseñas —</strong> Se activa tras una cita confirmada: un WhatsApp amable y programado invita a los pacientes satisfechos a dejar una reseña en Google. Lógica de reintento para quienes no responden.</li>
+                <li><strong>Widget de WhatsApp en el sitio web —</strong> Un botón de chat captura los datos del visitante e inicia una conversación automatizada, convirtiendo navegantes pasivos en leads.</li>
+                <li><strong>Seguimiento de llamada perdida —</strong> Si un paciente llama y nadie contesta, se envía un WhatsApp automático en segundos: "Lamentamos no haber podido atenderte — ¿en qué podemos ayudarte?"</li>
+                <li><strong>Bandeja de entrada centralizada —</strong> Todas las conversaciones entrantes de WhatsApp, junto con email, SMS y DMs de redes sociales, gestionadas desde una sola plataforma.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Disparador.</strong> Se produce una acción — envío de formulario, WhatsApp entrante, llamada perdida, cita programada, cita completada.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>La automatización se activa.</strong> La secuencia correspondiente se lanza automáticamente. No se necesita ninguna persona para iniciarlo.</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>El paciente recibe el mensaje.</strong> Personalizado con su nombre y datos relevantes. Se lee de forma natural — no robótica.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Respuesta enrutada.</strong> Si el paciente responde, el mensaje aparece en la bandeja unificada y el equipo toma el control de la conversación donde lo dejó el bot.</div></div>
+              <div class="step"><div class="step-num">5</div><div class="step-text"><strong>CRM actualizado.</strong> Todas las interacciones quedan registradas automáticamente en el historial del contacto del paciente.</div></div>
+            </div>
+          </div>
+
+          <div class="callout">
+            <span class="callout-icon">💡</span>
+            <p><strong>Nota sobre el toque humano:</strong> La automatización gestiona la velocidad y la escala. Para las confirmaciones de citas, una llamada personal de un miembro del equipo sigue siendo el estándar de oro para construir la fidelidad del paciente — la automatización complementa, no reemplaza, el contacto humano.</p>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">Respuesta instantánea 24/7</span>
+              <span class="benefit-chip">Menos no-shows</span>
+              <span class="benefit-chip">Más reseñas en Google</span>
+              <span class="benefit-chip">Cero carga de seguimiento manual</span>
+              <span class="benefit-chip">Imagen de marca profesional</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">&lt;1min</div><div class="result-label">Tiempo de respuesta a cada nuevo lead, de día o de noche</div></div>
+            <div class="result-item"><div class="result-metric">↓ 30%</div><div class="result-label">Reducción de no-shows con secuencias de recordatorio en múltiples pasos</div></div>
+            <div class="result-item"><div class="result-metric">↑ Reseñas</div><div class="result-label">Las solicitudes automatizadas post-visita generan un flujo constante de reseñas en Google</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── AUTOMATIZACIÓN EMAIL ── -->
+      <div id="email-auto" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">📧</div>
+          <div class="service-header-text">
+            <div class="service-tag">Automatización · Email</div>
+            <h3>Automatización de Email</h3>
+            <p class="service-tagline">Nutre leads y retiene pacientes mediante secuencias de email automatizadas y segmentadas que funcionan en segundo plano.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Secuencias de email automatizadas que se activan en función del comportamiento del paciente o del lead. Desde la primera consulta hasta el onboarding, el seguimiento post-tratamiento y la retención — la automatización de email mantiene una comunicación profesional en cada etapa sin esfuerzo manual.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">Las clínicas rara vez tienen capacidad para enviar emails de seguimiento personalizados a cada lead y paciente. Se pierden oportunidades en cada etapa del recorrido — los leads se enfrían, los pacientes no regresan y las oportunidades de upsell nunca se presentan. La automatización lo resuelve a escala.</p>
+            </div>
+            <div class="service-field full-width">
+              <span class="field-label">Qué incluye</span>
+              <ul class="field-list">
+                <li><strong>Secuencia de bienvenida al lead —</strong> Se activa cuando un nuevo lead envía un formulario. 2–3 emails en 5 días generando confianza, presentando prueba social e impulsando hacia la reserva.</li>
+                <li><strong>Email de confirmación de cita —</strong> Confirmación detallada con fecha, hora, ubicación, instrucciones de preparación e invitación de calendario.</li>
+                <li><strong>Recordatorios pre-cita —</strong> Enviados en combinación con los recordatorios de WhatsApp para maximizar la tasa de asistencia.</li>
+                <li><strong>Seguimiento post-visita —</strong> Email de check-in tras el tratamiento. Solicita feedback, reseñas y sugiere próximos pasos de tratamiento.</li>
+                <li><strong>Campañas de reenganche —</strong> Secuencias automatizadas para pacientes que no han regresado en 3–6 meses, ofreciendo un motivo para volver.</li>
+                <li><strong>Newsletters mensuales de salud —</strong> Contenido educativo opcional para mantener la clínica en la mente de la base de pacientes.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Evento disparador.</strong> Una acción definida (nuevo lead, reserva confirmada, cita completada, 90 días de inactividad) activa la secuencia de email correspondiente.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>La secuencia se ejecuta.</strong> Los emails se envían según un horario predefinido. Cada email está personalizado con el nombre del paciente y los detalles relevantes.</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Ramificación basada en comportamiento.</strong> Si un paciente hace clic en un enlace de reserva, los emails de "impulso a la reserva" se detienen — la secuencia se adapta para evitar el exceso de mensajes.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Informes.</strong> Las tasas de apertura, clics y eventos de conversión se rastrean mensualmente para mejorar continuamente las secuencias.</div></div>
+            </div>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">Nurturing consistente a escala</span>
+              <span class="benefit-chip">Mayor conversión lead-a-paciente</span>
+              <span class="benefit-chip">Menor carga administrativa</span>
+              <span class="benefit-chip">Retención de pacientes</span>
+              <span class="benefit-chip">Medible y mejorable</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">+Reservas</div><div class="result-label">Las secuencias de bienvenida convierten leads fríos que no reservaron de inmediato</div></div>
+            <div class="result-item"><div class="result-metric">↑ Retención</div><div class="result-label">El seguimiento post-visita aumenta la tasa de retorno de los pacientes</div></div>
+            <div class="result-item"><div class="result-metric">0 Esfuerzo</div><div class="result-label">Todas las secuencias se ejecutan automáticamente una vez configuradas — sin trabajo manual continuo</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── REACTIVACIÓN DE LEADS ── -->
+      <div id="reactivation" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">🔁</div>
+          <div class="service-header-text">
+            <div class="service-tag">Automatización · Reactivación</div>
+            <h3>Reactivación de Leads</h3>
+            <p class="service-tagline">Reactiva leads antiguos y pacientes inactivos que ya conocen la clínica — la fuente más económica de nuevas citas.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Campañas automatizadas multicanal dirigidas a personas que consultaron anteriormente pero nunca reservaron, o a pacientes existentes que no han regresado en 3+ meses. Estos contactos ya conocen la clínica — reactivarlos cuesta mucho menos que captar nuevos leads.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">La mayoría de las clínicas tienen una base de datos llena de leads sin explotar y pacientes inactivos. Son contactos templados que mostraron interés en algún momento pero se perdieron. Sin un sistema de reactivación, ese valor permanece dormido. Las campañas de reactivación lo desbloquean.</p>
+            </div>
+            <div class="service-field full-width">
+              <span class="field-label">Qué incluye</span>
+              <ul class="field-list">
+                <li><strong>Reactivación de leads fríos —</strong> Secuencias de WhatsApp + email dirigidas a leads que consultaron pero nunca reservaron, enviadas tras un período definido de inactividad (p. ej., 30, 60 o 90 días).</li>
+                <li><strong>Recuperación de pacientes inactivos —</strong> Contacto automatizado con pacientes que no han regresado en 3–6 meses, con un motivo personalizado para volver a reservar.</li>
+                <li><strong>Disparadores basados en oferta —</strong> Los mensajes de reactivación incluyen un incentivo específico (descuento en consulta por tiempo limitado, oferta de revisión dental estacional) para aumentar las tasas de respuesta.</li>
+                <li><strong>Secuencias de múltiples pasos —</strong> 2–3 puntos de contacto con urgencia creciente para maximizar las conversiones antes de archivar el contacto.</li>
+                <li><strong>Segmentación en el CRM —</strong> Los contactos se filtran por tiempo desde el último contacto, tipo de tratamiento y fuente de consulta para una personalización relevante.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Segmentación de la base de datos.</strong> El CRM filtra todos los leads que no han avanzado más allá de una etapa determinada, y todos los pacientes inactivos más allá de una fecha establecida.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Lanzamiento de la secuencia.</strong> Primero se envía un mensaje de WhatsApp (mayor tasa de apertura). Si no hay respuesta tras 48h, se envía un email. Un mensaje final se envía después de otros 3 días.</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Gestión de respuestas.</strong> Los contactos que responden vuelven al pipeline activo y el equipo hace el seguimiento. Los que no responden se archivan al completar la secuencia.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Ciclo continuo.</strong> El segmento de reactivación se actualiza mensualmente — cualquier nuevo lead inactivo entra automáticamente en la próxima campaña programada.</div></div>
+            </div>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">CPL más bajo de todo el sistema</span>
+              <span class="benefit-chip">Sin gasto publicitario adicional</span>
+              <span class="benefit-chip">Totalmente automatizado</span>
+              <span class="benefit-chip">Monetiza la base de datos existente</span>
+              <span class="benefit-chip">Audiencia templada — convierte más rápido</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">5–15%</div><div class="result-label">Tasa de respuesta típica de las campañas de reactivación de leads fríos</div></div>
+            <div class="result-item"><div class="result-metric">↓ CAC</div><div class="result-label">El coste de adquisición de pacientes es una fracción del de los leads fríos por anuncios</div></div>
+            <div class="result-item"><div class="result-metric">Mensual</div><div class="result-label">Las campañas se ejecutan en piloto automático cada mes desde la base de contactos existente</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════ -->
+    <!-- CAPÍTULO 5: CONTENIDO              -->
+    <!-- ══════════════════════════════════ -->
+    <section id="ch5" class="chapter">
+      <div class="chapter-hero">
+        <div class="chapter-number">Capítulo 05</div>
+        <h2>Contenido</h2>
+        <p>Presencia en redes, gestión de reputación y sistemas de boca a boca que generan confianza y hacen crecer la audiencia de la clínica de forma orgánica.</p>
+        <div class="chapter-icon">✍️</div>
+      </div>
+
+      <!-- ── CONTENIDO PARA REDES SOCIALES ── -->
+      <div id="content" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">🎨</div>
+          <div class="service-header-text">
+            <div class="service-tag">Contenido · Redes Sociales</div>
+            <h3>Contenido para Redes Sociales</h3>
+            <p class="service-tagline">Construye la autoridad de la clínica y mantén a los pacientes comprometidos entre citas con contenido estratégico y consistente.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Un plan de contenido mensual estructurado y un sistema de producción para Instagram y Facebook. Planificamos, hacemos el brief y programamos contenido que posiciona a la clínica como la referencia dental de confianza en su zona — atrayendo nuevos pacientes de forma orgánica y fidelizando a los existentes.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">Las clínicas publican de forma inconsistente — o directamente no publican — porque no tienen tiempo o no saben qué publicar. Una presencia social inactiva reduce la credibilidad y pierde la oportunidad de mantenerse en la mente de la comunidad local. El contenido consistente y de calidad soluciona ambas cosas.</p>
+            </div>
+            <div class="service-field full-width">
+              <span class="field-label">Qué incluye</span>
+              <ul class="field-list">
+                <li><strong>Calendario de contenido mensual —</strong> Publicaciones planificadas previamente según los tratamientos dentales de la clínica, temas de salud bucodental estacionales y momentos promocionales.</li>
+                <li><strong>Pilares de contenido —</strong> Posts educativos (consejos de salud bucodental, mitos sobre odontología), prueba social (resultados de pacientes, reseñas), equipo y cultura (generando confianza) y promocionales (ofertas, nuevos tratamientos).</li>
+                <li><strong>Copy y brief creativo —</strong> Textos de captions e indicaciones creativas para cada publicación. La clínica aporta los visuales o le indicamos qué capturar.</li>
+                <li><strong>Estrategia de Reels y vídeo corto —</strong> Briefs de formato para contenido en vídeo de corta duración (tours de la clínica, explicaciones de tratamientos dentales, presentaciones del equipo) — el formato de mayor alcance en Instagram.</li>
+                <li><strong>Hashtags y segmentación local —</strong> Optimización a nivel de publicación para la visibilidad local.</li>
+                <li><strong>Programación y publicación —</strong> Las publicaciones se programan y publican en los momentos de mayor engagement usando la plataforma.</li>
+                <li><strong>Revisión de rendimiento mensual —</strong> Datos de alcance, engagement, crecimiento de seguidores y visitas al perfil analizados y usados para ajustar la estrategia de contenido.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Sesión de planificación mensual.</strong> Nos alineamos con la clínica sobre los próximos temas, promociones y cualquier evento a incluir en el calendario de contenido.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Producción de contenido.</strong> Redactamos todos los captions, producimos los briefs creativos y solicitamos las fotos o clips de vídeo al equipo de la clínica.</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Revisión y aprobación.</strong> La clínica revisa y aprueba el calendario antes de publicar — nada se publica sin el visto bueno.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Programación y publicación.</strong> El contenido se programa automáticamente a lo largo del mes en los momentos de mayor engagement.</div></div>
+              <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Revisión mensual.</strong> Compartimos los datos de rendimiento y refinamos la mezcla de contenido en base a lo que mejor ha resonado.</div></div>
+            </div>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">Presencia online consistente</span>
+              <span class="benefit-chip">Construye autoridad local</span>
+              <span class="benefit-chip">Aumenta el alcance orgánico</span>
+              <span class="benefit-chip">Apoya el creativo de anuncios de pago</span>
+              <span class="benefit-chip">Calienta audiencias para retargeting</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">12–16</div><div class="result-label">Publicaciones al mes en Instagram y Facebook</div></div>
+            <div class="result-item"><div class="result-metric">↑ Alcance</div><div class="result-label">La publicación consistente aumenta el alcance orgánico mes a mes</div></div>
+            <div class="result-item"><div class="result-metric">+Confianza</div><div class="result-label">El contenido educativo posiciona a la clínica como el experto local de referencia</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CAMPAÑAS DE RESEÑAS ── -->
+      <div id="reviews" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">⭐</div>
+          <div class="service-header-text">
+            <div class="service-tag">Contenido · Reputación</div>
+            <h3>Campañas de Reseñas</h3>
+            <p class="service-tagline">Haz crecer sistemáticamente las reseñas de Google de la clínica para generar confianza, mejorar el posicionamiento y ganar pacientes a la competencia.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Un sistema automatizado y continuo que solicita reseñas de Google a los pacientes en el momento óptimo tras la cita — vía WhatsApp. El sistema gestiona el timing, la lógica de reintento y el volumen para construir un flujo constante de reseñas auténticas sin intervención del personal.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">Los pacientes satisfechos rara vez dejan reseñas por iniciativa propia. Las clínicas con menos o peores reseñas pierden pacientes frente a competidores con mejor reputación en Google — aunque la calidad clínica sea superior. Las campañas automatizadas resuelven el problema de solicitar a escala que las clínicas no pueden hacer manualmente.</p>
+            </div>
+            <div class="service-field full-width">
+              <span class="field-label">Qué incluye</span>
+              <ul class="field-list">
+                <li><strong>Solicitud de reseña por WhatsApp post-cita —</strong> Enviada automáticamente en el momento adecuado (p. ej., unas horas después de la cita), con enlace directo al formulario de reseña de Google.</li>
+                <li><strong>Secuencia de reintento —</strong> Si no se deja ninguna reseña en 48h, se envía un mensaje de seguimiento amable. Un segundo seguimiento tras 72h si sigue sin haber acción.</li>
+                <li><strong>Automatización de respuestas a reseñas —</strong> Todas las nuevas reseñas de Google (positivas y negativas) reciben respuesta profesional usando plantillas de respuesta preaprobadas.</li>
+                <li><strong>Soporte multiplataforma —</strong> Las solicitudes pueden dirigirse a Google, Trustpilot, Doctoralia o cualquier otra plataforma relevante.</li>
+                <li><strong>Informe mensual de reseñas —</strong> Nuevas reseñas recibidas, valoración media, tasa de respuesta a reseñas e impacto en el posicionamiento incluidos en el informe mensual de analítica.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Cita completada.</strong> El CRM marca la cita como asistida, lo que activa la secuencia de solicitud de reseña.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Mensaje de WhatsApp enviado.</strong> El paciente recibe un mensaje cálido y personalizado agradeciéndole su visita e invitándole a compartir su experiencia en Google.</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Enlace directo proporcionado.</strong> El mensaje incluye un enlace de un solo toque a la página de reseñas de Google de la clínica — sin necesidad de buscar.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Reintento si no hay acción.</strong> Si no aparece ninguna reseña en 48h, se envía automáticamente un mensaje de seguimiento amable.</div></div>
+              <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Respuesta a la reseña.</strong> Todas las nuevas reseñas son reconocidas puntualmente, mostrando a los potenciales pacientes que la clínica es atenta y profesional.</div></div>
+            </div>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">Mayor posicionamiento en Google Maps</span>
+              <span class="benefit-chip">Mayor confianza de los pacientes</span>
+              <span class="benefit-chip">Diferenciación competitiva</span>
+              <span class="benefit-chip">Cero esfuerzo del personal</span>
+              <span class="benefit-chip">Sostenible y acumulativo</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">5–10×</div><div class="result-label">Más reseñas al mes frente a pedirlas manualmente o no pedirlas</div></div>
+            <div class="result-item"><div class="result-metric">↑ Posición</div><div class="result-label">El volumen y la recencia de las reseñas mejoran directamente la posición en el Local Pack</div></div>
+            <div class="result-item"><div class="result-metric">4,7+</div><div class="result-label">Valoración media objetivo para un posicionamiento local competitivo</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CAMPAÑAS DE REFERIDOS ── -->
+      <div id="referrals" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">🤝</div>
+          <div class="service-header-text">
+            <div class="service-tag">Contenido · Crecimiento</div>
+            <h3>Campañas de Referidos</h3>
+            <p class="service-tagline">Convierte a los pacientes satisfechos en el canal de marketing más efectivo — y más confiable — de la clínica.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Un programa estructurado que incentiva a los pacientes existentes a referir a amigos, familiares y colegas a la clínica. Los referidos convierten a la tasa más alta de cualquier canal de captación porque llegan con confianza incorporada — y no cuestan nada en gasto publicitario.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">La mayoría de las clínicas dependen de que los referidos ocurran de forma espontánea. Sin un programa sistemático, los pacientes satisfechos simplemente no piensan en referir a menos que se les invite. Una campaña de referidos estructurada lo facilita e incentiva el comportamiento — convirtiendo la buena voluntad en un canal de captación fiable.</p>
+            </div>
+            <div class="service-field full-width">
+              <span class="field-label">Qué incluye</span>
+              <ul class="field-list">
+                <li><strong>Diseño del programa de referidos —</strong> Definición de la estructura de incentivos: qué recibe el paciente que refiere (descuento, sesión gratuita, vale regalo) y qué recibe el nuevo paciente (descuento de bienvenida).</li>
+                <li><strong>Mensajes automatizados de solicitud de referidos —</strong> Mensajes de WhatsApp y email enviados a los pacientes activos en intervalos definidos, explicando el programa y proporcionando un mensaje de referido personalizado que pueden compartir.</li>
+                <li><strong>Enlaces o códigos de referido compartibles —</strong> Formato fácil de compartir para que los pacientes puedan enviarlo a sus contactos por WhatsApp o apps de mensajería con el mínimo esfuerzo.</li>
+                <li><strong>Seguimiento de referidos —</strong> Todos los leads referidos se etiquetan en el CRM para identificar al paciente que hizo la referencia y recompensarle cuando el referido convierte.</li>
+                <li><strong>Impulsos de campaña periódicos —</strong> Impulsos de referidos estacionales (año nuevo, vuelta al cole, verano) con mensajes específicos para reactivar el programa con toda la base de pacientes.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Configuración del programa.</strong> Definimos la estructura de recompensas y creamos los mensajes, plantillas e infraestructura de seguimiento de referidos.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Invitación de referido enviada.</strong> Un mensaje de WhatsApp llega a los pacientes activos invitándoles a unirse al programa y compartir su enlace o código de referido único.</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>El paciente refiere a un contacto.</strong> Comparte el enlace por WhatsApp o redes sociales — el nuevo lead llega pre-etiquetado con la fuente de referido.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>El lead referido entra en el CRM.</strong> La consulta del nuevo paciente se procesa normalmente a través del pipeline, con el seguimiento de la atribución del referido.</div></div>
+              <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Recompensa entregada.</strong> Cuando el paciente referido reserva y asiste, el paciente que hizo la referencia es notificado automáticamente y su recompensa se aplica.</div></div>
+            </div>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">Mayor tasa de conversión de cualquier canal</span>
+              <span class="benefit-chip">Cero gasto en anuncios</span>
+              <span class="benefit-chip">Confianza preestablecida</span>
+              <span class="benefit-chip">Premia la fidelidad del paciente</span>
+              <span class="benefit-chip">Escalable con la base de pacientes</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">↑ Conv.</div><div class="result-label">Los pacientes referidos convierten a citas a una tasa significativamente mayor que los leads fríos</div></div>
+            <div class="result-item"><div class="result-metric">↓ CAC</div><div class="result-label">El coste de adquisición de pacientes referidos es prácticamente cero</div></div>
+            <div class="result-item"><div class="result-metric">+LTV</div><div class="result-label">Los pacientes referidos tienen mayor valor de vida útil — llegan confiando de antemano en la clínica</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ══════════════════════════════════ -->
+    <!-- CAPÍTULO 6: ANALÍTICA              -->
+    <!-- ══════════════════════════════════ -->
+    <section id="ch6" class="chapter">
+      <div class="chapter-hero">
+        <div class="chapter-number">Capítulo 06</div>
+        <h2>Analítica</h2>
+        <p>Visibilidad completa de cada métrica que importa — desde la primera impresión del anuncio hasta la reserva final — para que cada decisión esté basada en datos.</p>
+        <div class="chapter-icon">📊</div>
+      </div>
+
+      <!-- ── SEGUIMIENTO E INFORMES ── -->
+      <div id="tracking" class="service-card">
+        <div class="service-header">
+          <div class="service-icon-wrap">📈</div>
+          <div class="service-header-text">
+            <div class="service-tag">Analítica · Rendimiento</div>
+            <h3>Seguimiento e Informes</h3>
+            <p class="service-tagline">Sabe exactamente qué acciones generan pacientes, cuánto cuestan y dónde invertir a continuación.</p>
+          </div>
+        </div>
+        <div class="service-body">
+          <div class="service-grid">
+            <div class="service-field">
+              <span class="field-label">Qué es</span>
+              <p class="field-content">Un sistema unificado de seguimiento e informes que conecta cada parte del stack de Navigy — anuncios, landing pages, CRM, automatización y canales orgánicos — en informes mensuales claros y accionables. No solo mostramos números; mostramos qué significan y qué hacer con ellos.</p>
+            </div>
+            <div class="service-field">
+              <span class="field-label">Problema que resuelve</span>
+              <p class="field-content">La mayoría de las clínicas no tienen ni idea de qué actividad de marketing genera pacientes, cuánto cuesta adquirir un paciente o qué canal ofrece el mejor ROI. Sin datos, el gasto es una apuesta y la mejora es imposible. El seguimiento cierra esa brecha y hace que todo el sistema sea responsable.</p>
+            </div>
+            <div class="service-field full-width">
+              <span class="field-label">Qué incluye</span>
+              <ul class="field-list">
+                <li><strong>Seguimiento de embudo completo —</strong> El recorrido de cada lead se rastrea desde el anuncio o la fuente orgánica, a través de la landing page, hasta el CRM y la cita reservada y asistida.</li>
+                <li><strong>Configuración de Google Analytics 4 —</strong> Eventos de conversión configurados para todas las acciones clave: envíos de formularios, llamadas, reservas completadas, interacciones en páginas.</li>
+                <li><strong>Seguimiento de conversiones de Google Ads —</strong> Cada lead y reserva se atribuye a la campaña, grupo de anuncios y palabra clave específicos que lo generaron.</li>
+                <li><strong>Meta Pixel + Conversion API —</strong> Seguimiento preciso de eventos en el ecosistema de Meta, incluso con las restricciones de cookies del navegador.</li>
+                <li><strong>Informes del pipeline del CRM —</strong> Volumen de leads, tasas de conversión etapa por etapa, tiempo medio de cierre y atribución de fuente desde el pipeline.</li>
+                <li><strong>Cálculo de CAC y ROI —</strong> Coste por lead y coste por paciente adquirido calculados por canal y por campaña.</li>
+                <li><strong>Informe mensual de rendimiento —</strong> Un informe claro y conciso entregado cada mes que cubre: leads generados, citas reservadas, rendimiento por canal, anuncios de mayor rendimiento y acciones recomendadas para el mes siguiente.</li>
+                <li><strong>Llamadas de revisión estratégica —</strong> Llamada mensual para revisar el informe, responder preguntas y alinear las prioridades del siguiente período.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="how-it-works">
+            <p class="how-it-works-label">Cómo funciona</p>
+            <div class="steps">
+              <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Infraestructura de seguimiento instalada.</strong> GA4, Google Ads, Meta Pixel y las etiquetas de fuente del CRM se configuran durante el onboarding. Cada fuente de lead queda etiquetada desde el primer día.</div></div>
+              <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Dashboard del CRM en tiempo real.</strong> La clínica tiene acceso en tiempo real al pipeline — leads, etapas y tasas de conversión visibles en todo momento a través de la plataforma Navigy.</div></div>
+              <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Extracción mensual de datos.</strong> A fin de mes consolidamos los datos de todas las plataformas — anuncios, sitio web, CRM, WhatsApp y email — en un único resumen claro.</div></div>
+              <div class="step"><div class="step-num">4</div><div class="step-text"><strong>Análisis e insights.</strong> Interpretamos los datos, identificando qué funcionó, qué no, y la única acción de mayor impacto a tomar en los próximos 30 días.</div></div>
+              <div class="step"><div class="step-num">5</div><div class="step-text"><strong>Entrega del informe y llamada de revisión.</strong> Se entrega el informe escrito, seguido de una llamada estratégica para comentar los hallazgos y confirmar las prioridades del mes siguiente.</div></div>
+            </div>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Métricas clave seguidas</span>
+            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-top:12px;">
+              <div style="background:var(--color-surface); border-radius:var(--radius-ui); padding:12px; font-size:13px; color:var(--color-slate);">
+                <div style="font-weight:700; color:var(--color-ink); margin-bottom:4px;">Captación</div>
+                Leads generados<br>CPL por canal<br>CAC global<br>ROAS (anuncios)
+              </div>
+              <div style="background:var(--color-surface); border-radius:var(--radius-ui); padding:12px; font-size:13px; color:var(--color-slate);">
+                <div style="font-weight:700; color:var(--color-ink); margin-bottom:4px;">Conversión</div>
+                Tasa lead → cita<br>Tasa de asistencia<br>Tasa de conversión de reserva<br>Puntos de abandono del embudo
+              </div>
+              <div style="background:var(--color-surface); border-radius:var(--radius-ui); padding:12px; font-size:13px; color:var(--color-slate);">
+                <div style="font-weight:700; color:var(--color-ink); margin-bottom:4px;">Retención</div>
+                Tasa de retorno de pacientes<br>Volumen y valoración de reseñas<br>Tasa de referidos<br>Tasa de apertura y clics de email
+              </div>
+            </div>
+          </div>
+
+          <div class="service-field" style="margin-top:24px;">
+            <span class="field-label">Beneficios</span>
+            <div class="benefits-strip">
+              <span class="benefit-chip">Responsabilidad total del sistema</span>
+              <span class="benefit-chip">Elimina las suposiciones</span>
+              <span class="benefit-chip">Optimiza la asignación del presupuesto</span>
+              <span class="benefit-chip">Identifica cuellos de botella en la conversión</span>
+              <span class="benefit-chip">Demuestra el ROI con claridad</span>
+              <span class="benefit-chip">Accionable cada mes</span>
+            </div>
+          </div>
+
+          <div class="results-row">
+            <div class="result-item"><div class="result-metric">1 Informe</div><div class="result-label">Un informe mensual claro que cubre cada canal y métrica que importa</div></div>
+            <div class="result-item"><div class="result-metric">Visión Total</div><div class="result-label">Visibilidad del embudo de principio a fin: desde el primer clic hasta el paciente en consulta</div></div>
+            <div class="result-item"><div class="result-metric">↑ ROI</div><div class="result-label">Las decisiones basadas en datos mejoran continuamente el retorno de cada euro invertido</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- CLOSING -->
+    <section style="padding-bottom: 48px;">
+      <div style="background: linear-gradient(135deg, var(--color-ink) 0%, var(--color-slate) 100%); border-radius: var(--radius-xl); padding: 48px; color: white; text-align: center;">
+        <div style="font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 16px;">Fin del Documento</div>
+        <div style="font-family: var(--font-display); font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px;">El Sistema Navigy</div>
+        <p style="font-size: 15px; color: rgba(255,255,255,0.6); max-width: 480px; margin: 0 auto 32px; line-height: 1.6;">14 servicios. Una misión. Un flujo predecible y escalable de nuevos pacientes para cada clínica con la que trabajamos.</p>
+        <div style="display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; padding: 10px 20px; font-size: 13px; color: rgba(255,255,255,0.5);">
+          Documento interno — Navigy · v1.0 · 2026
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+</body>
+</html>

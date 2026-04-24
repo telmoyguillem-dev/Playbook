@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigy — Presentación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --blue:        #1769C2;
+      --blue-light:  #4A8FD9;
+      --blue-deep:   #0F4F96;
+      --blue-subtle: #E8F1FB;
+      --ink:         #0D0F14;
+      --slate:       #3D4555;
+      --muted:       #7C869A;
+      --line:        #E2E6EF;
+      --surface:     #F5F6F9;
+      --white:       #FFFFFF;
+      --green:       #1DAA72;
+      --yellow:      #F59E0B;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%; height: 100%;
+      font-family: 'Inter', sans-serif;
+      background: #0D0F14;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Slideshow shell ── */
+    .deck {
+      width: 100vw; height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 80px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.45s cubic-bezier(0.16,1,0.3,1),
+                  transform 0.45s cubic-bezier(0.16,1,0.3,1);
+      transform: translateY(24px);
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateY(0);
+    }
+
+    .slide.exit {
+      opacity: 0;
+      transform: translateY(-24px);
+    }
+
+    /* ── Background variants ── */
+    .bg-dark  { background: #0D0F14; color: var(--white); }
+    .bg-white { background: var(--white); color: var(--ink); }
+    .bg-surface { background: var(--surface); color: var(--ink); }
+    .bg-brand { background: linear-gradient(135deg, #0F4F96 0%, #1769C2 55%, #2C7FD8 100%); color: var(--white); }
+
+    /* ── Navigation ── */
+    .nav-controls {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      z-index: 100;
+    }
+
+    .nav-btn {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.2);
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s ease;
+      font-size: 18px;
+    }
+    .nav-btn:hover { background: rgba(255,255,255,0.18); color: white; border-color: rgba(255,255,255,0.4); }
+    .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .slide-counter {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.04em;
+      min-width: 60px;
+      text-align: center;
+    }
+
+    .progress-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: rgba(255,255,255,0.08);
+      z-index: 100;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--blue), var(--blue-light));
+      transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* ── Logo in corner ── */
+    .slide-logo {
+      position: fixed;
+      top: 28px;
+      left: 48px;
+      height: 22px;
+      z-index: 100;
+      opacity: 0.7;
+    }
+
+    /* ── Typography ── */
+    .eyebrow {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-bottom: 14px;
+    }
+    .eyebrow.on-dark { color: rgba(255,255,255,0.5); }
+
+    h1.slide-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(36px, 5.5vw, 68px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+    }
+
+    h2.slide-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(28px, 4vw, 52px);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    h3.slide-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(22px, 3vw, 38px);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+    }
+
+    .slide-sub {
+      font-size: clamp(14px, 1.5vw, 18px);
+      color: var(--muted);
+      line-height: 1.65;
+      max-width: 520px;
+      margin-top: 16px;
+    }
+    .slide-sub.on-dark { color: rgba(255,255,255,0.55); }
+
+    .highlight { color: var(--blue-light); }
+    .highlight-white { color: #fff; }
+    .highlight-green { color: var(--green); }
+
+    /* ── Pill tag ── */
+    .pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--blue-subtle);
+      color: var(--blue-deep);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+    }
+    .pill.on-dark {
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.75);
+    }
+    .pill.green {
+      background: rgba(29,170,114,0.12);
+      color: var(--green);
+    }
+
+    /* ── Content grid ── */
+    .content-grid {
+      display: grid;
+      width: 100%;
+      max-width: 1200px;
+      gap: 32px;
+    }
+    .g2 { grid-template-columns: 1fr 1fr; }
+    .g3 { grid-template-columns: 1fr 1fr 1fr; }
+    .g-60-40 { grid-template-columns: 60fr 40fr; }
+    .g-40-60 { grid-template-columns: 40fr 60fr; }
+
+    /* ── Cards ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 28px 24px;
+      box-shadow: 0 2px 12px rgba(13,15,20,0.06);
+    }
+    .card-dark {
+      background: #151820;
+      border: 1px solid #1E2333;
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+    .card-dark-border {
+      background: #151820;
+      border: 1px solid var(--blue);
+      border-radius: 16px;
+      padding: 28px 24px;
+    }
+    .card-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      margin-bottom: 14px;
+    }
+    .icon-blue { background: var(--blue-subtle); }
+    .icon-green { background: rgba(29,170,114,0.12); }
+    .icon-yellow { background: rgba(245,158,11,0.12); }
+    .card-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .card-label.dark { color: var(--ink); }
+    .card-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── Stat blocks ── */
+    .stat-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(36px, 5vw, 60px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    /* ── Flow diagram ── */
+    .flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      width: 100%;
+      max-width: 1100px;
+    }
+    .flow-step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+    }
+    .flow-circle {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .flow-arrow {
+      font-size: 20px;
+      color: rgba(255,255,255,0.25);
+      flex-shrink: 0;
+      padding: 0 4px;
+    }
+    .flow-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .flow-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ── Pipeline ── */
+    .pipeline {
+      display: flex;
+      width: 100%;
+      max-width: 1100px;
+      gap: 0;
+    }
+    .pipe-col {
+      flex: 1;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .pipe-head {
+      padding: 12px 16px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .pipe-body {
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 200px;
+    }
+    .pipe-card {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.4;
+    }
+    .pipe-card strong {
+      display: block;
+      color: white;
+      font-size: 13px;
+      margin-bottom: 2px;
+    }
+    .pipe-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    /* ── System overview ── */
+    .system-hub {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      width: 100%;
+      max-width: 1100px;
+    }
+    .system-center {
+      background: linear-gradient(135deg, #1769C2, #0F4F96);
+      border-radius: 20px;
+      padding: 20px 36px;
+      text-align: center;
+      box-shadow: 0 0 60px rgba(23,105,194,0.4);
+    }
+    .system-center-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 18px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.02em;
+    }
+    .system-center-sub {
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 4px;
+    }
+    .system-spokes {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .system-spoke {
+      background: #151820;
+      border: 1px solid #1E2333;
+      border-radius: 14px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      min-width: 140px;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .system-spoke:hover { border-color: var(--blue); }
+    .system-spoke-icon { font-size: 26px; }
+    .system-spoke-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+    }
+    .system-spoke-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ── WhatsApp flow ── */
+    .wa-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+      max-width: 700px;
+    }
+    .wa-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .wa-step-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .wa-bubble {
+      background: #151820;
+      border: 1px solid #1E2333;
+      border-radius: 12px;
+      border-top-left-radius: 4px;
+      padding: 12px 16px;
+      flex: 1;
+    }
+    .wa-bubble-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .wa-bubble-text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.5;
+    }
+
+    /* ── Ads grid ── */
+    .ads-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .ads-platform {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 18px;
+      background: #151820;
+      border: 1px solid #1E2333;
+      border-radius: 12px;
+    }
+    .ads-platform-icon {
+      font-size: 26px;
+      flex-shrink: 0;
+    }
+    .ads-platform-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: white;
+    }
+    .ads-platform-desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 2px;
+    }
+
+    /* ── Organic content grid ── */
+    .content-tiles {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      width: 100%;
+      max-width: 1100px;
+    }
+    .content-tile {
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 9/16;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 14px;
+      position: relative;
+    }
+    .content-tile-inner {
+      position: relative;
+      z-index: 2;
+    }
+    .content-tile-tag {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 4px;
+    }
+    .content-tile-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: white;
+      line-height: 1.3;
+    }
+
+    /* ── Problem bullets ── */
+    .problem-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      max-width: 580px;
+    }
+    .problem-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 18px 20px;
+      background: rgba(224,59,59,0.06);
+      border: 1px solid rgba(224,59,59,0.15);
+      border-radius: 12px;
+    }
+    .problem-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .problem-text {
+      font-size: 15px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.5;
+    }
+    .problem-text span {
+      color: rgba(255,255,255,0.45);
+      font-size: 13px;
+      display: block;
+      margin-top: 3px;
+    }
+
+    /* ── Search diagram ── */
+    .search-path {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      width: 100%;
+      max-width: 640px;
+    }
+    .search-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .search-platform {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 0 0 180px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+    }
+    .search-bar-wrap {
+      flex: 1;
+      background: rgba(255,255,255,0.04);
+      border-radius: 8px;
+      overflow: hidden;
+      height: 10px;
+    }
+    .search-bar-fill {
+      height: 100%;
+      border-radius: 8px;
+    }
+    .search-pct {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      min-width: 40px;
+      text-align: right;
+    }
+
+    /* ── Divider line ── */
+    .divider {
+      width: 48px;
+      height: 3px;
+      background: var(--blue);
+      border-radius: 100px;
+      margin: 14px 0;
+    }
+
+    /* ── Website mockup ── */
+    .mockup-browser {
+      background: #151820;
+      border: 1px solid #1E2333;
+      border-radius: 14px;
+      overflow: hidden;
+      width: 100%;
+      max-width: 580px;
+    }
+    .mockup-bar {
+      background: #0D0F14;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid #1E2333;
+    }
+    .mockup-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .mockup-url {
+      flex: 1;
+      background: #151820;
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+      margin-left: 6px;
+    }
+    .mockup-body {
+      padding: 20px;
+    }
+    .mockup-hero-strip {
+      background: linear-gradient(135deg, #0F4F96, #1769C2);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 14px;
+    }
+    .mockup-hero-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 6px;
+    }
+    .mockup-hero-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 12px;
+    }
+    .mockup-cta {
+      display: inline-block;
+      background: white;
+      color: var(--blue-deep);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 6px;
+    }
+    .mockup-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+    }
+    .mockup-card-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid #1E2333;
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      font-size: 10px;
+      color: rgba(255,255,255,0.5);
+    }
+    .mockup-card-item .icon { font-size: 18px; margin-bottom: 4px; }
+
+    /* ── Slide-specific layouts ── */
+    .slide-col { display: flex; flex-direction: column; justify-content: center; }
+    .slide-content-row {
+      display: flex;
+      gap: 64px;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .slide-content-row > * { flex: 1; }
+
+    /* ── Cover specific ── */
+    .cover-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .cover-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .cover-metric-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .cover-metric-icon {
+      font-size: 28px;
+    }
+    .cover-metric-num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.03em;
+    }
+    .cover-metric-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ── Keyframes ── */
+    @keyframes pulse-ring {
+      0%   { transform: scale(1); opacity: 0.4; }
+      100% { transform: scale(1.8); opacity: 0; }
+    }
+    .pulse-dot {
+      position: relative;
+      display: inline-block;
+    }
+    .pulse-dot::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse-ring 1.8s ease-out infinite;
+    }
+
+    /* ── Keyboard hint ── */
+    .key-hint {
+      position: fixed;
+      bottom: 80px;
+      right: 32px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.2);
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .key {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 5px;
+      padding: 2px 7px;
+      font-family: monospace;
+      font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="progress-bar">
+  <div class="progress-fill" id="progressFill"></div>
+</div>
+
+<img class="slide-logo" src="negro sin fondo 2.png" alt="Navigy" style="filter:invert(1) opacity(0.6)" />
+
+<div class="deck" id="deck">
+
+  <!-- ══════════════════════════════════
+       SLIDE 1 — COVER
+  ══════════════════════════════════ -->
+  <div class="slide bg-dark active" id="slide-0">
+    <div class="cover-grid">
+      <div>
+        <div class="pill on-dark" style="margin-bottom:20px;">Sistema de Adquisición de Pacientes</div>
+        <h1 class="slide-title" style="color:white; margin-bottom:20px;">
+          Más pacientes.<br>
+          <span style="color:var(--blue-light);">Sin depender<br>del boca a boca.</span>
+        </h1>
+        <p class="slide-sub on-dark" style="max-width:460px;">
+          Navigy es el sistema completo que conecta tu clínica dental con pacientes listos para agendar — desde el primer clic hasta la cita confirmada.
+        </p>
+        <div style="display:flex; gap:10px; margin-top:28px; flex-wrap:wrap;">
+          <div class="pill on-dark">🌐 Website que convierte</div>
+          <div class="pill on-dark">📊 CRM pipeline</div>
+          <div class="pill on-dark">💬 WhatsApp automation</div>
+          <div class="pill on-dark">📱 Contenido orgánico</div>
+        </div>
+      </div>
+      <div class="cover-right">
+        <div class="cover-metric-card">
+          <div class="cover-metric-icon">📅</div>
+          <div>
+            <div class="cover-metric-num">+40%</div>
+            <div class="cover-metric-label">citas nuevas al mes promedio</div>
+          </div>
+        </div>
+        <div class="cover-metric-card">
+          <div class="cover-metric-icon">💬</div>
+          <div>
+            <div class="cover-metric-num">&lt;2 min</div>
+            <div class="cover-metric-label">tiempo de respuesta automático</div>
+          </div>
+        </div>
+        <div class="cover-metric-card">
+          <div class="cover-metric-icon">📍</div>
+          <div>
+            <div class="cover-metric-num">Top 3</div>
+            <div class="cover-metric-label">posicionamiento local en Google</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SLIDE 2 — EL PROBLEMA
+  ══════════════════════════════════ -->
+  <div class="slide bg-dark" id="slide-1">
+    <div class="slide-content-row">
+      <div>
+        <div class="eyebrow on-dark">El problema</div>
+        <h2 class="slide-title" style="color:white; max-width:400px; margin-bottom:16px;">
+          Las clínicas dependen<br>
+          <span style="color:#E03B3B;">de la suerte</span><br>
+          para conseguir pacientes
+        </h2>
+        <p class="slide-sub on-dark">
+          Sin un sistema claro, los pacientes nuevos llegan por casualidad — o no llegan.
+        </p>
+      </div>
+      <div class="problem-list">
+        <div class="problem-item">
+          <div class="problem-icon">🔇</div>
+          <div class="problem-text">
+            Sin presencia digital estructurada
+            <span>El consultorio no aparece cuando el paciente busca en Google o Maps</span>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">⏳</div>
+          <div class="problem-text">
+            Leads que se pierden por respuesta lenta
+            <span>Si no respondes en menos de 5 min, el paciente ya llama a la competencia</span>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">🔁</div>
+          <div class="problem-text">
+            No hay sistema de seguimiento
+            <span>Los prospectos no agendan y nadie los vuelve a contactar</span>
+          </div>
+        </div>
+        <div class="problem-item">
+          <div class="problem-icon">📉</div>
+          <div class="problem-text">
+            Dependencia total del boca a boca
+            <span>Cuando para, los ingresos también paran</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SLIDE 3 — CÓMO BUSCAN HOY
+  ══════════════════════════════════ -->
+  <div class="slide bg-dark" id="slide-2">
+    <div style="width:100%; max-width:1100px;">
+      <div class="eyebrow on-dark" style="text-align:center; margin-bottom:8px;">Comportamiento del paciente</div>
+      <h2 class="slide-title" style="color:white; text-align:center; margin-bottom:8px;">
+        Así buscan dentista hoy
+      </h2>
+      <p class="slide-sub on-dark" style="text-align:center; margin:0 auto 40px;">
+        El viaje del paciente moderno empieza en el teléfono — no en el boca a boca.
+      </p>
+
+      <!-- Journey flow -->
+      <div class="flow" style="margin-bottom:40px;">
+        <div class="flow-step">
+          <div class="flow-circle" style="background:rgba(23,105,194,0.15); border:1px solid rgba(23,105,194,0.3);">🦷</div>
+          <div class="flow-label">Siente dolor<br>o necesidad</div>
+          <div class="flow-sub">El momento cero</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-circle" style="background:rgba(66,133,244,0.15); border:1px solid rgba(66,133,244,0.3);">🔍</div>
+          <div class="flow-label">Busca en Google<br>o Instagram</div>
+          <div class="flow-sub">"dentista cerca de mí"</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-circle" style="background:rgba(52,168,83,0.15); border:1px solid rgba(52,168,83,0.3);">⭐</div>
+          <div class="flow-label">Compara reseñas<br>y fotos</div>
+          <div class="flow-sub">Primeras 3 opciones</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-circle" style="background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3);">📱</div>
+          <div class="flow-label">Visita el<br>perfil o web</div>
+          <div class="flow-sub">Decide en segundos</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-circle" style="background:rgba(29,170,114,0.15); border:1px solid rgba(29,170,114,0.3);">💬</div>
+          <div class="flow-label">Manda mensaje<br>o llama</div>
+          <div class="flow-sub">Primer contacto</div>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-step">
+          <div class="flow-circle" style="background:rgba(23,105,194,0.25); border:1px solid var(--blue);">✅</div>
+          <div class="flow-label">Agenda<br>la cita</div>
+          <div class="flow-sub"><strong style="color:var(--blue-light);">El objetivo</strong></div>
+        </div>
+      </div>
+
+      <!-- Platform bars -->
+      <div class="search-path" style="max-width:100%; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+        <div>
+          <div style="font-size:12px; font-weight:600; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:10px;">¿Dónde buscan?</div>
+          <div class="search-row" style="margin-bottom:8px;">
+            <div class="search-platform"><span style="font-size:18px;">🔍</span> Google Search</div>
+            <div class="search-bar-wrap"><div class="search-bar-fill" style="width:82%; background:linear-gradient(90deg,#4285f4,#34a853);"></div></div>
+            <div class="search-pct" style="color:#4285f4;">82%</div>
+          </div>
+          <div class="search-row" style="margin-bottom:8px;">
+            <div class="search-platform"><span style="font-size:18px;">🗺️</span> Google Maps</div>
+            <div class="search-bar-wrap"><div class="search-bar-fill" style="width:68%; background:#34a853;"></div></div>
+            <div class="search-pct" style="color:#34a853;">68%</div>
+          </div>
+          <div class="search-row" style="margin-bottom:8px;">
+            <div class="search-platform"><span style="font-size:18px;">📸</span> Instagram</div>
+            <div class="search-bar-wrap"><div class="search-bar-fill" style="width:44%; background:linear-gradient(90deg,#e1306c,#833ab4);"></div></div>
+            <div class="search-pct" style="color:#e1306c;">44%</div>
+          </div>
+          <div class="search-row">
+            <div class="search-platform"><span style="font-size:18px;">📘</span> Facebook</div>
+            <div class="search-bar-wrap"><div class="search-bar-fill" style="width:29%; background:#1877f2;"></div></div>
+            <div class="search-pct" style="color:#1877f2;">29%</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px;">
+          <div style="font-size:12px; font-weight:600; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:0.08em; margin-bottom:0px;">Dato clave</div>
+          <div style="background:rgba(23,105,194,0.1); border:1px solid rgba(23,105,194,0.2); border-radius:12px; padding:18px 20px;">
+            <div class="stat-num" style="color:var(--blue-light);">76%</div>
+            <div class="stat-label">de pacientes visita la clínica<br>que aparece en el <strong style="color:white;">Top 3 de Maps</strong></div>
+          </div>
+          <div style="background:rgba(29,170,114,0.1); border:1px solid rgba(29,170,114,0.2); border-radius:12px; padding:18px 20px;">
+            <div class="stat-num" style="color:var(--green);">5 min</div>
+            <div class="stat-label">ventana para responder antes de que<br>el paciente <strong style="color:white;">elija a otro</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SLIDE 4 — EL SISTEMA NAVIGY
+  ══════════════════════════════════ -->
+  <div class="slide bg-dark" id="slide-3">
+    <div style="width:100%; max-width:1100px; text-align:center;">
+      <div class="eyebrow on-dark" style="margin-bottom:8px;">Solución</div>
+      <h2 class="slide-title" style="color:white; margin-bottom:8px;">
+        El Sistema <span style="color:var(--blue-light);">Navigy</span>
+      </h2>
+      <p class="slide-sub on-dark" style="margin:0 auto 40px;">
+        Cuatro pilares que trabajan juntos para atraer, convertir y retener pacientes — en piloto automático.
+      </p>
+
+      <div style="display:flex; justify-content:center; margin-bottom:24px;">
+        <div class="system-center">
+          <div style="font-size:28px; margin-bottom:6px;">🧭</div>
+          <div class="system-center-label">Navigy Core</div>
+          <div class="system-center-sub">El cerebro de tu clínica</div>
+        </div>
+      </div>
+
+      <!-- Arrow down -->
+      <div style="font-size:20px; color:rgba(255,255,255,0.2); margin-bottom:20px;">↓</div>
+
+      <div class="system-spokes">
+        <div class="system-spoke">
+          <div class="system-spoke-icon">🌐</div>
+          <div class="system-spoke-label">Website</div>
+          <div class="system-spoke-sub">Convierte visitas<br>en prospectos</div>
+        </div>
+        <div class="system-spoke" style="border-color:rgba(23,105,194,0.4);">
+          <div class="system-spoke-icon">📊</div>
+          <div class="system-spoke-label">CRM Pipeline</div>
+          <div class="system-spoke-sub">Gestión visual<br>de leads</div>
+        </div>
+        <div class="system-spoke">
+          <div class="system-spoke-icon">💬</div>
+          <div class="system-spoke-label">WhatsApp Auto</div>
+          <div class="system-spoke-sub">Respuesta<br>instantánea</div>
+        </div>
+        <div class="system-spoke">
+          <div class="system-spoke-icon">📱</div>
+          <div class="system-spoke-label">Contenido</div>
+          <div class="system-spoke-sub">Presencia<br>orgánica</div>
+        </div>
+        <div class="system-spoke" style="border-color:rgba(29,170,114,0.3);">
+          <div class="system-spoke-icon">📈</div>
+          <div class="system-spoke-label">Ads</div>
+          <div class="system-spoke-sub">Google + Meta<br>(fase de escala)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SLIDE 5 — WEBSITE
+  ══════════════════════════════════ -->
+  <div class="slide bg-dark" id="slide-4">
+    <div class="slide-content-row">
+      <div>
+        <div class="eyebrow on-dark">Pilar 1</div>
+        <h2 class="slide-title" style="color:white; margin-bottom:16px;">
+          Tu website:<br>
+          <span style="color:var(--blue-light);">la máquina<br>de conversión</span>
+        </h2>
+        <p class="slide-sub on-dark">
+          No es un sitio de brochure. Es una herramienta diseñada para convertir visitantes en prospectos calificados 24/7.
+        </p>
+        <div style="margin-top:28px; display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
+            <span style="font-size:14px; color:rgba(255,255,255,0.75);">Optimizado para <strong style="color:white;">Google Maps y SEO local</strong></span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
+            <span style="font-size:14px; color:rgba(255,255,255,0.75);">Formulario + botón WhatsApp directo</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
+            <span style="font-size:14px; color:rgba(255,255,255,0.75);">Secciones de tratamientos, reseñas y equipo</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
+            <span style="font-size:14px; color:rgba(255,255,255,0.75);">Landing pages para campañas de ads</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;"></div>
+            <span style="font-size:14px; color:rgba(255,255,255,0.75);">Mobile-first — 80% de tráfico es móvil</span>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:16px; align-items:center;">
+        <div class="mockup-browser">
+          <div class="mockup-bar">
+            <div class="mockup-dot" style="background:#E03B3B;"></div>
+            <div class="mockup-dot" style="background:#F59E0B;"></div>
+            <div class="mockup-dot" style="background:#1DAA72;"></div>
+            <div class="mockup-url">clinicadental.com</div>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-hero-strip">
+              <div class="mockup-hero-title">Tu sonrisa, en las mejores manos</div>
+              <div class="mockup-hero-sub">Ortodoncia · Implantes · Blanqueamiento · Emergencias</div>
+              <div style="display:flex; gap:8px;">
+                <div class="mockup-cta">📅 Agendar cita</div>
+                <div class="mockup-cta" style="background:rgba(255,255,255,0.15); color:white;">💬 WhatsApp</div>
+              </div>
+            </div>
+            <div class="mockup-cards">
+              <div class="mockup-card-item"><div class="icon">🦷</div>Ortodoncia</div>
+              <div class="mockup-card-item"><div class="icon">✨</div>Blanqueamiento</div>
+              <div class="mockup-card-item"><div class="icon">🔬</div>Implantes</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <div style="background:rgba(29,170,114,0.1); border:1px solid rgba(29,170,114,0.2); border-radius:10px; padding:12px 18px; text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:22px; font-weight:800; color:var(--green);">3s</div>
+            <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-top:2px;">carga máxima</div>
+          </div>
+          <div style="background:rgba(23,105,194,0.1); border:1px solid rgba(23,105,194,0.2); border-radius:10px; padding:12px 18px; text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:22px; font-weight:800; color:var(--blue-light);">100</div>
+            <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-top:2px;">PageSpeed</div>
+          </div>
+          <div style="background:rgba(245,158,11,0.1); border:1px solid rgba(245,158,11,0.2); border-radius:10px; padding:12px 18px; text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:22px; font-weight:800; color:var(--yellow);">Top 3</div>
+            <div style="font-size:11px; color:rgba(255,255,255,0.4); margin-top:2px;">Maps objetivo</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SLIDE 6 — CRM PIPELINE
+  ══════════════════════════════════ -->
+  <div class="slide bg-dark" id="slide-5">
+    <div style="width:100%; max-width:1150px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:32px;">
+        <div>
+          <div class="eyebrow on-dark">Pilar 2</div>
+          <h2 class="slide-title" style="color:white;">CRM Pipeline</h2>
+          <p class="slide-sub on-dark" style="margin-top:8px;">Cada prospecto tiene su lugar. Nada se cae entre las grietas.</p>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <div style="text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:26px; font-weight:800; color:var(--blue-light);">100%</div>
+            <div style="font-size:11px; color:rgba(255,255,255,0.4);">leads rastreados</div>
+          </div>
+          <div style="width:1px; background:rgba(255,255,255,0.1);"></div>
+          <div style="text-align:center;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:26px; font-weight:800; color:var(--green);">↑ 35%</div>
+            <div style="font-size:11px; color:rgba(255,255,255,0.4);">tasa de cierre</div>
+          </div>
+        </div>
+      </div>
+      <div class="pipeline">
+        <!-- Lead nuevo -->
+        <div class="pipe-col" style="background:rgba(23,105,194,0.06); border:1px solid rgba(23,105,194,0.15); border-right:none; border-radius:12px 0 0 12px;">
+          <div class="pipe-head" style="background:rgba(23,105,194,0.15); color:var(--blue-light);">
+            <span style="margin-right:6px;">📥</span> Lead Nuevo
+          </div>
+          <div class="pipe-body">
+            <div class="pipe-card"><strong>María G.</strong>Instagram · Blanqueamiento<div style="margin-top:4px; font-size:11px; color:rgba(255,255,255,0.35);">Hace 5 min</div></div>
+            <div class="pipe-card"><strong>Carlos R.</strong>Google · Implante<div style="margin-top:4px; font-size:11px; color:rgba(255,255,255,0.35);">Hace 22 min</div></div>
+            <div class="pipe-card"><strong>Ana P.</strong>Web · Ortodoncia<div style="margin-top:4px; font-size:11px; color:rgba(255,255,255,0.35);">Hace 1h</div></div>
+          </div>
+        </div>
+        <!-- Contactado -->
+        <div class="pipe-col" style="background:rgba(74,143,217,0.06); border:1px solid rgba(74,143,217,0.15); border-right:none;">
+          <div class="pipe-head" style="background:rgba(74,143,217,0.15); color:#7BB3E8;">
+            <span style="margin-right:6px;">💬</span> Contactado
+          </div>
+          <div class="pipe-body">
+            <div class="pipe-card"><strong>Luis M.</strong>WhatsApp enviado<div style="margin-top:4px; font-size:11px; color:var(--green);">✓ Respondió</div></div>
+            <div class="pipe-card"><strong>Sofia T.</strong>Llamada realizada<div style="margin-top:4px; font-size:11px; color:rgba(255,255,255,0.35);">En espera</div></div>
+          </div>
+        </div>
+        <!-- Cita agendada -->
+        <div class="pipe-col" style="background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.15); border-right:none;">
+          <div class="pipe-head" style="background:rgba(245,158,11,0.15); color:#F9C84A;">
+            <span style="margin-right:6px;">📅</span> Cita Agendada
+          </div>
+          <div class="pipe-body">
+            <div class="pipe-card"><strong>Pedro K.</strong>Vie 14 Mar · 10:00<div style="margin-top:4px; font-size:11px; color:rgba(255,255,255,0.35);">Blanqueamiento</div></div>
+            <div class="pipe-card"><strong>Diana F.</strong>Lun 17 Mar · 09:00<div style="margin-top:4px; font-size:11px; color:rgba(255,255,255,0.35);">Revisión</div></div>
+            <div class="pipe-card"><strong>Miguel A.</strong>Mar 18 Mar · 11:30<div style="margin-top:4px; font-size:11px; color:rgba(255,255,255,0.35);">Ortodoncia</div></div>
+          </div>
+        </div>
+        <!-- Confirmada -->
+        <div class="pipe-col" style="background:rgba(29,170,114,0.06); border:1px solid rgba(29,170,114,0.15); border-right:none;">
+          <div class="pipe-head" style="background:rgba(29,170,114,0.15); color:var(--green);">
+            <span style="margin-right:6px;">✅</span> Confirmada
+          </div>
+          <div class="pipe-body">
+            <div class="pipe-card"><strong>Rosa V.</strong>Confirmó por WhatsApp<div style="margin-top:4px;"><span class="pipe-dot" style="background:var(--green);"></span><span style="font-size:11px; color:var(--green);">Lista</span></div></div>
+            <div class="pipe-card"><strong>Héctor P.</strong>Recordatorio enviado<div style="margin-top:4px;"><span class="pipe-dot" style="background:var(--green);"></span><span style="font-size:11px; color:var(--green);">Lista</span></div></div>
+          </div>
+        </div>
+        <!-- Paciente -->
+        <div class="pipe-col" style="background:rgba(29,170,114,0.1); border:1px solid rgba(29,170,114,0.25); border-radius:0 12px 12px 0;">
+          <div class="pipe-head" style="background:rgba(29,170,114,0.2); color:var(--green);">
+            <span style="margin-right:6px;">🏆</span> Paciente
+          </div>
+          <div class="pipe-body">
+            <div class="pipe-card" style="border-color:rgba(29,170,114,0.2);"><strong>Lucia M.</strong>1ª cita completada<div style="margin-top:4px; font-size:11px; color:var(--green);">⭐ Reseña solicitada</div></div>
+            <div class="pipe-card" style="border-color:rgba(29,170,114,0.2);"><strong>Alberto C.</strong>Paciente recurrente<div style="margin-top:4px; font-size:11px; color:var(--green);">💎 3 visitas</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SLIDE 7 — WHATSAPP AUTOMATION
+  ══════════════════════════════════ -->
+  <div class="slide bg-dark" id="slide-6">
+    <div class="slide-content-row">
+      <div>
+        <div class="eyebrow on-dark">Pilar 3</div>
+        <h2 class="slide-title" style="color:white; margin-bottom:16px;">
+          WhatsApp<br>
+          <span style="color:#25D366;">automation</span>
+        </h2>
+        <p class="slide-sub on-dark">
+          Responde al instante, califica prospectos y agenda citas — sin que el equipo levante un dedo.
+        </p>
+        <div style="margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+          <div style="background:rgba(37,211,102,0.06); border:1px solid rgba(37,211,102,0.15); border-radius:10px; padding:14px 16px;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:22px; font-weight:800; color:#25D366;">&lt;2 min</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:3px;">tiempo de respuesta</div>
+          </div>
+          <div style="background:rgba(29,170,114,0.06); border:1px solid rgba(29,170,114,0.15); border-radius:10px; padding:14px 16px;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:22px; font-weight:800; color:var(--green);">24/7</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:3px;">disponibilidad</div>
+          </div>
+          <div style="background:rgba(23,105,194,0.06); border:1px solid rgba(23,105,194,0.15); border-radius:10px; padding:14px 16px;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:22px; font-weight:800; color:var(--blue-light);">+60%</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:3px;">conversión de leads</div>
+          </div>
+          <div style="background:rgba(245,158,11,0.06); border:1px solid rgba(245,158,11,0.15); border-radius:10px; padding:14px 16px;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:22px; font-weight:800; color:var(--yellow);">0</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:3px;">leads sin respuesta</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <!-- Phone mockup -->
+        <div style="background:#151820; border:1px solid #1E2333; border-radius:20px; padding:16px; max-width:320px; margin:0 auto;">
+          <div style="background:#0D0F14; border-radius:12px; padding:12px; margin-bottom:10px;">
+            <div style="display:flex; align-items:center; gap:10px; border-bottom:1px solid #1E2333; padding-bottom:10px; margin-bottom:12px;">
+              <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#1769C2,#25D366);display:flex;align-items:center;justify-content:center;font-size:16px;">🦷</div>
+              <div>
+                <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; font-weight:700; color:white;">Clínica Dental</div>
+                <div style="font-size:10px; color:#25D366; display:flex; align-items:center; gap:4px;"><span class="pulse-dot" style="width:6px;height:6px;border-radius:50%;background:#25D366;display:inline-block;"></span> En línea</div>
+              </div>
+            </div>
+            <!-- Messages -->
+            <div style="display:flex; flex-direction:column; gap:8px; font-size:12px; line-height:1.5;">
+              <div style="background:rgba(255,255,255,0.05); border-radius:8px 8px 8px 2px; padding:8px 12px; color:rgba(255,255,255,0.75); max-width:80%;">
+                Hola! Quisiera información sobre blanqueamiento dental 😊
+              </div>
+              <div style="background:linear-gradient(135deg,#1769C2,#0F4F96); border-radius:8px 8px 2px 8px; padding:8px 12px; color:white; max-width:80%; align-self:flex-end;">
+                ¡Hola María! Gracias por escribirnos 😊 Tenemos disponibilidad esta semana. ¿Cuándo te quedaría mejor?
+              </div>
+              <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <div style="background:rgba(23,105,194,0.15); border:1px solid rgba(23,105,194,0.3); border-radius:16px; padding:5px 10px; font-size:11px; color:var(--blue-light);">🗓 Martes</div>
+                <div style="background:rgba(23,105,194,0.15); border:1px solid rgba(23,105,194,0.3); border-radius:16px; padding:5px 10px; font-size:11px; color:var(--blue-light);">🗓 Miércoles</div>
+                <div style="background:rgba(23,105,194,0.15); border:1px solid rgba(23,105,194,0.3); border-radius:16px; padding:5px 10px; font-size:11px; color:var(--blue-light);">🗓 Otro</div>
+              </div>
+              <div style="background:rgba(255,255,255,0.05); border-radius:8px 8px 8px 2px; padding:8px 12px; color:rgba(255,255,255,0.75); max-width:80%;">
+                ¡El martes perfecto!
+              </div>
+              <div style="background:linear-gradient(135deg,#1769C2,#0F4F96); border-radius:8px 8px 2px 8px; padding:8px 12px; color:white; max-width:85%; align-self:flex-end;">
+                ✅ ¡Listo! Te confirmo: <strong>Martes 18 Mar a las 10:00</strong>. Te enviamos recordatorio el día anterior 📅
+              </div>
+            </div>
+          </div>
+          <div style="display:flex; gap:8px; flex-direction:column;">
+            <div style="display:flex; align-items:center; gap:8px; padding:8px 10px; background:rgba(255,255,255,0.03); border-radius:8px; font-size:11px; color:rgba(255,255,255,0.5);">
+              <span>🤖</span> <span>Respuesta automática — Sin intervención humana</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SLIDE 8 — CONTENIDO ORGÁNICO
+  ══════════════════════════════════ -->
+  <div class="slide bg-dark" id="slide-7">
+    <div style="width:100%; max-width:1100px;">
+      <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:32px;">
+        <div>
+          <div class="eyebrow on-dark">Pilar 4</div>
+          <h2 class="slide-title" style="color:white;">Contenido <span style="color:var(--blue-light);">orgánico</span></h2>
+          <p class="slide-sub on-dark" style="margin-top:8px; max-width:440px;">Presencia constante que genera confianza y trae pacientes sin pagar por cada clic.</p>
+        </div>
+        <div style="display:flex; gap:12px;">
+          <div style="text-align:right;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:26px; font-weight:800; color:var(--blue-light);">12</div>
+            <div style="font-size:11px; color:rgba(255,255,255,0.4);">posts/mes</div>
+          </div>
+          <div style="width:1px; background:rgba(255,255,255,0.1);"></div>
+          <div style="text-align:right;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:26px; font-weight:800; color:#e1306c;">8</div>
+            <div style="font-size:11px; color:rgba(255,255,255,0.4);">reels/mes</div>
+          </div>
+          <div style="width:1px; background:rgba(255,255,255,0.1);"></div>
+          <div style="text-align:right;">
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:26px; font-weight:800; color:#1877f2;">4</div>
+            <div style="font-size:11px; color:rgba(255,255,255,0.4);">blogs SEO/mes</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-tiles">
+        <!-- Tile 1 -->
+        <div class="content-tile" style="background:linear-gradient(160deg, #0F4F96, #1769C2);">
+          <div class="content-tile-inner">
+            <div class="content-tile-tag">📱 Instagram Reel</div>
+            <div class="content-tile-label">Antes y después blanqueamiento en 3 sesiones</div>
+          </div>
+        </div>
+        <!-- Tile 2 -->
+        <div class="content-tile" style="background:linear-gradient(160deg, #1a1a2e, #16213e);">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:48px;opacity:0.2;">📸</div>
+          <div class="content-tile-inner">
+            <div class="content-tile-tag">📷 Post</div>
+            <div class="content-tile-label">5 señales de que necesitas ortodoncia</div>
+          </div>
+        </div>
+        <!-- Tile 3 -->
+        <div class="content-tile" style="background:linear-gradient(160deg, #0d4f1c, #1a7a30);">
+          <div class="content-tile-inner">
+            <div class="content-tile-tag">💬 Testimonio</div>
+            <div class="content-tile-label">"Recuperé mi confianza — Claudia, 34 años"</div>
+          </div>
+        </div>
+        <!-- Tile 4 -->
+        <div class="content-tile" style="background:linear-gradient(160deg, #4a0e2e, #8B1a4a);">
+          <div class="content-tile-inner">
+            <div class="content-tile-tag">🎥 Reel educativo</div>
+            <div class="content-tile-label">¿Cuánto dura un implante dental?</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-top:14px;">
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:16px 18px; display:flex; gap:12px; align-items:center;">
+          <span style="font-size:22px;">📸</span>
+          <div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; font-weight:700; color:white;">Instagram + Facebook</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:2px;">Posts, Reels y Stories</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:16px 18px; display:flex; gap:12px; align-items:center;">
+          <span style="font-size:22px;">🔍</span>
+          <div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; font-weight:700; color:white;">SEO + Blog</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:2px;">Artículos que rankean en Google</div>
+          </div>
+        </div>
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:16px 18px; display:flex; gap:12px; align-items:center;">
+          <span style="font-size:22px;">⭐</span>
+          <div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:13px; font-weight:700; color:white;">Google Business</div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.4); margin-top:2px;">Gestión de reseñas y perfil</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SLIDE 9 — ESCALANDO CON ADS
+  ══════════════════════════════════ -->
+  <div class="slide bg-dark" id="slide-8">
+    <div style="width:100%; max-width:1100px;">
+      <div style="text-align:center; margin-bottom:36px;">
+        <div class="eyebrow on-dark" style="margin-bottom:8px;">Fase de escala</div>
+        <h2 class="slide-title" style="color:white; margin-bottom:10px;">
+          Cuando el sistema base está listo:<br>
+          <span style="color:var(--blue-light);">encendemos los ads</span>
+        </h2>
+        <p class="slide-sub on-dark" style="margin:0 auto;">Los anuncios amplifican lo que ya funciona — no reemplazan las bases.</p>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:24px;">
+        <!-- Google Ads -->
+        <div class="ads-col">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <span style="font-size:28px;">🔍</span>
+            <div>
+              <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:18px; font-weight:700; color:white;">Google Ads</div>
+              <div style="font-size:12px; color:rgba(255,255,255,0.4);">Búsqueda con intención alta</div>
+            </div>
+          </div>
+          <div style="background:#151820; border:1px solid #1E2333; border-radius:12px; padding:16px 18px; margin-bottom:10px;">
+            <div style="font-size:11px; color:rgba(255,255,255,0.3); margin-bottom:8px; letter-spacing:0.06em; text-transform:uppercase;">Anuncio de búsqueda</div>
+            <div style="background:rgba(66,133,244,0.08); border:1px solid rgba(66,133,244,0.2); border-radius:8px; padding:12px;">
+              <div style="font-size:12px; color:rgba(255,255,255,0.35); margin-bottom:3px;">Anuncio · clinicadental.com</div>
+              <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:14px; font-weight:600; color:#4285f4; margin-bottom:4px;">Dentista en [Ciudad] — Cita Hoy</div>
+              <div style="font-size:12px; color:rgba(255,255,255,0.5);">Ortodoncia, implantes y blanqueamiento. ⭐ 4.9 estrellas · Agenda en línea.</div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.65);">
+              <span style="color:var(--blue-light);">→</span> Keywords de alta intención: "dentista urgente", "precio implante"
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.65);">
+              <span style="color:var(--blue-light);">→</span> Google Maps Ads para captura local
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.65);">
+              <span style="color:var(--blue-light);">→</span> Retargeting a visitantes del sitio
+            </div>
+          </div>
+        </div>
+
+        <!-- Meta Ads -->
+        <div class="ads-col">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+            <span style="font-size:28px;">📘</span>
+            <div>
+              <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:18px; font-weight:700; color:white;">Meta Ads</div>
+              <div style="font-size:12px; color:rgba(255,255,255,0.4);">Instagram + Facebook · Generación de demanda</div>
+            </div>
+          </div>
+          <div style="background:#151820; border:1px solid #1E2333; border-radius:12px; padding:16px 18px; margin-bottom:10px;">
+            <div style="font-size:11px; color:rgba(255,255,255,0.3); margin-bottom:8px; letter-spacing:0.06em; text-transform:uppercase;">Ad de Instagram</div>
+            <div style="background:linear-gradient(135deg, rgba(225,48,108,0.1), rgba(131,58,180,0.1)); border:1px solid rgba(225,48,108,0.2); border-radius:8px; padding:12px;">
+              <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#e1306c,#833ab4);display:flex;align-items:center;justify-content:center;font-size:12px;">🦷</div>
+                <div style="font-size:12px; font-weight:600; color:white;">Clínica Dental · <span style="color:rgba(255,255,255,0.4); font-weight:400;">Patrocinado</span></div>
+              </div>
+              <div style="background:linear-gradient(135deg,#1769C2,#0F4F96); border-radius:6px; height:70px; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:700; color:white; margin-bottom:8px;">✨ Antes / Después</div>
+              <div style="font-size:12px; color:rgba(255,255,255,0.6);">¿Quieres una sonrisa así? 😁 1ª consulta <strong style="color:white;">GRATIS</strong> este mes.</div>
+            </div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.65);">
+              <span style="color:#e1306c;">→</span> Audiencias por intereses: salud, estética, bienestar
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.65);">
+              <span style="color:#e1306c;">→</span> Lookalike de pacientes actuales
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.65);">
+              <span style="color:#e1306c;">→</span> Lead Ads con formulario directo en app
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Combined funnel -->
+      <div style="background:linear-gradient(90deg, rgba(23,105,194,0.08), rgba(29,170,114,0.08)); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:18px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+        <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:14px; font-weight:600; color:rgba(255,255,255,0.6);">Embudo combinado:</div>
+        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <div style="text-align:center; padding:8px 16px; background:rgba(66,133,244,0.1); border-radius:8px;">
+            <div style="font-size:11px; color:rgba(255,255,255,0.4);">Impression</div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:16px; font-weight:700; color:#4285f4;">10,000</div>
+          </div>
+          <div style="color:rgba(255,255,255,0.3); font-size:18px;">→</div>
+          <div style="text-align:center; padding:8px 16px; background:rgba(23,105,194,0.1); border-radius:8px;">
+            <div style="font-size:11px; color:rgba(255,255,255,0.4);">Clic</div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:16px; font-weight:700; color:var(--blue-light);">500</div>
+          </div>
+          <div style="color:rgba(255,255,255,0.3); font-size:18px;">→</div>
+          <div style="text-align:center; padding:8px 16px; background:rgba(245,158,11,0.1); border-radius:8px;">
+            <div style="font-size:11px; color:rgba(255,255,255,0.4);">Lead</div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:16px; font-weight:700; color:var(--yellow);">75</div>
+          </div>
+          <div style="color:rgba(255,255,255,0.3); font-size:18px;">→</div>
+          <div style="text-align:center; padding:8px 16px; background:rgba(29,170,114,0.15); border-radius:8px; border:1px solid rgba(29,170,114,0.25);">
+            <div style="font-size:11px; color:rgba(255,255,255,0.4);">Paciente</div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:16px; font-weight:700; color:var(--green);">25–35</div>
+          </div>
+          <div style="color:rgba(255,255,255,0.3); font-size:18px;">→</div>
+          <div style="text-align:center; padding:8px 16px; background:rgba(23,105,194,0.12); border-radius:8px;">
+            <div style="font-size:11px; color:rgba(255,255,255,0.4);">Ingreso estimado</div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:16px; font-weight:700; color:white;">+$50,000</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════
+       SLIDE 10 — CIERRE / CTA
+  ══════════════════════════════════ -->
+  <div class="slide bg-dark" id="slide-9">
+    <div style="text-align:center; max-width:760px;">
+      <div class="pill on-dark" style="margin-bottom:24px;">Siguiente paso</div>
+      <h2 class="slide-title" style="color:white; font-size:clamp(32px,5vw,60px); margin-bottom:20px;">
+        Deja de esperar<br>
+        <span style="color:var(--blue-light);">pacientes</span> que nunca llegan.
+      </h2>
+      <p class="slide-sub on-dark" style="margin:0 auto 40px; font-size:18px;">
+        Con Navigy instalas el sistema completo de adquisición de pacientes en tu clínica — y empiezas a ver resultados en las primeras semanas.
+      </p>
+
+      <div style="display:flex; justify-content:center; gap:16px; margin-bottom:40px; flex-wrap:wrap;">
+        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:16px 24px; min-width:160px;">
+          <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:28px; font-weight:800; color:var(--blue-light);">Sem 1</div>
+          <div style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:4px;">Website + CRM live</div>
+        </div>
+        <div style="color:rgba(255,255,255,0.2); font-size:24px; display:flex; align-items:center;">→</div>
+        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:16px 24px; min-width:160px;">
+          <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:28px; font-weight:800; color:var(--blue-light);">Sem 2</div>
+          <div style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:4px;">WhatsApp + contenido</div>
+        </div>
+        <div style="color:rgba(255,255,255,0.2); font-size:24px; display:flex; align-items:center;">→</div>
+        <div style="background:rgba(23,105,194,0.12); border:1px solid rgba(23,105,194,0.3); border-radius:12px; padding:16px 24px; min-width:160px;">
+          <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:28px; font-weight:800; color:var(--green);">Mes 2+</div>
+          <div style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:4px;">Primeros pacientes</div>
+        </div>
+        <div style="color:rgba(255,255,255,0.2); font-size:24px; display:flex; align-items:center;">→</div>
+        <div style="background:rgba(29,170,114,0.08); border:1px solid rgba(29,170,114,0.25); border-radius:12px; padding:16px 24px; min-width:160px;">
+          <div style="font-family:'Plus Jakarta Sans',sans-serif; font-size:28px; font-weight:800; color:var(--green);">Mes 3+</div>
+          <div style="font-size:13px; color:rgba(255,255,255,0.5); margin-top:4px;">Ads encendidos</div>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+        <a href="#" style="display:inline-flex; align-items:center; gap:8px; background:var(--blue); color:white; font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:700; padding:14px 28px; border-radius:10px; text-decoration:none; box-shadow:0 4px 24px rgba(23,105,194,0.35);">
+          📅 Agendar llamada →
+        </a>
+        <a href="#" style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,0.07); color:white; font-family:'Plus Jakarta Sans',sans-serif; font-size:15px; font-weight:600; padding:14px 28px; border-radius:10px; text-decoration:none; border:1px solid rgba(255,255,255,0.15);">
+          💬 WhatsApp
+        </a>
+      </div>
+
+      <div style="margin-top:36px; display:flex; justify-content:center; gap:28px; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.4);">
+          <span style="color:var(--green);">✓</span> Sin contrato a largo plazo
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.4);">
+          <span style="color:var(--green);">✓</span> Setup en 2 semanas
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.4);">
+          <span style="color:var(--green);">✓</span> Soporte dedicado
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,0.4);">
+          <span style="color:var(--green);">✓</span> Resultados medibles
+        </div>
+      </div>
+
+      <div style="margin-top:32px; font-family:'Plus Jakarta Sans',sans-serif; font-size:20px; font-weight:800; color:rgba(255,255,255,0.2); letter-spacing:-0.01em;">navigy.io</div>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- Navigation controls -->
+<div class="nav-controls">
+  <button class="nav-btn" id="prevBtn" onclick="changeSlide(-1)">←</button>
+  <span class="slide-counter" id="counter">1 / 10</span>
+  <button class="nav-btn" id="nextBtn" onclick="changeSlide(1)">→</button>
+</div>
+
+<div class="key-hint">
+  <span class="key">←</span> <span class="key">→</span> para navegar
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  function updateUI() {
+    slides.forEach((s, i) => {
+      s.classList.remove('active', 'exit');
+      if (i === current) s.classList.add('active');
+    });
+    document.getElementById('counter').textContent = `${current + 1} / ${total}`;
+    document.getElementById('progressFill').style.width = `${((current + 1) / total) * 100}%`;
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === total - 1;
+  }
+
+  function changeSlide(dir) {
+    const next = current + dir;
+    if (next < 0 || next >= total) return;
+    slides[current].classList.add('exit');
+    setTimeout(() => slides[current].classList.remove('exit'), 450);
+    current = next;
+    updateUI();
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') changeSlide(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') changeSlide(-1);
+  });
+
+  // Touch/swipe
+  let touchX = 0;
+  document.addEventListener('touchstart', e => touchX = e.touches[0].clientX, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 50) changeSlide(dx < 0 ? 1 : -1);
+  });
+
+  updateUI();
+</script>
+</body>
+</html>

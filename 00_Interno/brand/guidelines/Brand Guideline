@@ -1,0 +1,379 @@
+# Navigy — Brand Guidelines
+
+---
+
+## 1. Brand Personality
+
+### What Navigy Does
+
+Navigy is a patient acquisition platform for dental clinics. It combines Google Ads, Facebook Ads, SEO, high-converting landing pages, lead capture, CRM pipeline, WhatsApp automation, and reporting into one system — with a single goal: consistent new patient bookings.
+
+The audience is **dental clinic owners and managers**: busy, skeptical of agencies, results-driven, and not particularly interested in marketing theory. They want more patients. They want it to work. They want proof.
+
+### Personality
+
+Navigy sits at the intersection of **clarity and results**. The brand feels like a specialist who's done this hundreds of times — not a generalist agency that "also does dental." It is:
+
+- **Results-first** — Every headline points to an outcome (more patients, more bookings). Never to a feature.
+- **Credible** — The design communicates competence without hype. No "revolutionary" claims.
+- **Specific** — Speaks to dental clinics directly, not to "businesses" in general. The more specific, the more trustworthy.
+- **Efficient** — Like the product itself, the brand doesn't waste time. Direct, confident, no filler.
+
+**If Navigy were a person:** A marketing specialist who works exclusively with dental clinics. They show up with a clear plan, speak in numbers, and deliver before the next appointment.
+
+---
+
+## 2. Color Palette
+
+Derived directly from the logo's steel-blue icon and extended into a full system.
+
+### Primary
+
+| Token | Name | Hex | Usage |
+|---|---|---|---|
+| `--color-primary` | Navigy Blue | `#3567C0` | CTAs, active states, links, icon fills |
+| `--color-primary-light` | Sky | `#5A8DE8` | Hover states, gradients, tints |
+| `--color-primary-deep` | Ocean | `#1E4A9A` | Pressed states, dark accents |
+| `--color-primary-subtle` | Mist | `#EBF1FC` | Backgrounds, badges, highlights |
+
+### Neutral
+
+| Token | Name | Hex | Usage |
+|---|---|---|---|
+| `--color-ink` | Ink | `#0D0F14` | Primary text, headings |
+| `--color-slate` | Slate | `#3D4555` | Secondary text, labels |
+| `--color-muted` | Muted | `#7C869A` | Placeholders, captions |
+| `--color-line` | Line | `#E2E6EF` | Dividers, card borders |
+| `--color-surface` | Surface | `#F5F6F9` | Page backgrounds, subtle fills |
+| `--color-white` | White | `#FFFFFF` | Cards, modals, elevated surfaces |
+
+### Semantic
+
+| Token | Hex | Usage |
+|---|---|---|
+| `--color-success` | `#1DAA72` | Confirmations, positive states |
+| `--color-warning` | `#F59E0B` | Alerts, caution states |
+| `--color-error` | `#E03B3B` | Errors, destructive actions |
+
+### Dark Mode Surface Stack
+
+| Layer | Hex | Description |
+|---|---|---|
+| Base | `#0B0D12` | Page background |
+| Elevated | `#13161F` | Cards, panels |
+| Floating | `#1C2030` | Dropdowns, tooltips, modals |
+| Border | `#252A3A` | Subtle borders on dark |
+
+---
+
+## 3. Typography System
+
+Pair a geometric display font with a clean humanist sans. Headings feel authoritative; body text stays readable.
+
+### Font Stack
+
+```css
+/* Display / Headings */
+font-family: 'Plus Jakarta Sans', 'DM Sans', sans-serif;
+
+/* Body / UI */
+font-family: 'Inter', 'DM Sans', system-ui, sans-serif;
+
+/* Monospace (code, data) */
+font-family: 'JetBrains Mono', 'Fira Code', monospace;
+```
+
+### Scale
+
+| Token | Size | Weight | Line-height | Tracking | Usage |
+|---|---|---|---|---|---|
+| `--text-display` | 56px | 700 | 1.1 | -0.03em | Hero headlines |
+| `--text-h1` | 44px | 700 | 1.15 | -0.025em | Page titles |
+| `--text-h2` | 32px | 600 | 1.2 | -0.02em | Section headings |
+| `--text-h3` | 24px | 600 | 1.3 | -0.015em | Card titles |
+| `--text-h4` | 18px | 600 | 1.4 | -0.01em | Subsections |
+| `--text-body-lg` | 18px | 400 | 1.7 | 0 | Lead paragraphs |
+| `--text-body` | 16px | 400 | 1.7 | 0 | General body text |
+| `--text-body-sm` | 14px | 400 | 1.6 | 0 | Secondary text |
+| `--text-label` | 12px | 600 | 1 | 0.06em | Labels, badges, caps |
+| `--text-caption` | 11px | 500 | 1.4 | 0.04em | Captions, metadata |
+
+### Rules
+
+- Large headings always use tight tracking (`-0.03em`).
+- Body text always uses `1.7` line-height.
+- Labels and badges are always uppercase with `0.06em` letter-spacing.
+- Never use more than 2 weights per page section.
+
+---
+
+## 4. Spacing System
+
+Based on a **4px base unit** with a named token scale.
+
+```
+4px   — xs   — tight inline gaps
+8px   — sm   — component padding, icon gaps
+12px  — md   — internal card padding (compact)
+16px  — lg   — standard component padding
+24px  — xl   — card padding, section gaps (tight)
+32px  — 2xl  — card-to-card spacing
+48px  — 3xl  — section internal padding
+64px  — 4xl  — section-to-section gaps
+96px  — 5xl  — hero vertical padding
+128px — 6xl  — large section breathing room
+```
+
+**Rules:**
+- Use only tokens from the scale — never arbitrary pixel values.
+- Vertical section rhythm: `96px` top/bottom on desktop, `64px` on mobile.
+- Card internal padding: `32px` desktop, `24px` mobile.
+
+---
+
+## 5. Layout Principles
+
+### Grid
+
+- Desktop: 12-column grid, `1280px` max-width, `32px` gutters, `80px` side padding.
+- Tablet: 8-column, `24px` gutters, `40px` side padding.
+- Mobile: 4-column, `16px` gutters, `20px` side padding.
+
+### Principles
+
+1. **White space is structure.** Sections breathe. Density signals importance.
+2. **Left-aligned content.** Centered text only for isolated hero statements (max 2 lines).
+3. **Section labels.** Every major section opens with a small uppercase label in `--color-primary` before the heading.
+4. **Asymmetric layouts.** Prefer a 60/40 or 7/5 column split over perfect halves — it adds tension and movement.
+5. **Z-layering.** Backgrounds sit at base. Cards float slightly above. Modals/tooltips clearly above. Use subtle box-shadows to enforce depth levels — never flat surfaces alongside elevated ones.
+
+---
+
+## 6. Button Styles
+
+### Primary Button
+
+```css
+background: #3567C0;
+color: #FFFFFF;
+border-radius: 8px;
+padding: 12px 24px;
+font: 600 15px/1 'Inter';
+letter-spacing: -0.01em;
+box-shadow: 0 1px 2px rgba(53,103,192,0.15), 0 4px 16px rgba(53,103,192,0.25);
+transition: background 200ms cubic-bezier(0.34,1.56,0.64,1),
+            box-shadow 200ms ease,
+            transform 150ms ease;
+
+/* Hover */
+background: #5A8DE8;
+box-shadow: 0 2px 4px rgba(53,103,192,0.2), 0 8px 24px rgba(53,103,192,0.3);
+transform: translateY(-1px);
+
+/* Active */
+background: #1E4A9A;
+transform: translateY(0);
+box-shadow: 0 1px 2px rgba(53,103,192,0.15);
+```
+
+### Secondary Button
+
+```css
+background: transparent;
+color: #3567C0;
+border: 1.5px solid #3567C0;
+border-radius: 8px;
+padding: 11px 24px;
+
+/* Hover */
+background: #EBF1FC;
+border-color: #5A8DE8;
+```
+
+### Ghost Button
+
+```css
+background: transparent;
+color: #3D4555;
+border: none;
+padding: 12px 16px;
+
+/* Hover */
+color: #3567C0;
+background: #EBF1FC;
+border-radius: 6px;
+```
+
+### Rules
+
+- Minimum touch target: 44×44px.
+- Every button needs `focus-visible` ring: `outline: 2px solid #3567C0; outline-offset: 3px`.
+- Icon-only buttons always have an `aria-label`.
+- Destructive actions use `--color-error` following the same structure.
+
+---
+
+## 7. Card Styles
+
+### Standard Card
+
+```css
+background: #FFFFFF;
+border: 1px solid #E2E6EF;
+border-radius: 12px;
+padding: 32px;
+box-shadow: 0 1px 3px rgba(13,15,20,0.06), 0 4px 12px rgba(13,15,20,0.04);
+
+/* Hover (interactive cards) */
+border-color: #5A8DE8;
+box-shadow: 0 2px 6px rgba(53,103,192,0.1), 0 8px 24px rgba(53,103,192,0.08);
+transform: translateY(-2px);
+```
+
+### Feature Card (dark)
+
+```css
+background: #13161F;
+border: 1px solid #252A3A;
+border-radius: 12px;
+padding: 32px;
+color: #FFFFFF;
+/* Optional top accent line */
+border-top: 2px solid #3567C0;
+```
+
+### Metric / Stat Card
+
+```css
+background: #EBF1FC;
+border-radius: 10px;
+padding: 24px;
+/* No border — color carries the elevation */
+```
+
+### Rules
+
+- `border-radius` is always `12px` for cards, `8px` for compact UI elements, `6px` for tags/badges.
+- Never mix border AND heavy shadow on the same card — pick one to signal elevation.
+- Cards on `--color-surface` backgrounds get a `#FFFFFF` fill. Cards on `#FFFFFF` pages get a `#F5F6F9` subtle fill or a 1px border.
+
+---
+
+## 8. Icon Style
+
+- **Style:** Outlined, 1.5px stroke weight. Not filled, not duotone.
+- **Corner radius on strokes:** slightly rounded end-caps (`round` linecap, `round` linejoin).
+- **Size grid:** 16px / 20px / 24px / 32px. Never off-grid.
+- **Color:** Icons inherit text color by default (`currentColor`). Interactive icons use `--color-primary`.
+- **Recommended set:** Lucide Icons or Phosphor Icons (Regular weight).
+- **Pairing:** Always pair an icon with a label at small sizes. Standalone icons only at 24px+.
+
+---
+
+## 9. Animation Style
+
+All motion should feel **precise and purposeful** — like a well-calibrated instrument, not a toy.
+
+### Principles
+
+- Only animate `transform` and `opacity`. Never `transition-all`.
+- Use spring-style easing for entrances: `cubic-bezier(0.34, 1.56, 0.64, 1)` (slight overshoot).
+- Use ease-out for exits: `cubic-bezier(0.16, 1, 0.3, 1)`.
+- Linear for progress indicators and loaders.
+
+### Duration Scale
+
+| Type | Duration | Easing |
+|---|---|---|
+| Micro (button press, hover) | 150ms | ease |
+| Standard (card hover, dropdown) | 200ms | ease-out |
+| Entrance (fade-in, slide-up) | 350ms | spring |
+| Page transition | 500ms | ease-in-out |
+
+### Entrance Pattern (components)
+
+```css
+/* Default hidden state */
+opacity: 0;
+transform: translateY(12px);
+
+/* Visible */
+opacity: 1;
+transform: translateY(0);
+transition: opacity 350ms cubic-bezier(0.16,1,0.3,1),
+            transform 350ms cubic-bezier(0.34,1.56,0.64,1);
+```
+
+### Rules
+
+- Stagger list items by `60ms` between each element.
+- Never animate layout properties (`width`, `height`, `padding`, `margin`).
+- Respect `prefers-reduced-motion` — wrap all non-essential animations.
+
+---
+
+## 10. Tone of Voice
+
+### Core Voice Attributes
+
+| Attribute | What it means | What to avoid |
+|---|---|---|
+| **Results-first** | Lead with the outcome for the clinic (more patients, more bookings). | Leading with features or technology ("our platform uses…") |
+| **Specific** | Use dental-industry language and real numbers. "12 new patients/month" not "grow your practice". | Generic business-speak ("scale", "synergy", "holistic approach") |
+| **Confident** | State things as fact. Navigy has done this before and it works. | Hedging: "might", "could potentially", "we try to" |
+| **Human** | Talk to a clinic owner directly, like a trusted specialist — not a vendor. | Corporate passive voice, agency jargon |
+
+### Writing Principles
+
+- **Headlines:** Outcome-first, clinic-specific. "More patients from Google. Every month." not "A smarter marketing platform."
+- **Body copy:** 1 idea per sentence. Max 3 sentences per paragraph. Plain words — clinic owners are busy.
+- **CTAs:** Action verbs tied to a clear outcome. "Get more patients", "See how it works", "Start getting leads" — never "Learn more about our solution".
+- **Features → Benefits:** Always translate features into patient outcomes. "WhatsApp automation" → "Leads get a response in under 2 minutes, before they call a competitor."
+- **Social proof:** Specific beats vague. "43 new patients in the first month" beats "amazing results".
+- **Error messages:** Apologize once, explain briefly, offer the fix. Never blame the user.
+
+### Voice Examples
+
+| Context | Wrong | Right |
+|---|---|---|
+| Hero headline | "The all-in-one marketing platform for your practice" | "More patients from Google. Every month." |
+| Google Ads feature | "We manage your Google Ads campaigns" | "We run Google Ads that bring in patients searching for a dentist right now." |
+| Landing pages feature | "High-converting landing pages included" | "Landing pages built to turn clicks into booked appointments — not just website visits." |
+| WhatsApp automation | "Automated lead follow-up via WhatsApp" | "Every lead gets a WhatsApp message in minutes. Before they call someone else." |
+| CRM pipeline | "Track and manage your leads in one place" | "See every lead, every call, every booked appointment — in one dashboard." |
+| SEO | "SEO services to improve your rankings" | "Show up when people in your city search for a dentist. Month after month." |
+| CTA | "Click here to learn more" | "Get more patients" |
+| Social proof | "Our clients love us" | "Clínica Dental López went from 8 to 41 new patients/month in 90 days." |
+
+### What to Never Say
+
+- "Leverage" / "synergy" / "holistic" / "game-changer"
+- "All-in-one solution" (show it, don't say it)
+- "We help businesses grow" (too generic — say "dental clinics" always)
+- "Revolutionary" / "cutting-edge" / "world-class"
+- Any claim without a number or proof behind it
+
+---
+
+## Quick Reference Card
+
+```
+Primary Blue:   #3567C0
+Primary Light:  #5A8DE8
+Primary Deep:   #1E4A9A
+Primary Subtle: #EBF1FC
+
+Ink:            #0D0F14
+Slate:          #3D4555
+Surface:        #F5F6F9
+Line:           #E2E6EF
+
+Heading font:   Plus Jakarta Sans (700, -0.03em tracking)
+Body font:      Inter (400, 1.7 line-height)
+
+Base radius:    8px (UI), 12px (cards)
+Base unit:      4px
+
+Animation:      transform + opacity only
+Easing:         cubic-bezier(0.34, 1.56, 0.64, 1) for entrances
+```

@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigy × Dental Cerrillo Sevilla</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%; height: 100%; overflow: hidden;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0D0F14;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :root {
+      --blue: #3567C0;
+      --blue-light: #5A8DE8;
+      --blue-deep: #1E4A9A;
+      --blue-subtle: #EBF1FC;
+      --ink: #0D0F14;
+      --slate: #3D4555;
+      --muted: #7C869A;
+      --line: #E2E6EF;
+      --surface: #F5F6F9;
+      --white: #FFFFFF;
+      --success: #1DAA72;
+    }
+
+    /* ─── Deck container ─── */
+    #deck {
+      width: 100vw; height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ─── Slides ─── */
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 80px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 400ms cubic-bezier(0.16,1,0.3,1), transform 400ms cubic-bezier(0.16,1,0.3,1);
+      transform: translateX(60px);
+    }
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+      transform: translateX(0);
+    }
+    .slide.exit-left {
+      opacity: 0;
+      transform: translateX(-60px);
+      transition: opacity 300ms ease, transform 300ms ease;
+    }
+    @media (max-width: 768px) {
+      .slide { padding: 40px 24px; }
+    }
+
+    /* ─── Typography ─── */
+    h1, h2, h3, h4 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+    }
+    .label-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 16px;
+    }
+    .label-tag.white { color: rgba(255,255,255,0.5); }
+
+    /* ─── SLIDE BACKGROUNDS ─── */
+    .bg-white { background: #FFFFFF; }
+    .bg-surface { background: var(--surface); }
+    .bg-dark { background: var(--ink); }
+    .bg-blue { background: var(--blue); }
+
+    /* ══════════════════════════════════════
+       SLIDE 1 — PORTADA
+    ══════════════════════════════════════ */
+    #s1 {
+      background: var(--white);
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 0;
+    }
+    #s1::before {
+      content: '';
+      position: absolute;
+      top: -160px; right: -160px;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(53,103,192,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    #s1 .inner { max-width: 760px; }
+    #s1 .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blue-subtle);
+      border: 1px solid rgba(53,103,192,0.2);
+      border-radius: 100px;
+      padding: 6px 16px;
+      margin-bottom: 32px;
+    }
+    #s1 .pill span { font-size: 13px; font-weight: 600; color: var(--blue); }
+    #s1 h1 {
+      font-size: clamp(40px, 5.5vw, 68px);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+    #s1 h1 em { font-style: normal; color: var(--blue); }
+    #s1 p {
+      font-size: clamp(16px, 1.8vw, 20px);
+      color: var(--slate);
+      max-width: 560px;
+      line-height: 1.65;
+      margin-bottom: 48px;
+    }
+    #s1 .meta {
+      display: flex; align-items: center; gap: 24px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+    #s1 .meta-logo img { height: 26px; }
+    #s1 .meta-divider { width: 1px; height: 32px; background: var(--line); }
+    #s1 .meta-info { font-size: 13px; color: var(--muted); }
+    #s1 .meta-info strong { color: var(--slate); display: block; }
+
+    /* ══════════════════════════════════════
+       SLIDE 2 — EL PROBLEMA
+    ══════════════════════════════════════ */
+    #s2 { background: var(--surface); }
+    #s2 .inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+      width: 100%; max-width: 1100px;
+    }
+    .problem-list { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; }
+    .problem-item {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: white; border: 1px solid var(--line); border-radius: 12px;
+      padding: 20px 22px;
+    }
+    .p-icon {
+      width: 42px; height: 42px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; flex-shrink: 0;
+    }
+    .p-icon.r { background: #FEF2F2; }
+    .p-icon.o { background: #FFF7ED; }
+    .p-icon.y { background: #FEFCE8; }
+    .problem-item h4 { font-size: 15px; font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 4px; }
+    .problem-item p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    .big-stat-box {
+      background: var(--blue);
+      border-radius: 20px;
+      padding: 48px 40px;
+      text-align: center;
+      color: white;
+    }
+    .big-stat-box .num {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: clamp(56px, 7vw, 80px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 14px;
+    }
+    .big-stat-box p { color: rgba(255,255,255,0.8); font-size: 16px; line-height: 1.5; }
+    .big-stat-box .source { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 16px; }
+
+    /* ══════════════════════════════════════
+       SLIDE 3 — REALIDAD DENTAL CERRILLO
+    ══════════════════════════════════════ */
+    #s3 { background: var(--white); }
+    #s3 .inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+      width: 100%; max-width: 1100px;
+    }
+    .search-mockup {
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 32px rgba(13,15,20,0.08);
+    }
+    .search-bar {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--surface); border: 1px solid var(--line);
+      border-radius: 100px; padding: 10px 16px; margin-bottom: 20px;
+    }
+    .search-bar span { font-size: 14px; color: var(--ink); font-weight: 500; }
+    .s-result { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .s-result:last-child { border-bottom: none; padding-bottom: 0; }
+    .s-title { font-size: 14px; font-weight: 600; color: var(--blue); margin-bottom: 3px; }
+    .s-url { font-size: 11px; color: var(--success); margin-bottom: 3px; }
+    .s-desc { font-size: 12px; color: var(--muted); line-height: 1.4; }
+    .s-missing .s-title { color: #999; }
+    .s-missing .s-url { color: var(--muted); }
+    .no-tag {
+      display: inline-block;
+      background: #FEF2F2; color: #DC2626;
+      font-size: 10px; font-weight: 700;
+      padding: 2px 8px; border-radius: 4px;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      margin-top: 4px;
+    }
+    .reality-points { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+    .reality-point {
+      display: flex; gap: 12px; align-items: center;
+      padding: 14px 18px;
+      border-radius: 10px; border: 1px solid var(--line);
+      background: #FFFBFB;
+    }
+    .reality-point .ri { font-size: 18px; }
+    .reality-point p { font-size: 14px; color: var(--slate); }
+    .reality-point strong { color: var(--ink); }
+
+    /* ══════════════════════════════════════
+       SLIDE 4 — LA SOLUCIÓN: WEB
+    ══════════════════════════════════════ */
+    #s4 { background: var(--white); }
+    #s4 .inner { width: 100%; max-width: 1100px; }
+    #s4 h2 {
+      font-size: clamp(28px, 3.5vw, 42px);
+      margin-bottom: 8px;
+    }
+    #s4 > .inner > p { font-size: 17px; color: var(--slate); margin-bottom: 40px; }
+    .web-features {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    .wf-card {
+      background: var(--surface); border-radius: 12px;
+      padding: 24px 22px; border: 1px solid var(--line);
+      transition: border-color 200ms, box-shadow 200ms;
+    }
+    .wf-card:hover { border-color: var(--blue-light); box-shadow: 0 4px 16px rgba(53,103,192,0.08); }
+    .wf-icon { font-size: 26px; margin-bottom: 12px; }
+    .wf-card h4 { font-size: 15px; font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 6px; }
+    .wf-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+    .free-banner {
+      margin-top: 28px;
+      background: #F0FDF4; border: 1px solid #BBF7D0;
+      border-radius: 12px; padding: 18px 24px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .free-banner .fb-icon { font-size: 24px; }
+    .free-banner p { font-size: 15px; color: #166534; }
+    .free-banner strong { font-size: 17px; }
+
+    /* ══════════════════════════════════════
+       SLIDE 5 — SEO
+    ══════════════════════════════════════ */
+    #s5 { background: var(--surface); }
+    #s5 .inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+      width: 100%; max-width: 1100px;
+    }
+    .seo-points { display: flex; flex-direction: column; gap: 16px; margin-top: 28px; }
+    .seo-pt {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: white; border-radius: 10px;
+      padding: 16px 20px; border: 1px solid var(--line);
+    }
+    .seo-check {
+      width: 24px; height: 24px; background: var(--success);
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0; margin-top: 1px;
+      font-size: 12px; color: white; font-weight: 700;
+    }
+    .seo-pt h4 { font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 3px; }
+    .seo-pt p { font-size: 13px; color: var(--muted); line-height: 1.4; }
+
+    .vs-box {
+      background: white; border-radius: 16px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(13,15,20,0.06);
+    }
+    .vs-row {
+      display: flex; align-items: center;
+      padding: 20px 24px; border-bottom: 1px solid var(--line);
+      gap: 16px;
+    }
+    .vs-row:last-child { border-bottom: none; }
+    .vs-label { font-size: 13px; color: var(--slate); flex: 1; }
+    .vs-no {
+      background: #FEF2F2; color: #DC2626;
+      font-size: 11px; font-weight: 700; padding: 3px 10px;
+      border-radius: 100px; letter-spacing: 0.04em;
+    }
+    .vs-yes {
+      background: #F0FDF4; color: #166534;
+      font-size: 11px; font-weight: 700; padding: 3px 10px;
+      border-radius: 100px; letter-spacing: 0.04em;
+    }
+    .vs-header {
+      background: var(--surface); padding: 12px 24px;
+      display: grid; grid-template-columns: 1fr 80px 80px;
+      gap: 16px;
+    }
+    .vs-header span { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; text-align: center; }
+    .vs-header span:first-child { text-align: left; }
+
+    /* ══════════════════════════════════════
+       SLIDE 6 — GOOGLE MAPS / GBP
+    ══════════════════════════════════════ */
+    #s6 { background: var(--white); }
+    #s6 .inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 64px; align-items: center;
+      width: 100%; max-width: 1100px;
+    }
+    .gbp-mock {
+      background: white; border: 1px solid var(--line);
+      border-radius: 16px; padding: 28px;
+      box-shadow: 0 8px 32px rgba(13,15,20,0.07);
+    }
+    .gbp-top {
+      display: flex; align-items: center; gap: 16px;
+      padding-bottom: 20px; border-bottom: 1px solid var(--line); margin-bottom: 20px;
+    }
+    .gbp-av {
+      width: 54px; height: 54px; background: var(--blue-subtle);
+      border-radius: 12px; display: flex; align-items: center;
+      justify-content: center; font-size: 26px;
+    }
+    .gbp-cname { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 700; font-size: 16px; }
+    .gbp-cat { font-size: 12px; color: var(--muted); margin: 2px 0; }
+    .gbp-stars { font-size: 13px; color: #F59E0B; }
+    .gbp-stars span { color: var(--muted); font-size: 11px; }
+    .gbp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .gbp-stat {
+      background: var(--surface); border-radius: 8px;
+      padding: 14px; text-align: center;
+    }
+    .gbp-stat .gn {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 24px; font-weight: 700; color: var(--blue);
+    }
+    .gbp-stat .gl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .gbp-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .gbp-photo {
+      height: 56px; border-radius: 8px;
+      background: var(--blue-subtle);
+      display: flex; align-items: center; justify-content: center; font-size: 22px;
+    }
+
+    .gbp-benefits { display: flex; flex-direction: column; gap: 14px; margin-top: 28px; }
+    .gbp-benefit {
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .gb-icon {
+      width: 40px; height: 40px; background: var(--blue-subtle);
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; font-size: 18px; flex-shrink: 0;
+    }
+    .gbp-benefit h4 { font-size: 14px; font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 3px; }
+    .gbp-benefit p { font-size: 13px; color: var(--muted); line-height: 1.4; }
+
+    /* ══════════════════════════════════════
+       SLIDE 7 — SISTEMA COMPLETO (TEASER)
+    ══════════════════════════════════════ */
+    #s7 { background: var(--ink); }
+    #s7 .inner { width: 100%; max-width: 1100px; }
+    #s7 h2 { color: white; font-size: clamp(26px, 3.5vw, 40px); margin-bottom: 12px; }
+    #s7 > .inner > p { color: rgba(255,255,255,0.55); font-size: 16px; margin-bottom: 40px; }
+    .steps-row {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 3px; border-radius: 16px; overflow: hidden;
+    }
+    .step-box {
+      background: #13161F; padding: 32px 28px;
+    }
+    .step-box:first-child { border-radius: 16px 0 0 16px; }
+    .step-box:last-child { border-radius: 0 16px 16px 0; }
+    .step-box.now { background: #1C2030; border-top: 3px solid var(--blue); }
+    .now-badge {
+      display: inline-block; background: var(--blue); color: white;
+      font-size: 10px; font-weight: 700; padding: 3px 10px;
+      border-radius: 100px; letter-spacing: 0.05em; text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .step-n {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 40px; font-weight: 800;
+      letter-spacing: -0.04em; color: rgba(53,103,192,0.25);
+      line-height: 1; margin-bottom: 12px;
+    }
+    .step-box h3 { color: white; font-size: 18px; margin-bottom: 8px; }
+    .step-box p { color: rgba(255,255,255,0.45); font-size: 14px; line-height: 1.55; }
+    .step-items { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; }
+    .step-item {
+      display: flex; gap: 8px; align-items: center;
+      font-size: 13px; color: rgba(255,255,255,0.5);
+    }
+    .step-item::before { content: '→'; color: rgba(53,103,192,0.6); font-size: 11px; }
+    .step-item.active-item { color: rgba(255,255,255,0.8); }
+    .step-item.active-item::before { content: '✓'; color: var(--blue); }
+
+    /* ══════════════════════════════════════
+       SLIDE 8 — COMPARATIVA PRECIOS
+    ══════════════════════════════════════ */
+    #s8 { background: var(--surface); }
+    #s8 .inner { width: 100%; max-width: 1000px; }
+    #s8 h2 { font-size: clamp(26px, 3.5vw, 38px); margin-bottom: 8px; }
+    #s8 > .inner > p { font-size: 16px; color: var(--slate); margin-bottom: 32px; }
+    .compare-table {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      margin-bottom: 20px;
+    }
+    .ct-col { border-radius: 14px; overflow: hidden; }
+    .ct-head {
+      padding: 20px 28px;
+    }
+    .ct-head.trad { background: #F1F3F7; border: 1px solid var(--line); border-bottom: none; border-radius: 14px 14px 0 0; }
+    .ct-head.nav { background: var(--blue); border-radius: 14px 14px 0 0; }
+    .ct-head.nav h3 { color: white; }
+    .ct-head.nav p { color: rgba(255,255,255,0.65); }
+    .ct-provider { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 4px; }
+    .ct-provider.w { color: rgba(255,255,255,0.5); }
+    .ct-head h3 { font-size: 18px; margin-bottom: 3px; }
+    .ct-head p { font-size: 13px; color: var(--muted); }
+    .ct-body { border: 1px solid var(--line); border-top: none; background: white; border-radius: 0 0 14px 14px; }
+    .ct-body.nav-b { border-color: var(--blue); }
+    .ct-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 14px 28px; border-bottom: 1px solid var(--line);
+    }
+    .ct-row:last-child { border-bottom: none; }
+    .ct-row-label { font-size: 13px; color: var(--slate); }
+    .ct-row-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 700; }
+    .ct-row-val.bad { color: #DC2626; }
+    .ct-row-val.good { color: var(--success); }
+    .ct-row-val.inc { color: var(--blue); font-size: 13px; }
+    .ct-total {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 28px;
+      background: var(--surface); border-top: 2px solid var(--line);
+    }
+    .ct-total.nav-t { background: var(--blue-subtle); border-color: var(--blue); }
+    .ct-total-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+    .ct-total-label.b { color: var(--blue); }
+    .ct-total-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .ct-total-num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+    .ct-total-num.bad { color: #DC2626; }
+    .ct-total-num.good { color: var(--blue); }
+
+    .saving-strip {
+      background: #F0FDF4; border: 1px solid #BBF7D0;
+      border-radius: 12px; padding: 18px 28px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .saving-strip h4 { font-size: 16px; color: #15803D; font-family: 'Plus Jakarta Sans', sans-serif; margin-bottom: 3px; }
+    .saving-strip p { font-size: 13px; color: #166534; }
+    .saving-num { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 36px; font-weight: 800; color: var(--success); letter-spacing: -0.03em; white-space: nowrap; }
+
+    /* ══════════════════════════════════════
+       SLIDE 9 — PLANES
+    ══════════════════════════════════════ */
+    #s9 { background: var(--white); }
+    #s9 .inner { width: 100%; max-width: 1000px; }
+    #s9 h2 { font-size: clamp(24px, 3vw, 36px); margin-bottom: 8px; }
+    #s9 > .inner > p { font-size: 16px; color: var(--slate); margin-bottom: 32px; }
+    .plans-row {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    .plan-c {
+      border-radius: 14px; border: 1.5px solid var(--line);
+      padding: 28px 24px; background: white; position: relative;
+      transition: border-color 200ms, box-shadow 200ms;
+    }
+    .plan-c:hover { border-color: var(--blue-light); box-shadow: 0 4px 20px rgba(53,103,192,0.1); }
+    .plan-c.rec { border-color: var(--blue); border-width: 2px; box-shadow: 0 4px 24px rgba(53,103,192,0.12); }
+    .rec-badge {
+      position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+      background: var(--blue); color: white; font-size: 10px; font-weight: 700;
+      padding: 3px 12px; border-radius: 100px; letter-spacing: 0.06em;
+      text-transform: uppercase; white-space: nowrap;
+    }
+    .plan-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 6px; }
+    .plan-price {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 38px; font-weight: 800; letter-spacing: -0.03em;
+      line-height: 1; margin-bottom: 3px;
+    }
+    .plan-price .mo { font-size: 16px; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+    .plan-price.free-col { color: var(--success); }
+    .plan-price.blue-col { color: var(--blue); }
+    .plan-price.grey-col { color: var(--muted); font-size: 26px; }
+    .plan-subdesc { font-size: 13px; color: var(--muted); margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+    .plan-feats { display: flex; flex-direction: column; gap: 9px; }
+    .pf {
+      display: flex; align-items: center; gap: 9px;
+      font-size: 13px; color: var(--slate);
+    }
+    .pf-dot {
+      width: 18px; height: 18px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 9px;
+    }
+    .pf-dot.on { background: var(--blue-subtle); color: var(--blue); font-weight: 700; }
+    .pf-dot.grey { background: var(--surface); color: var(--muted); }
+    .plan-note { font-size: 12px; color: var(--muted); margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+
+    /* ══════════════════════════════════════
+       SLIDE 10 — CTA FINAL
+    ══════════════════════════════════════ */
+    #s10 {
+      background: var(--blue);
+      flex-direction: column; text-align: center;
+      gap: 0;
+    }
+    #s10::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 60% 40%, rgba(255,255,255,0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    #s10 .inner { max-width: 640px; text-align: center; }
+    #s10 .label-tag.white { margin-bottom: 20px; }
+    #s10 h2 { color: white; font-size: clamp(32px, 4.5vw, 52px); margin-bottom: 20px; }
+    #s10 > .inner > p { color: rgba(255,255,255,0.7); font-size: 18px; margin-bottom: 40px; line-height: 1.65; }
+    #s10 .logo { margin-bottom: 48px; }
+    #s10 .logo img { height: 28px; filter: brightness(0) invert(1); opacity: 0.85; }
+    .cta-msg {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 16px; padding: 28px 32px;
+      margin-bottom: 32px;
+    }
+    .cta-msg p { color: rgba(255,255,255,0.85); font-size: 16px; line-height: 1.6; }
+    .cta-points { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; text-align: left; }
+    .cta-point {
+      display: flex; gap: 10px; align-items: center;
+      font-size: 15px; color: rgba(255,255,255,0.8);
+    }
+    .cta-point::before { content: '✓'; color: #34D399; font-weight: 700; font-size: 14px; }
+    .cta-contact { font-size: 14px; color: rgba(255,255,255,0.5); }
+    .cta-contact strong { color: rgba(255,255,255,0.8); display: block; font-size: 18px; margin-bottom: 4px; }
+
+    /* ══════════════════════════════════════
+       NAVIGATION
+    ══════════════════════════════════════ */
+    #nav-bar {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(13,15,20,0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px;
+      padding: 10px 16px;
+      z-index: 1000;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .nav-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.7);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 16px;
+      transition: background 150ms, color 150ms;
+      user-select: none;
+    }
+    .nav-btn:hover { background: rgba(53,103,192,0.5); color: white; }
+    .nav-btn:disabled { opacity: 0.25; cursor: not-allowed; }
+    #slide-counter {
+      font-family: 'Inter', sans-serif;
+      font-size: 13px; color: rgba(255,255,255,0.5);
+      min-width: 48px; text-align: center;
+    }
+    #slide-counter strong { color: white; }
+    .dots {
+      display: flex; gap: 5px; align-items: center;
+    }
+    .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      transition: background 200ms, width 200ms;
+      cursor: pointer;
+    }
+    .dot.active { background: var(--blue); width: 18px; border-radius: 3px; }
+
+    /* Keyboard hint */
+    #kbd-hint {
+      position: fixed; bottom: 32px; right: 32px;
+      font-size: 11px; color: rgba(255,255,255,0.2);
+      font-family: 'Inter', sans-serif;
+    }
+    #kbd-hint kbd {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px; padding: 2px 6px;
+      font-family: inherit;
+    }
+
+    /* Slide number top-left */
+    #slide-num {
+      position: fixed; top: 24px; right: 32px;
+      font-size: 11px; color: rgba(255,255,255,0.2);
+      font-family: 'Inter', sans-serif; letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+
+<div id="deck">
+
+  <!-- ══ SLIDE 1 — PORTADA ══ -->
+  <div class="slide active" id="s1">
+    <div class="inner">
+      <div class="pill"><span>🦷 Dental Cerrillo Sevilla</span></div>
+      <h1>Tu clínica dental,<br/><em>visible en Sevilla.</em><br/>Así consigues más pacientes.</h1>
+      <p>Te mostramos cómo construimos tu presencia online desde cero — para que los pacientes de Sevilla te encuentren a ti primero.</p>
+      <div class="meta">
+        <div class="meta-logo"><img src="../brand/logos/negro sin fondo.png" alt="Navigy" /></div>
+        <div class="meta-divider"></div>
+        <div class="meta-info">
+          <strong>Propuesta personalizada</strong>
+          Marzo 2026 · Sevilla
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 2 — EL PROBLEMA ══ -->
+  <div class="slide" id="s2">
+    <div class="inner">
+      <div>
+        <span class="label-tag">El problema</span>
+        <h2 style="font-size:clamp(24px,3vw,36px); margin-bottom:14px;">Los pacientes buscan online.<br/>Si no estás, no existes.</h2>
+        <p style="font-size:15px; color:var(--slate); margin-bottom:0;">Hoy mismo alguien en Sevilla está buscando un dentista. Si no tienes presencia digital, ese paciente va a tu competencia.</p>
+        <div class="problem-list">
+          <div class="problem-item">
+            <div class="p-icon r">🚫</div>
+            <div>
+              <h4>Sin web = sin credibilidad</h4>
+              <p>En salud, la confianza lo es todo. Sin web, el paciente pasa directamente al siguiente resultado.</p>
+            </div>
+          </div>
+          <div class="problem-item">
+            <div class="p-icon o">📍</div>
+            <div>
+              <h4>Google Maps sin optimizar</h4>
+              <p>Sin fotos, sin reseñas, sin información completa — tu ficha de Google no genera confianza ni clics.</p>
+            </div>
+          </div>
+          <div class="problem-item">
+            <div class="p-icon y">📉</div>
+            <div>
+              <h4>Pacientes que se van sin llamar</h4>
+              <p>Si no encuentran información online, muchos ni siquiera llaman. Eligen la clínica con presencia visible.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="big-stat-box">
+        <div class="num">77%</div>
+        <p>de los pacientes busca su dentista en internet antes de llamar o ir en persona.</p>
+        <p class="source">Think with Google · Healthcare Search Behavior</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 3 — REALIDAD DE DENTAL CERRILLO ══ -->
+  <div class="slide" id="s3">
+    <div class="inner">
+      <div>
+        <span class="label-tag">La situación actual</span>
+        <h2 style="font-size:clamp(22px,2.8vw,34px); margin-bottom:14px;">¿Qué ve un paciente cuando busca tu clínica hoy?</h2>
+        <p style="font-size:15px; color:var(--slate); margin-bottom:0;">Cuando alguien en Sevilla busca "dentista" o "clínica dental Sevilla", esto es lo que ocurre:</p>
+        <div class="reality-points">
+          <div class="reality-point">
+            <span class="ri">🌐</span>
+            <p><strong>Sin página web.</strong> No hay donde llegar. Tus competidores sí la tienen.</p>
+          </div>
+          <div class="reality-point">
+            <span class="ri">📍</span>
+            <p><strong>Google Maps sin trabajar.</strong> Sin fotos del local ni del equipo, sin información optimizada. En salud, eso genera desconfianza inmediata.</p>
+          </div>
+          <div class="reality-point">
+            <span class="ri">🩺</span>
+            <p><strong>Estáis en Doctoralia — pero no es suficiente.</strong> Tenéis 74 reseñas con 5 estrellas, que está muy bien. Pero sin web propia ni Google Maps trabajado, muy pocos pacientes nuevos reservan por ese portal. No transmite la misma confianza que encontrar vuestra clínica directamente en Google.</p>
+          </div>
+          <div class="reality-point">
+            <span class="ri">💸</span>
+            <p><strong>Pacientes que se van a la competencia.</strong> Cada día que pasa sin presencia propia, son pacientes que podrían ser vuestros.</p>
+          </div>
+        </div>
+      </div>
+      <div class="search-mockup">
+        <div class="search-bar">
+          <span>🔍</span>
+          <span>clínica dental Sevilla</span>
+        </div>
+        <div class="s-result">
+          <div class="s-title">Clínica Dental Rodríguez — Sevilla Centro</div>
+          <div class="s-url">✓ clinicarodriguez.es</div>
+          <div class="s-desc">Implantes y ortodoncia en Sevilla. Más de 20 años de experiencia. Pide cita online.</div>
+        </div>
+        <div class="s-result">
+          <div class="s-title">Clínica Dental Vega — Sevilla</div>
+          <div class="s-url">✓ clinicavega.es</div>
+          <div class="s-desc">Tu dentista de confianza en Sevilla. Primeras visitas gratuitas. Horario amplio.</div>
+        </div>
+        <div class="s-result s-missing">
+          <div class="s-title">Dental Cerrillo</div>
+          <div class="s-url">✗ Sin página web</div>
+          <span class="no-tag">No aparece</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 4 — LA SOLUCIÓN: WEB ══ -->
+  <div class="slide" id="s4">
+    <div class="inner">
+      <span class="label-tag">La solución · Paso 1</span>
+      <h2 style="font-size:clamp(24px,3vw,38px); margin-bottom:10px;">Tu web profesional.<br/>Diseñada para conseguir pacientes.</h2>
+      <p style="font-size:16px; color:var(--slate); margin-bottom:32px;">No solo un escaparate bonito — una web construida para que los visitantes acaben llamando o pidiendo cita.</p>
+      <div class="web-features">
+        <div class="wf-card">
+          <div class="wf-icon">🎯</div>
+          <h4>Enfocada en la conversión</h4>
+          <p>Cada sección está pensada para que el visitante dé el siguiente paso: llamar, pedir cita o dejar sus datos.</p>
+        </div>
+        <div class="wf-card">
+          <div class="wf-icon">📅</div>
+          <h4>Formulario de citas integrado</h4>
+          <p>Los pacientes solicitan cita directamente desde la web, a cualquier hora del día.</p>
+        </div>
+        <div class="wf-card">
+          <div class="wf-icon">🖼️</div>
+          <h4>Tu clínica, presentada bien</h4>
+          <p>Servicios, equipo e instalaciones — mostrados de forma que generen confianza desde el primer vistazo.</p>
+        </div>
+        <div class="wf-card">
+          <div class="wf-icon">📱</div>
+          <h4>100% adaptada a móvil</h4>
+          <p>Más del 60% de búsquedas locales son desde el móvil. Tu web se ve perfecta en cualquier pantalla.</p>
+        </div>
+        <div class="wf-card">
+          <div class="wf-icon">💻</div>
+          <h4>Diseño que transmite confianza</h4>
+          <p>Rápida, moderna y con una imagen profesional. En salud, la primera impresión visual decide si el paciente llama o no.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 5 — SEO ══ -->
+  <div class="slide" id="s5">
+    <div class="inner">
+      <div>
+        <span class="label-tag">Por qué el SEO importa</span>
+        <h2 style="font-size:clamp(22px,2.8vw,34px); margin-bottom:14px;">Una web sin SEO es como una clínica sin cartel en la puerta.</h2>
+        <p style="font-size:15px; color:var(--slate); margin-bottom:0;">La web es el destino. El SEO local es lo que hace que los pacientes lleguen. Sin él, tu web existe pero nadie la encuentra.</p>
+        <div class="seo-points">
+          <div class="seo-pt">
+            <div class="seo-check">✓</div>
+            <div>
+              <h4>Apareces cuando te buscan</h4>
+              <p>Tu clínica sale entre los primeros resultados cuando alguien en Sevilla busca "dentista" o "clínica dental".</p>
+            </div>
+          </div>
+          <div class="seo-pt">
+            <div class="seo-check">✓</div>
+            <div>
+              <h4>Tráfico constante sin pagar por clic</h4>
+              <p>A diferencia de los anuncios, el SEO trabaja 24/7. Es una inversión que crece y se mantiene con el tiempo.</p>
+            </div>
+          </div>
+          <div class="seo-pt">
+            <div class="seo-check">✓</div>
+            <div>
+              <h4>Confianza que convierte visitas en llamadas</h4>
+              <p>Una clínica bien posicionada transmite autoridad. Los pacientes confían más en lo que Google destaca primero.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="vs-box">
+        <div class="vs-header">
+          <span>Situación</span>
+          <span>Sin SEO</span>
+          <span>Con SEO</span>
+        </div>
+        <div class="vs-row">
+          <span class="vs-label">Apareces en Google al buscar "dentista Sevilla"</span>
+          <span class="vs-no">NO</span>
+          <span class="vs-yes">SÍ</span>
+        </div>
+        <div class="vs-row">
+          <span class="vs-label">Tráfico orgánico mensual</span>
+          <span class="vs-no">0</span>
+          <span class="vs-yes">+200</span>
+        </div>
+        <div class="vs-row">
+          <span class="vs-label">Posición en Google Maps zona</span>
+          <span class="vs-no">Sin posición</span>
+          <span class="vs-yes">Top 3</span>
+        </div>
+        <div class="vs-row">
+          <span class="vs-label">Coste por mes a largo plazo</span>
+          <span class="vs-no">—</span>
+          <span class="vs-yes">Incluido</span>
+        </div>
+        <div class="vs-row">
+          <span class="vs-label">Pacientes nuevos desde búsquedas</span>
+          <span class="vs-no">0</span>
+          <span class="vs-yes">Constantes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 6 — GOOGLE MAPS / GBP ══ -->
+  <div class="slide" id="s6">
+    <div class="inner">
+      <div>
+        <span class="label-tag">Google Maps · GBP</span>
+        <h2 style="font-size:clamp(22px,2.8vw,34px); margin-bottom:14px;">Visibles en todos los mapas. Google Maps y Apple Maps.</h2>
+        <p style="font-size:15px; color:var(--slate); margin-bottom:0;">En salud, la decisión de llamar ocurre en segundos. Optimizamos tu presencia en Google Business Profile y Apple Business Connect para que te encuentren, usen iPhone o Android.</p>
+        <div class="gbp-benefits">
+          <div class="gbp-benefit">
+            <div class="gb-icon">📸</div>
+            <div>
+              <h4>Fotos profesionales del local y equipo</h4>
+              <p>Las fichas con fotos reciben 42% más solicitudes de ruta y 35% más clics al sitio web.</p>
+            </div>
+          </div>
+          <div class="gbp-benefit">
+            <div class="gb-icon">⭐</div>
+            <div>
+              <h4>Gestión activa de reseñas</h4>
+              <p>Respondemos reseñas y potenciamos las positivas. Las reseñas son el factor #1 de confianza local.</p>
+            </div>
+          </div>
+          <div class="gbp-benefit">
+            <div class="gb-icon">📊</div>
+            <div>
+              <h4>Informe mensual de visibilidad</h4>
+              <p>Cuántas veces apareciste, cuántos clics recibiste, cómo evoluciona tu posición en Sevilla.</p>
+            </div>
+          </div>
+          <div class="gbp-benefit">
+            <div class="gb-icon">🍎</div>
+            <div>
+              <h4>Apple Business Connect (Apple Maps)</h4>
+              <p>Más del 50% de los móviles en España son iPhone. Con Apple Business Connect, tu clínica aparece en Apple Maps igual de optimizada que en Google.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="gbp-mock">
+        <div class="gbp-top">
+          <div class="gbp-av">🦷</div>
+          <div>
+            <div class="gbp-cname">Dental Cerrillo Sevilla</div>
+            <div class="gbp-cat">Clínica dental · Abierto ahora</div>
+            <div class="gbp-stars">★★★★★ <span>4.9 (94 reseñas)</span></div>
+          </div>
+        </div>
+        <div class="gbp-grid">
+          <div class="gbp-stat"><div class="gn">1.4K</div><div class="gl">búsquedas/mes</div></div>
+          <div class="gbp-stat"><div class="gn">380</div><div class="gl">clics al mes</div></div>
+          <div class="gbp-stat"><div class="gn">#2</div><div class="gl">en Sevilla</div></div>
+          <div class="gbp-stat"><div class="gn">94</div><div class="gl">reseñas</div></div>
+        </div>
+        <div class="gbp-photos">
+          <div class="gbp-photo">🏥</div>
+          <div class="gbp-photo">😁</div>
+          <div class="gbp-photo">👨‍⚕️</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 7 — SISTEMA COMPLETO (TEASER) ══ -->
+  <div class="slide" id="s7">
+    <div class="inner">
+      <span class="label-tag white">El sistema Navigy</span>
+      <h2>Esto es solo el punto de partida.</h2>
+      <p>La web y el SEO abren la puerta a los pacientes. Cuando lo veas listo, te presentamos el sistema completo.</p>
+      <div class="steps-row">
+        <div class="step-box now">
+          <span class="now-badge">Empezamos aquí</span>
+          <div class="step-n">01</div>
+          <h3>Web + SEO + GBP</h3>
+          <p>Presencia online sólida. Apareces en Google. Los pacientes encuentran tu clínica.</p>
+          <div class="step-items">
+            <div class="step-item active-item">Web profesional gratis</div>
+            <div class="step-item active-item">SEO local optimizado</div>
+            <div class="step-item active-item">Google Maps gestionado</div>
+          </div>
+        </div>
+        <div class="step-box">
+          <div class="step-n">02</div>
+          <h3>Google Ads + Meta Ads</h3>
+          <p>El grifo de pacientes nuevos. Enciendes cuando necesitas más, apagas cuando estás lleno.</p>
+          <div class="step-items">
+            <div class="step-item">Google Ads gestionados</div>
+            <div class="step-item">Meta Ads gestionados</div>
+            <div class="step-item">Campañas para implantes, ortodoncia…</div>
+          </div>
+        </div>
+        <div class="step-box">
+          <div class="step-n">03</div>
+          <h3>Software Navigy</h3>
+          <p>El sistema que convierte contactos en pacientes. Automatizaciones, CRM y gestión centralizada.</p>
+          <div class="step-items">
+            <div class="step-item">Respuesta automática a leads</div>
+            <div class="step-item">Recordatorios de citas</div>
+            <div class="step-item">Dashboard en tiempo real</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 8 — COMPARATIVA PRECIOS ══ -->
+  <div class="slide" id="s8">
+    <div class="inner">
+      <span class="label-tag">Precios de mercado</span>
+      <h2>El precio de estar online. Sin sorpresas.</h2>
+      <p>Lo que cobran las agencias tradicionales vs. lo que pagas con Navigy. Precios reales de mercado en España 2025.</p>
+      <div class="compare-table">
+        <div class="ct-col">
+          <div class="ct-head trad">
+            <div class="ct-provider">Agencia tradicional</div>
+            <h3>Precio medio de mercado</h3>
+            <p>Fuente: cronoshare.com · reactivaonline.com · 2025</p>
+          </div>
+          <div class="ct-body">
+            <div class="ct-row"><span class="ct-row-label">Desarrollo de la web</span><span class="ct-row-val bad">2.000 € <small style="font-size:10px;font-weight:400;color:var(--muted)">pago único</small></span></div>
+            <div class="ct-row"><span class="ct-row-label">Mantenimiento mensual</span><span class="ct-row-val bad">200 €/mes</span></div>
+            <div class="ct-row"><span class="ct-row-label">SEO local</span><span class="ct-row-val bad">700 €/mes</span></div>
+            <div class="ct-row"><span class="ct-row-label">Google Business Profile</span><span class="ct-row-val bad">75 €/mes</span></div>
+            <div class="ct-row"><span class="ct-row-label">Apple Business Connect</span><span class="ct-row-val bad">50 €/mes</span></div>
+          </div>
+        </div>
+        <div class="ct-col">
+          <div class="ct-head nav">
+            <div class="ct-provider w">Navigy</div>
+            <h3>Tu oferta</h3>
+            <p>Sin permanencia. Sin letra pequeña.</p>
+          </div>
+          <div class="ct-body nav-b">
+            <div class="ct-row"><span class="ct-row-label">Desarrollo de la web</span><span class="ct-row-val good">Incluido</span></div>
+            <div class="ct-row"><span class="ct-row-label">Mantenimiento mensual</span><span class="ct-row-val" style="color:var(--ink)">150 €/mes</span></div>
+            <div class="ct-row"><span class="ct-row-label">SEO local</span><span class="ct-row-val" style="color:var(--ink)">350 €/mes</span></div>
+            <div class="ct-row"><span class="ct-row-label">Google Business Profile</span><span class="ct-row-val inc">Incluido ↓</span></div>
+            <div class="ct-row"><span class="ct-row-label">Apple Business Connect</span><span class="ct-row-val inc">Incluido ↓</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 9 — PLANES ══ -->
+  <div class="slide" id="s9">
+    <div class="inner">
+      <span class="label-tag">Nuestra oferta</span>
+      <h2>Promoción de primavera 🌱</h2>
+      <p style="font-size:15px; color:var(--slate); margin-bottom:20px;">Sin permanencias, sin contratos. Cancela cuando quieras.</p>
+
+      <div class="plans-row" style="grid-template-columns: 1fr 1fr; max-width: 720px; margin: 0 auto;">
+
+        <!-- Plan 1: Solo Web -->
+        <div class="plan-c">
+          <div class="plan-tag">Solo web</div>
+          <div style="margin-bottom:4px;">
+            <span style="font-family:'Plus Jakarta Sans'; font-size:15px; font-weight:600; color:var(--muted); text-decoration:line-through;">150 €/mes</span>
+          </div>
+          <div class="plan-price" style="color:var(--ink); font-size:38px;">119 €<span class="mo">/mes</span></div>
+          <p class="plan-subdesc">Web profesional incluida + mantenimiento y actualizaciones.</p>
+          <div class="plan-feats">
+            <div class="pf"><span class="pf-dot on">✓</span> Web profesional incluida</div>
+            <div class="pf"><span class="pf-dot on">✓</span> Diseño adaptado a móvil</div>
+            <div class="pf"><span class="pf-dot on">✓</span> Formulario de citas</div>
+            <div class="pf"><span class="pf-dot on">✓</span> Hosting + SSL incluidos</div>
+            <div class="pf"><span class="pf-dot grey">–</span> SEO local</div>
+            <div class="pf"><span class="pf-dot grey">–</span> Google Maps / Apple Maps</div>
+          </div>
+        </div>
+
+        <!-- Plan 2: SEO + GBP + ABC -->
+        <div class="plan-c rec">
+          <span class="rec-badge">⭐ Recomendado</span>
+          <div class="plan-tag">SEO + GBP + Apple Business Connect</div>
+          <div style="margin-bottom:4px;">
+            <span style="font-family:'Plus Jakarta Sans'; font-size:15px; font-weight:600; color:var(--muted); text-decoration:line-through;">350 €/mes</span>
+          </div>
+          <div class="plan-price blue-col" style="font-size:38px;">249 €<span class="mo">/mes</span></div>
+          <p class="plan-subdesc">Posicionamiento local completo en Google, Google Maps y Apple Maps.</p>
+          <div class="plan-feats">
+            <div class="pf"><span class="pf-dot on">✓</span> SEO local optimizado</div>
+            <div class="pf"><span class="pf-dot on">✓</span> Google Business Profile</div>
+            <div class="pf"><span class="pf-dot on">✓</span> Apple Business Connect</div>
+            <div class="pf"><span class="pf-dot on">✓</span> Gestión de reseñas</div>
+            <div class="pf"><span class="pf-dot on">✓</span> Informe mensual de resultados</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Próximo paso -->
+      <div style="margin-top:20px; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:16px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; opacity:0.75;">
+        <div>
+          <div style="font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); margin-bottom:4px;">Próximo paso · Sistema Navigy</div>
+          <p style="font-size:13px; color:var(--slate); margin:0;">Google Ads + Meta Ads + CRM + automatizaciones. El sistema que multiplica la facturación. Te lo presentamos cuando quieras.</p>
+        </div>
+        <div style="font-family:'Plus Jakarta Sans'; font-size:13px; font-weight:600; color:var(--muted); white-space:nowrap;">Cuando lo veas listo →</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 10 — CTA ══ -->
+  <div class="slide" id="s10">
+    <div class="inner">
+      <div class="logo"><img src="../brand/logos/negro sin fondo.png" alt="Navigy"/></div>
+      <span class="label-tag white">¿Empezamos?</span>
+      <h2>Dental Cerrillo merece estar donde están sus pacientes.</h2>
+      <p>El primer paso no cuesta nada. Construimos tu web, te posicionamos en Google y en Google Maps — y tú solo te preocupas de tus pacientes.</p>
+      <div class="cta-msg">
+        <div class="cta-points">
+          <div class="cta-point">Web profesional completamente gratis, lista en menos de 30 días</div>
+          <div class="cta-point">SEO local + Google Maps desde el primer mes</div>
+          <div class="cta-point">Sin permanencia — cancelas cuando quieras</div>
+          <div class="cta-point">Sin sorpresas ni costes ocultos</div>
+        </div>
+      </div>
+      <p class="cta-contact">Cualquier pregunta, estamos aquí.<br/><strong>navigy.es</strong></p>
+    </div>
+  </div>
+
+</div><!-- /deck -->
+
+<!-- NAVIGATION BAR -->
+<div id="nav-bar">
+  <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>&#8592;</button>
+  <div class="dots" id="dots"></div>
+  <span id="slide-counter"><strong>1</strong> / 10</span>
+  <button class="nav-btn" id="btn-next" onclick="navigate(1)">&#8594;</button>
+</div>
+
+<div id="kbd-hint"><kbd>←</kbd> <kbd>→</kbd> para navegar</div>
+<div id="slide-num">NAVIGY × DENTAL CERRILLO · 2026</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  // Build dots
+  const dotsEl = document.getElementById('dots');
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    const prev = current;
+    slides[prev].classList.remove('active');
+    slides[prev].classList.add('exit-left');
+    setTimeout(() => slides[prev].classList.remove('exit-left'), 320);
+
+    current = idx;
+    slides[current].classList.add('active');
+
+    // Update dots
+    document.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+    // Update counter
+    document.getElementById('slide-counter').innerHTML = `<strong>${current + 1}</strong> / ${total}`;
+    // Update buttons
+    document.getElementById('btn-prev').disabled = current === 0;
+    document.getElementById('btn-next').disabled = current === total - 1;
+  }
+
+  function navigate(dir) { goTo(current + dir); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+  });
+
+  // Touch/swipe
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = tx - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 50) navigate(dx > 0 ? 1 : -1);
+  }, { passive: true });
+</script>
+</body>
+</html>
