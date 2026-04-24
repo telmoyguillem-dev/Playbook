@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Navigy — Resumen Ejecutivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="../brand/logos/icono (sin fondo) 2.png" />
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:        #1769C2;
+      --blue-deep:   #0F4F96;
+      --blue-light:  #4A8FD9;
+      --blue-subtle: #E8F1FB;
+      --ink:         #0D0F14;
+      --slate:       #3D4555;
+      --muted:       #7C869A;
+      --line:        #E2E6EF;
+      --surface:     #F5F6F9;
+      --green:       #1DAA72;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #fff;
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      padding: 14mm 16mm 14mm;
+      background: #fff;
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      body { background: #fff; }
+      .page { width: 100%; padding: 12mm 14mm; margin: 0; }
+      .section-break { page-break-before: always; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--blue);
+      margin-bottom: 28px;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-logo img.logo {
+      height: 28px;
+      width: auto;
+    }
+
+    .header-meta {
+      text-align: right;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .header-meta strong {
+      display: block;
+      color: var(--slate);
+      font-size: 12px;
+    }
+
+    /* ── COVER BLOCK ── */
+    .cover-block {
+      background: linear-gradient(135deg, var(--blue-deep) 0%, var(--blue) 100%);
+      border-radius: 16px;
+      padding: 32px 36px;
+      color: #fff;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover-block::after {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .cover-icon {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 14px;
+      opacity: 0.9;
+    }
+
+    .cover-block h1 {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .cover-block h1 span {
+      opacity: 0.7;
+    }
+
+    .cover-block p {
+      font-size: 13px;
+      opacity: 0.85;
+      max-width: 520px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .cover-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .cover-tag {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+
+    /* ── SECTION TITLE ── */
+    .section-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    /* ── GRID 2 COL ── */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+
+    .card-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .card-body {
+      font-size: 12px;
+      color: var(--slate);
+      line-height: 1.55;
+    }
+
+    /* ── PHASE STEPS ── */
+    .phases {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .phase {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px;
+      position: relative;
+    }
+
+    .phase-num {
+      width: 22px;
+      height: 22px;
+      background: var(--blue);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .phase-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .phase-desc {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    /* ── VALUE PROP ── */
+    .value-prop {
+      background: var(--blue-subtle);
+      border: 1px solid #c5d9f0;
+      border-left: 4px solid var(--blue);
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 22px;
+    }
+
+    .value-prop p {
+      font-size: 13px;
+      color: var(--slate);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* ── FINANCIALS TABLE ── */
+    .fin-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 22px;
+      font-size: 12px;
+    }
+
+    .fin-table th {
+      background: var(--blue);
+      color: #fff;
+      padding: 8px 12px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 11px;
+    }
+
+    .fin-table th:first-child { border-radius: 8px 0 0 0; }
+    .fin-table th:last-child  { border-radius: 0 8px 0 0; }
+
+    .fin-table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--line);
+      color: var(--slate);
+    }
+
+    .fin-table tr:last-child td { border-bottom: none; }
+    .fin-table tr:nth-child(even) td { background: var(--surface); }
+
+    .fin-table td.highlight {
+      font-weight: 700;
+      color: var(--green);
+    }
+
+    /* ── TEAM ── */
+    .team-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+
+    .team-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .team-avatar {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--blue-deep), var(--blue));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .team-name {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .team-role {
+      font-size: 11px;
+      color: var(--blue);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .team-desc {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 28px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .footer img {
+      height: 18px;
+      opacity: 0.5;
+    }
+
+    .footer a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    /* ── STAT PILL ── */
+    .stats {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .stat {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--blue);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+
+    p { margin-bottom: 10px; }
+    p:last-child { margin-bottom: 0; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-logo">
+      <img class="logo" src="../brand/logos/negro sin fondo 2.png" alt="Navigy" />
+    </div>
+    <div class="header-meta">
+      <strong>Resumen Ejecutivo</strong>
+      Abril 2026 · Versión 1.0
+    </div>
+  </header>
+
+  <!-- COVER BLOCK -->
+  <div class="cover-block">
+    <img class="cover-icon" src="../brand/logos/icono (sin fondo) 2.png" alt="" />
+    <h1>Sistema integral de captación<br><span>y conversión de clientes</span></h1>
+    <p>Navigy es una startup tecnológica que ayuda a negocios de servicios a captar y convertir clientes mediante un sistema de cuatro fases conectadas, eliminando la brecha entre el marketing digital y los resultados reales.</p>
+    <div class="cover-tags">
+      <span class="cover-tag">AdTech</span>
+      <span class="cover-tag">AI</span>
+      <span class="cover-tag">SaaS</span>
+      <span class="cover-tag">HealthTech</span>
+      <span class="cover-tag">B2B</span>
+    </div>
+  </div>
+
+  <!-- EL PROBLEMA -->
+  <p class="section-title">El problema</p>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-label">Situación actual</div>
+      <div class="card-title">Inversión sin retorno</div>
+      <div class="card-body">La mayoría de negocios de servicios invierten en marketing digital pero no convierten esa inversión en clientes reales. Los leads llegan y se pierden por falta de seguimiento, procesos desorganizados y ausencia de herramientas que conecten captación con conversión.</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Consecuencia</div>
+      <div class="card-title">El grifo pierde por abajo</div>
+      <div class="card-body">Las agencias tradicionales generan tráfico y se desvinculan del resultado. Nadie responde a tiempo, los contactos se dispersan entre WhatsApp, Instagram y llamadas, y no existe visibilidad sobre qué funciona. El resultado es dinero gastado sin retorno medible.</div>
+    </div>
+  </div>
+
+  <!-- PROPUESTA DE VALOR -->
+  <p class="section-title">Propuesta de valor</p>
+  <div class="value-prop">
+    <p>Navigy es el único sistema que acompaña a los negocios de servicios en todo el ciclo de adquisición: construimos su presencia digital, generamos demanda mediante campañas de publicidad y convertimos cada lead en cliente a través de nuestro software propio con automatizaciones de IA, pipeline de ventas y dashboards en tiempo real. No generamos tráfico y nos desvinculamos. Somos responsables del resultado final.</p>
+  </div>
+
+  <!-- LAS 4 FASES -->
+  <p class="section-title">El sistema — 4 fases conectadas</p>
+  <div class="phases">
+    <div class="phase">
+      <div class="phase-num">1</div>
+      <div class="phase-name">Presencia</div>
+      <div class="phase-desc">Web profesional optimizada para la conversión. Sin credibilidad digital, ninguna campaña funciona.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">2</div>
+      <div class="phase-name">Visibilidad</div>
+      <div class="phase-desc">SEO local y Google Business Profile para captar la demanda existente sin coste por clic.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">3</div>
+      <div class="phase-name">Demanda</div>
+      <div class="phase-desc">Campañas en Meta Ads y Google Ads para generar leads de forma predecible y controlada.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">4</div>
+      <div class="phase-name">Software</div>
+      <div class="phase-desc">CRM propio con IA, pipeline visual, automatizaciones multicanal y dashboards en tiempo real.</div>
+    </div>
+  </div>
+
+  <!-- MERCADO Y DIFERENCIAL -->
+  <div class="grid-2" style="margin-bottom:22px;">
+    <div class="card">
+      <div class="card-label">Mercado objetivo</div>
+      <div class="card-title">Negocios de servicios</div>
+      <div class="card-body">Foco inicial en clínicas dentales, centros de estética y salud — sectores con alta demanda potencial, ticket medio elevado y baja madurez digital. Modelo replicable a cualquier negocio de servicios con alto volumen de leads.</div>
+    </div>
+    <div class="card">
+      <div class="card-label">Ventaja competitiva</div>
+      <div class="card-title">Difícil de replicar</div>
+      <div class="card-body">Ningún competidor combina los cuatro elementos en un único sistema gestionado. Agencias de marketing, CRMs como HubSpot y plataformas como Doctoralia compiten en partes del problema. Nosotros resolvemos el ciclo completo.</div>
+    </div>
+  </div>
+
+  <!-- PROYECCIONES -->
+  <p class="section-title">Proyecciones financieras</p>
+  <div class="stats">
+    <div class="stat">
+      <span class="stat-value">1.000€</span>
+      <span class="stat-label">Ticket medio/mes</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">60K€</span>
+      <span class="stat-label">Ingresos Año 1</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">180K€</span>
+      <span class="stat-label">Ingresos Año 2</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">360K€</span>
+      <span class="stat-label">Ingresos Año 3</span>
+    </div>
+  </div>
+
+  <table class="fin-table">
+    <thead>
+      <tr>
+        <th>Año</th>
+        <th>Clientes</th>
+        <th>Ingresos</th>
+        <th>Gastos</th>
+        <th>Beneficio</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Año 1 (2026)</td>
+        <td>5</td>
+        <td>60.000€</td>
+        <td>8.000€</td>
+        <td class="highlight">52.000€</td>
+      </tr>
+      <tr>
+        <td>Año 2 (2027)</td>
+        <td>15</td>
+        <td>180.000€</td>
+        <td>15.000€</td>
+        <td class="highlight">165.000€</td>
+      </tr>
+      <tr>
+        <td>Año 3 (2028)</td>
+        <td>30</td>
+        <td>360.000€</td>
+        <td>30.000€</td>
+        <td class="highlight">330.000€</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- EQUIPO -->
+  <p class="section-title">Equipo fundador</p>
+  <div class="team-cards">
+    <div class="team-card">
+      <div class="team-avatar">T</div>
+      <div>
+        <div class="team-role">CEO · Co-fundador</div>
+        <div class="team-name">Telmo Gutiérrez</div>
+        <div class="team-desc">Estrategia, producto, marketing y sistemas. Lidera la operación completa de la agencia y el desarrollo del modelo de negocio.</div>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">M</div>
+      <div>
+        <div class="team-role">CTO · Co-fundador</div>
+        <div class="team-name">Manu</div>
+        <div class="team-desc">Tecnología, automatizaciones e infraestructura del software. Responsable del desarrollo del sistema de conversión y la integración de IA.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <img src="../brand/logos/negro sin fondo 2.png" alt="Navigy" />
+    <span>Resumen Ejecutivo · Confidencial · Abril 2026</span>
+    <a href="https://playbook-tau-seven.vercel.app/00_Interno/playbook/playbook-es.html">Ver playbook completo →</a>
+  </footer>
+
+</div>
+</body>
+</html>
