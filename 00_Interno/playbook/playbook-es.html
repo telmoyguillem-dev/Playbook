@@ -51,21 +51,20 @@ va<!DOCTYPE html>
 
     /* ── PRINT ── */
     @media print {
-      .sidebar, .top-bar {
-        display: none !important;
-        visibility: hidden !important;
-        height: 0 !important;
-        overflow: hidden !important;
+      body { visibility: hidden; }
+      .main-content {
+        visibility: visible !important;
+        margin: 0 !important;
+        padding: 40px 48px !important;
+        max-width: none !important;
         position: absolute !important;
-        top: -9999px !important;
+        top: 0 !important; left: 0 !important; right: 0 !important;
       }
-      .layout { padding-top: 0 !important; }
-      .main-content { margin: 0 !important; padding: 40px 48px !important; max-width: none !important; }
+      .main-content * { visibility: visible !important; }
       .cover { padding: 60px 0 40px; page-break-after: always; min-height: auto; }
       .section-intro { page-break-before: always; }
       .chapter-hero {
         page-break-before: always;
-        border-radius: 0 !important;
         background: #0F4F96 !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
